@@ -1,6 +1,6 @@
 # Foodut
 
-## PENGELOLAAN MAKANAN RINGAN UMKM
+## WEB MAKANAN RINGAN UMKM
 
 ### Anggota Kelompok :
 
@@ -20,9 +20,9 @@
 
 ### DBMS
 
-- [PostgreSQL](https://www.postgresql.org/)
+- [MariaDB](https://www.apachefriends.org/index.html)
   <br>
-  PostgreSQL is a powerful, open source object-relational database system with over 30 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance.
+  The MariaDB we use is the one that comes bundled with the XAMPP app.
 
 ### Dukungan Framework
 
@@ -95,7 +95,7 @@ git config --global user.email "adibudi@gmail.com"
 #### Cara Clone Lokal Git
 
 ```
-git clone https://github.com/albertusangkuw/Cheems.git
+git clone https://github.com/elangelshaday/Foodut.git
 ```
 
 #### Push
