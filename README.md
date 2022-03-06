@@ -4,11 +4,11 @@
 
 ### Anggota Kelompok :
 
-1119007 – Timothy Ray
-1119023 – Jedediah Fanuel
-1119033 – Fedly Septian
-1119038 – Elangel Neilea Shaday
-1119045 – Rafael Christo Gracia
+1119007 – Timothy Ray <br>
+1119023 – Jedediah Fanuel <br>
+1119033 – Fedly Septian <br>
+1119038 – Elangel Neilea Shaday <br>
+1119045 – Rafael Christo Gracia <br>
 
 ## Tools, Library, and Framework
 
