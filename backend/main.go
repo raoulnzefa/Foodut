@@ -2,8 +2,15 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	fmt.Println("Hello Dut")
+	router := mux.NewRouter()
+
+	fmt.Println("Connected to port 1234")
+	log.Fatal(http.ListenAndServe(":1234", router))
 }
