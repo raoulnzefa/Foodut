@@ -12,6 +12,8 @@ import (
 
 func main() {
 	controller.Connect()
+	// db := controller.Connect()
+	// db.AutoMigrate(&model.Admin{}, &model.Category{}, &model.Customer{}, &model.DetailProduct{}, &model.Product{}, &model.Seller{}, &model.Transaction{}, &model.User{})
 	router := mux.NewRouter()
 
 	http.Handle("/", router)

@@ -1,7 +1,7 @@
 package models
 
 type Category struct {
-	ProductCategory string `form:"productId" json:"productId" gorm:"primaryKey"`
+	ProductCategory string `form:"productCategory" json:"productCategory" gorm:"primaryKey"`
 }
 
 type CategoryResponse struct {
