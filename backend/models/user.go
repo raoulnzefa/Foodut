@@ -6,6 +6,7 @@ type User struct {
 	password     string
 	profilePhoto string
 	username     string
+	level        int
 }
 
 // Getter Setter
@@ -47,4 +48,12 @@ func (u *User) GetUsername() string {
 
 func (u *User) SetUsername(username string) {
 	u.username = username
+}
+
+func (u *User) GetLevel() int {
+	return u.level
+}
+
+func (u *User) SetLevel(level int) {
+	u.level = level
 }
