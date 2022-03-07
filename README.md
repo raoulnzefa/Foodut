@@ -34,9 +34,9 @@
   <br>
   The fantastic ORM library for Golang.
 
-- [go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)
+- [go-gorm/mysql](https://github.com/go-gorm/mysql)
   <br>
-  A MySQL-Driver for Go's database/sql package.
+  A GORM MySQL Driver.
 
 ### Frameworks
 
