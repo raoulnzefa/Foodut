@@ -3,10 +3,16 @@ package models
 import "fmt"
 
 type Customer struct {
-	address     string
-	cart        []DetailProduct
-	listHistory []Transaction
-	user        User
+	User        User            `form:"user" json:"user" gorm:"primaryKey"`
+	Address     string          `form:"address" json:"address"`
+	Cart        []DetailProduct `form:"detailProduct" json:"detailProduct"`
+	ListHistory []Transaction   `form:"listHistory" json:"listHistory"`
+}
+
+type CustomerResponse struct {
+	Status  int        `form:"status" json:"status"`
+	Message string     `form:"message" json:"message"`
+	Data    []Customer `form:"data" json:"data"`
 }
 
 func (c Customer) AddToCart(productId string) {
@@ -23,37 +29,4 @@ func (c Customer) AddToHistory(productId string) {
 
 func (c Customer) BuyProduct(productId string) {
 	fmt.Println("Add product to customer cart")
-}
-
-// Getter Setter
-func (c *Customer) GetAddress() string {
-	return c.address
-}
-
-func (c *Customer) SetAddress(address string) {
-	c.address = address
-}
-
-func (c *Customer) GetCart() []DetailProduct {
-	return c.cart
-}
-
-func (c *Customer) SetCart(cart []DetailProduct) {
-	c.cart = cart
-}
-
-func (c *Customer) GetListHistory() []Transaction {
-	return c.listHistory
-}
-
-func (c *Customer) SetListHistory(listHistory []Transaction) {
-	c.listHistory = listHistory
-}
-
-func (c *Customer) GetUser() User {
-	return c.user
-}
-
-func (c *Customer) SetUser(user User) {
-	c.user = user
 }

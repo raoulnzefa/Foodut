@@ -1,4 +1,4 @@
-package models
+package entities
 
 type DetailProduct struct {
 	product  Product

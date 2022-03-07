@@ -1,26 +1,11 @@
 package models
 
-import "fmt"
-
 type Admin struct {
-	user User
+	User User `form:"user" json:"user" gorm:"primaryKey"`
 }
 
-func (a Admin) DeleteProduct(productId string) {
-	fmt.Println("Hello Admin Delete Product")
-	// If success or not success
-}
-
-func (a Admin) EditProduct(productId string) {
-	fmt.Println("Hello Admin Edit Product")
-	// If success or not success
-}
-
-// Getter Setter
-func (a *Admin) GetUser() User {
-	return a.user
-}
-
-func (a *Admin) SetUser(user User) {
-	a.user = user
+type AdminResponse struct {
+	Status  int     `form:"status" json:"status"`
+	Message string  `form:"message" json:"message"`
+	Data    []Admin `form:"data" json:"data"`
 }

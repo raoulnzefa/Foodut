@@ -1,14 +1,11 @@
 package models
 
 type Category struct {
-	productCategory string
+	ProductCategory string `form:"productCategory" json:"productCategory" gorm:"primaryKey"`
 }
 
-// Getter Setter
-func (c *Category) GetProductCategory() string {
-	return c.productCategory
-}
-
-func (c *Category) SetProductCategory(productCategory string) {
-	c.productCategory = productCategory
+type CategoryResponse struct {
+	Status  int       `form:"status" json:"status"`
+	Message string    `form:"message" json:"message"`
+	Data    []Product `form:"data" json:"data"`
 }
