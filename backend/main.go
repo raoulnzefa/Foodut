@@ -6,11 +6,15 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+
+	controller "github.com/Foodut/backend/controllers"
 )
 
 func main() {
+	controller.Connect()
 	router := mux.NewRouter()
 
+	http.Handle("/", router)
 	fmt.Println("Connected to port 1234")
 	log.Fatal(http.ListenAndServe(":1234", router))
 }
