@@ -6,6 +6,7 @@ type Customer struct {
 	address     string
 	cart        []DetailProduct
 	listHistory []Transaction
+	user        User
 }
 
 func (c Customer) AddToCart(productId string) {
@@ -47,4 +48,12 @@ func (c *Customer) GetListHistory() []Transaction {
 
 func (c *Customer) SetListHistory(listHistory []Transaction) {
 	c.listHistory = listHistory
+}
+
+func (c *Customer) GetUser() User {
+	return c.user
+}
+
+func (c *Customer) SetUser(user User) {
+	c.user = user
 }
