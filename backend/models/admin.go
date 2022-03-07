@@ -3,7 +3,7 @@ package models
 import "fmt"
 
 type Admin struct {
-	User User
+	user User
 }
 
 func (a Admin) DeleteProduct(productId string) {
@@ -14,4 +14,13 @@ func (a Admin) DeleteProduct(productId string) {
 func (a Admin) EditProduct(productId string) {
 	fmt.Println("Hello Admin Edit Product")
 	// If success or not success
+}
+
+// Getter Setter
+func (a *Admin) GetUser() User {
+	return a.user
+}
+
+func (a *Admin) SetUser(user User) {
+	a.user = user
 }

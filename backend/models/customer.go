@@ -3,9 +3,9 @@ package models
 import "fmt"
 
 type Customer struct {
-	Address     string
-	Cart        []Cart
-	ListHistory []Transaction
+	address     string
+	cart        []DetailProduct
+	listHistory []Transaction
 }
 
 func (c Customer) AddToCart(productId string) {
@@ -24,10 +24,27 @@ func (c Customer) BuyProduct(productId string) {
 	fmt.Println("Add product to customer cart")
 }
 
-//
-//
+// Getter Setter
+func (c *Customer) GetAddress() string {
+	return c.address
+}
 
-// Apa skip getter setter aja?
-func (c Customer) GetListHistory(productId string) {
-	fmt.Println("Getter untuk History?")
+func (c *Customer) SetAddress(address string) {
+	c.address = address
+}
+
+func (c *Customer) GetCart() []DetailProduct {
+	return c.cart
+}
+
+func (c *Customer) SetCart(cart []DetailProduct) {
+	c.cart = cart
+}
+
+func (c *Customer) GetListHistory() []Transaction {
+	return c.listHistory
+}
+
+func (c *Customer) SetListHistory(listHistory []Transaction) {
+	c.listHistory = listHistory
 }
