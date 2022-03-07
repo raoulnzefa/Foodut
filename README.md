@@ -24,7 +24,7 @@
   <br>
   The MariaDB we use is the one that comes bundled with the XAMPP app.
 
-### Dukungan Library
+### Libraries
 
 - [Gorilla/mux](https://github.com/gorilla/mux)
   <br>
@@ -38,19 +38,19 @@
   <br>
   A MySQL-Driver for Go's database/sql package.
 
-### Dukungan Framework
+### Frameworks
 
 - [Vue.js](https://vuejs.org/)
   <br>
   Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web
 
-### Dukungan Template
+### Templates
 
 - [Vuexy](https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/dashboard/ecommerce)
   <br>
   ArchitectUI is one of the most popular admin dashboard templates ever released. It is used by thousands of developers to create webapps and SaaS totaling 100 million monthly active users.
 
-### Model Deployment
+### Deployment
 
 - Localhost
   We are deploying this website on localhost as an assignment for an Advanced Software Engineering course.
@@ -62,6 +62,7 @@
   - User Interface (Presentation): The user interface, be it a web page, a CLI or a native desktop application;
   - Business logic (Domain): The logic that is the reason why the application exists;
   - Data source: The data persistence mechanism (DB), or communication with other applications.
+  **Still being discussed with the team.**
 
 ## Start Application
 
@@ -123,9 +124,9 @@ git push -u origin main
 Jika terjadi error seperti ini :
 
 ```
-To https://github.com/albertusangkuw/Cheems.git
+To https://github.com/elangelshaday/Foodut.git
  ! [rejected]        main -> main (non-fast-forward)
-error: failed to push some refs to 'https://github.com/albertusangkuw/Cheems.git'
+error: failed to push some refs to 'https://github.com/elangelshaday/Foodut.git'
 hint: Updates were rejected because the tip of your current branch is behind
 hint: its remote counterpart. Integrate the remote changes (e.g.
 hint: 'git pull ...') before pushing again.
