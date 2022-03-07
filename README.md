@@ -24,6 +24,20 @@
   <br>
   The MariaDB we use is the one that comes bundled with the XAMPP app.
 
+### Dukungan Library
+
+- [Gorilla/mux](https://github.com/gorilla/mux)
+  <br>
+  Package gorilla/mux implements a request router and dispatcher for matching incoming requests to their respective handler.
+
+- [Gorm.io](https://gorm.io/index.html)
+  <br>
+  The fantastic ORM library for Golang.
+
+- [go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)
+  <br>
+  A MySQL-Driver for Go's database/sql package.
+
 ### Dukungan Framework
 
 - [Vue.js](https://vuejs.org/)
@@ -38,9 +52,8 @@
 
 ### Model Deployment
 
-- [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/)
-  <br>
-  AWS Elastic Beanstalk is an easy-to-use service for deploying and scaling web applications and services developed with Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker on familiar servers such as Apache, Nginx, Passenger, and IIS.
+- Localhost
+  We are deploying this website on localhost as an assignment for an Advanced Software Engineering course.
 
 ### Web Application Architecture
 
@@ -71,6 +84,7 @@ cd frontend
 ```
 // Pastikan ada di direktori frontend
 npm install
+npm rebuild node-sass
 ```
 
 #### Melakukan development server
