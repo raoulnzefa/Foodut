@@ -3,7 +3,8 @@ package models
 import "time"
 
 type Transaction struct {
-	TransactionId   string          `form:"transactionId" json:"transactionId" gorm:"primaryKey"`
+	ID              string `form:"id" json:"id" gorm:"primaryKey"`
+	CustomerId      string
 	DetailProduct   []DetailProduct `form:"detailProduct" json:"detailProduct"`
 	PaymentOption   string          `form:"paymentOption" json:"paymentOption"`
 	SubTotal        float64         `form:"subTotal" json:"subTotal"`

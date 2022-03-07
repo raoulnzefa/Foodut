@@ -3,7 +3,9 @@ package models
 import "fmt"
 
 type Seller struct {
-	User        User      `form:"user" json:"user" gorm:"primaryKey"`
+	ID          int    `form:"id" json:"id" gorm:"primaryKey"`
+	Username    string `form:"username" json:"username" gorm:""`
+	User        User
 	City        string    `form:"city" json:"city"`
 	ListProduct []Product `form:"listProduct" json:"listProduct"`
 	StoreName   string    `form:"storeName" json:"storeName"`

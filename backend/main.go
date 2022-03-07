@@ -8,12 +8,13 @@ import (
 	"github.com/gorilla/mux"
 
 	controller "github.com/Foodut/backend/controllers"
+	model "github.com/Foodut/backend/models"
 )
 
 func main() {
 	controller.Connect()
-	// db := controller.Connect()
-	// db.AutoMigrate(&model.Admin{}, &model.Category{}, &model.Customer{}, &model.DetailProduct{}, &model.Product{}, &model.Seller{}, &model.Transaction{}, &model.User{})
+	db := controller.Connect()
+	db.Debug().AutoMigrate(&model.User{}, &model.Admin{} /* &model.Category{}, &model.Customer{}, &model.DetailProduct{}, &model.Product{}, &model.Seller{}, &model.Transaction{}, ,*/)
 	router := mux.NewRouter()
 
 	http.Handle("/", router)

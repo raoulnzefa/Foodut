@@ -3,7 +3,10 @@ package models
 import "fmt"
 
 type Admin struct {
-	User User `form:"user" json:"user" gorm:"primaryKey"`
+	ID int `form:"id" json:"id" gorm:"primaryKey"`
+	// Username string `form:"username" json:"username"`
+	UserId int
+	// User     User
 }
 
 type AdminResponse struct {
