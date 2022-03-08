@@ -1,8 +1,8 @@
 package models
 
 type DetailProduct struct {
-	UserID    int `form:"id" json:"id" gorm:"primaryKey"`
-	ProductID int `form:"productId" json:"productId"`
+	UserID    int `form:"id" json:"id" gorm:"primaryKey;autoIncrement:false"`
+	ProductID int `form:"productId" json:"productId" gorm:"primaryKey;autoIncrement:false"`
 	Quantity  int `form:"quantity" json:"quantity"`
 }
 
