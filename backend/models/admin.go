@@ -1,7 +1,7 @@
 package models
 
 type Admin struct {
-	User User `form:"user" json:"user" gorm:"primaryKey"`
+	ID int `form:"id" json:"id" gorm:"primaryKey"`
 }
 
 type AdminResponse struct {

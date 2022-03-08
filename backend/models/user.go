@@ -1,11 +1,17 @@
 package models
 
 type User struct {
-	Username     string `form:"username" json:"username" gorm:"primaryKey"`
-	Email        string `form:"email" json:"email"`
-	Name         string `form:"name" json:"name"`
-	Password     string `form:"password" json:"password"`
-	ProfilePhoto string `form:"photo" json:"photo"`
+	ID            int           `form:"id" json:"id" gorm:"primaryKey"`
+	Username      string        `form:"username" json:"username"`
+	Email         string        `form:"email" json:"email"`
+	Name          string        `form:"name" json:"name"`
+	Password      string        `form:"password" json:"password"`
+	ProfilePhoto  string        `form:"photo" json:"photo"`
+	Level         int           `form:"level" json:"level"`
+	Admin         Admin         `gorm:"foreignkey:ID;references:ID"`
+	Customer      Customer      `gorm:"foreignkey:ID;references:ID"`
+	Seller        Seller        `gorm:"foreignkey:ID;references:ID"`
+	DetailProduct DetailProduct `gorm:"foreignkey:UserID;references:ID"`
 }
 
 type UserResponse struct {

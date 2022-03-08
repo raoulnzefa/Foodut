@@ -3,10 +3,10 @@ package models
 import "fmt"
 
 type Customer struct {
-	User        User            `form:"user" json:"user" gorm:"primaryKey"`
-	Address     string          `form:"address" json:"address"`
-	Cart        []DetailProduct `form:"detailProduct" json:"detailProduct"`
-	ListHistory []Transaction   `form:"listHistory" json:"listHistory"`
+	ID            int             `form:"id" json:"id" gorm:"primaryKey"`
+	Address       string          `form:"address" json:"address"`
+	DetailProduct []DetailProduct `form:"detailProduct" json:"detailProduct" gorm:"foreignKey:ProductID;references:ID"`
+	ListHistory   []Transaction   `form:"listHistory" json:"listHistory" gorm:"foreignKey:CustomerID;references:ID"`
 }
 
 type CustomerResponse struct {
