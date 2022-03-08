@@ -1,9 +1,9 @@
 package models
 
 type DetailProduct struct {
-	ProductId string `form:"productId json:"productId" gorm:"primaryKey"`
-	Quantity  int    `form:"quantity json:"quantity"`
-	Product   Product
+	UserID    int
+	ProductID int `form:"productId" json:"productId"`
+	Quantity  int `form:"quantity" json:"quantity"`
 }
 
 type DetailProductRespone struct {

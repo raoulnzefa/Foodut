@@ -3,11 +3,9 @@ package models
 import "fmt"
 
 type Seller struct {
-	ID          int    `form:"id" json:"id" gorm:"primaryKey"`
-	Username    string `form:"username" json:"username" gorm:""`
-	User        User
+	ID          int       `form:"id" json:"id" gorm:"primaryKey"`
 	City        string    `form:"city" json:"city"`
-	ListProduct []Product `form:"listProduct" json:"listProduct"`
+	ListProduct []Product `gorm:"foreignKey:SellerID;references:ID"`
 	StoreName   string    `form:"storeName" json:"storeName"`
 }
 

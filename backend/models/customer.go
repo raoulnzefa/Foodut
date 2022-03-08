@@ -4,11 +4,9 @@ import "fmt"
 
 type Customer struct {
 	ID            int             `form:"id" json:"id" gorm:"primaryKey"`
-	Username      string          `form:"username" json:"username"`
 	Address       string          `form:"address" json:"address"`
-	DetailProduct []DetailProduct `form:"detailProduct" json:"detailProduct" `
-	ListHistory   []Transaction   `form:"listHistory" json:"listHistory" gorm:"foreignKey:customerId;references:ID"`
-	User          User
+	DetailProduct []DetailProduct `form:"detailProduct" json:"detailProduct" gorm:"foreignKey:ProductID;references:ID"`
+	ListHistory   []Transaction   `form:"listHistory" json:"listHistory" gorm:"foreignKey:CustomerID;references:ID"`
 }
 
 type CustomerResponse struct {

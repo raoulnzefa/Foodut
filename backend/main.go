@@ -14,7 +14,9 @@ import (
 func main() {
 	controller.Connect()
 	db := controller.Connect()
-	db.Debug().AutoMigrate(&model.User{}, &model.Admin{} /* &model.Category{}, &model.Customer{}, &model.DetailProduct{}, &model.Product{}, &model.Seller{}, &model.Transaction{}, ,*/)
+	db.Debug().AutoMigrate(&model.User{}, &model.Admin{}, &model.Customer{},
+		&model.Seller{}, &model.DetailProduct{}, &model.Transaction{},
+		&model.Category{}, &model.Product{}, &model.Picture{})
 	router := mux.NewRouter()
 
 	http.Handle("/", router)

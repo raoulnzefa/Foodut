@@ -4,9 +4,6 @@ import "fmt"
 
 type Admin struct {
 	ID int `form:"id" json:"id" gorm:"primaryKey"`
-	// Username string `form:"username" json:"username"`
-	UserId int
-	// User     User
 }
 
 type AdminResponse struct {
