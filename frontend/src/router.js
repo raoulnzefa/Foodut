@@ -41,6 +41,23 @@ const router = new Router({
         // Dashboard Routes
         // =============================================================================
         {
+          path: '/',
+          name: 'landing-page',
+          component: () => import('@/views/pages/landing/LandingPage.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+      ]
+    },
+    {
+      path: '',
+      component: () => import('@/layouts/full-page/FullPage.vue'),
+      children: [
+        // =============================================================================
+        // Dashboard Routes
+        // =============================================================================
+        {
           path: '/callback',
           name: 'auth-callback',
           component: () => import('@/views/Callback.vue'),
