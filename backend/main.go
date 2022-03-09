@@ -24,7 +24,23 @@ func main() {
 		&model.Product{},
 		&model.Picture{},
 	)
+
 	router := mux.NewRouter()
+
+	//  USER
+	//
+	//- Get All User
+	router.HandleFunc("/users", controller.GetAllUsers).Methods("GET")
+
+	//  PRODUCT
+	//
+	//- Get All Product
+	router.HandleFunc("/products", controller.GetAllProducts).Methods("GET")
+
+	//  TRANSACTION
+	//
+	//- Get All Transaction
+	router.HandleFunc("/transactions", controller.GetAllTransactions).Methods("GET")
 
 	http.Handle("/", router)
 	fmt.Println("Connected to port 1234")
