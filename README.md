@@ -53,6 +53,7 @@
 ### Deployment
 
 - Localhost
+  <br>  
   We are deploying this website on localhost as an assignment for an Advanced Software Engineering course.
 
 ### Web Application Architecture
