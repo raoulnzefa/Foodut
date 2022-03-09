@@ -47,7 +47,7 @@ const router = new Router({
           meta: {
             rule: 'editor'
           }
-        },
+        }
       ]
     },
     {
