@@ -30,7 +30,7 @@ import VNavMenu from &quot;@/layouts/components/vertical-nav-menu/VerticalNavMen
 export default {
   data: () =&gt; ({
     showSidebar: false,
-    navMenuLogo: require('@/assets/images/logo/logo.png'),
+    navMenuLogo: require('@/assets/images/logo/foodut.png'),
     sidebarItems: [
       {
         url: &quot;/&quot;,

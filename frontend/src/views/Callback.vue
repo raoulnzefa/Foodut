@@ -1,7 +1,7 @@
 <template>
   <div id="loading-bg">
     <div class="loading-logo">
-      <img src="@/assets/images/logo/logo.png" alt="Logo">
+      <img src="@/assets/images/logo/foodut.png" alt="Logo">
     </div>
     <div class="loading">
       <div class="effect-1 effects"></div>
