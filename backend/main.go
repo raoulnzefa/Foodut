@@ -8,11 +8,15 @@ import (
 	"github.com/gorilla/mux"
 
 	controller "github.com/Foodut/backend/controllers"
+	dbController "github.com/Foodut/backend/controllers/database"
 	model "github.com/Foodut/backend/models"
 )
 
 func main() {
-	db := controller.Connect()
+	// Connect to Database
+	db := dbController.GetConnection()
+
+	// Automigrate model to database
 	db.Debug().AutoMigrate(
 		&model.User{},
 		&model.Admin{},

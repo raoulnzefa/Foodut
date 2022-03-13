@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
+	dbController "github.com/Foodut/backend/controllers/database"
 	"github.com/Foodut/backend/models"
 )
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	db := Connect()
+	db := dbController.GetConnection()
 
 	// dbSQL, ok := db.DB()
 	// if ok != nil {

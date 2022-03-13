@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
+	dbController "github.com/Foodut/backend/controllers/database"
 	"github.com/Foodut/backend/models"
 )
 
 func GetAllTransactions(w http.ResponseWriter, r *http.Request) {
-	db := Connect()
+	db := dbController.GetConnection()
 	//defer db.Close()
 
 	var transactions []models.Transaction
