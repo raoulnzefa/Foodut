@@ -18,7 +18,7 @@ func connect() *gorm.DB {
 		logger.Config{
 			SlowThreshold: time.Second,   // Slow SQL threshold
 			LogLevel:      logger.Silent, // Log level  // Ignore ErrRecordNotFound error for logger
-			Colorful:      false,         // Disable color
+			Colorful:      true,          // Disable color
 		},
 	)
 	dsn := "root@tcp(localhost:3306)/db_foodut?charset=utf8mb4&parseTime=true&loc=Asia%2FJakarta"
