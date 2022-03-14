@@ -7,10 +7,9 @@
 1119007 – Timothy Ray <br>
 1119023 – Jedediah Fanuel <br>
 1119033 – Fedly Septian <br>
-1119038 – Elangel Neilea Shaday(Test)<br>
+1119038 – Elangel Neilea Shaday <br>
 1119045 – Rafael Christo Gracia <br>
 
-Test main elangel 
 ## Tools, Library, and Framework
 
 ### Bahasa Pemrograman
