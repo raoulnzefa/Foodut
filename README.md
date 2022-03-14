@@ -1,3 +1,4 @@
+![Foodut Logo](https://github.com/elangelshaday/Foodut/blob/main/frontend/src/assets/images/logo/foodut.png)
 # Foodut
 
 ## WEB MAKANAN RINGAN UMKM
