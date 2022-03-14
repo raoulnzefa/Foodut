@@ -1,23 +1,23 @@
 package entities
 
 type DetailProduct struct {
-	product  Product
-	quantity int
+	Product  Product `form:"product" json:"product"`
+	Quantity int     `form:"quantity" json:"quantity"`
 }
 
 // Getter Setter
 func (d *DetailProduct) GetProduct() Product {
-	return d.product
+	return d.Product
 }
 
 func (d *DetailProduct) SetProduct(product Product) {
-	d.product = product
+	d.Product = product
 }
 
 func (d *DetailProduct) GetQuantity() int {
-	return d.quantity
+	return d.Quantity
 }
 
 func (d *DetailProduct) SetQuantity(quantity int) {
-	d.quantity = quantity
+	d.Quantity = quantity
 }

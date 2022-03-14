@@ -1,14 +1,14 @@
 package entities
 
 type Category struct {
-	productCategory string
+	ProductCategory string `form:"productCategory" json:"productCategory"`
 }
 
 // Getter Setter
 func (c *Category) GetProductCategory() string {
-	return c.productCategory
+	return c.ProductCategory
 }
 
 func (c *Category) SetProductCategory(productCategory string) {
-	c.productCategory = productCategory
+	c.ProductCategory = productCategory
 }

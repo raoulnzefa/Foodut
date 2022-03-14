@@ -31,6 +31,8 @@ func main() {
 
 	router := mux.NewRouter()
 
+	router.HandleFunc("/usersTest", controller.GetUserResponse).Methods("GET")
+
 	//  USER
 	//
 	//- Get All User

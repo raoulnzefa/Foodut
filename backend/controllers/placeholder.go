@@ -1,10 +1,14 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
+	"net/http"
 
 	dbController "github.com/Foodut/backend/controllers/database"
+	dto "github.com/Foodut/backend/dto"
 	model "github.com/Foodut/backend/models"
+	response "github.com/Foodut/backend/responses"
 )
 
 func TestDB() {
@@ -139,4 +143,35 @@ func GetSeller() {
 	}
 
 	fmt.Println(user)
+}
+
+func GetUserResponse(writer http.ResponseWriter, req *http.Request) {
+
+	db := dbController.GetConnection()
+
+	var userRepo model.User
+
+	db.Limit(1).Find(&userRepo)
+
+	var user dto.User
+	var users []dto.User
+
+	user.SetEmail(userRepo.Email)
+	user.SetName(userRepo.Name)
+	user.SetPassword(userRepo.Password)
+	user.SetProfilePhoto(userRepo.ProfilePhoto)
+	user.SetUsername(userRepo.Username)
+	user.SetLevel(userRepo.Level)
+
+	users = append(users, user)
+
+	var userResponse response.UserResponse
+	userResponse.Status = 200
+	userResponse.Message = "Succes Get User Data"
+	userResponse.Data = users
+
+	fmt.Println(userResponse)
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(userResponse)
 }

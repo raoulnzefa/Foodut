@@ -3,15 +3,14 @@ package entities
 import "time"
 
 type Transaction struct {
-	cart            []DetailProduct
-	paymentOption   string
-	subTotal        float64
-	transactionDate time.Time
-	transactionId   string
-	username        string
+	TransactionId   string          `form:"transactionId" json:"transactionId"`
+	TransactionDate time.Time       `form:"transactionDate" json:"transactionDate"`
+	Username        string          `form:"username" json:"username"`
+	PaymentOption   string          `form:"paymentOption" json:"paymentOption"`
+	SubTotal        float64         `form:"subTotal" json:"subTotal"`
+	Cart            []DetailProduct `form:"cart" json:"cart"`
 }
 
-// Ini agak bingung, apa mau di Setter subTotal aja ?
 func (t Transaction) GenerateTotalPayment() float64 {
 	// Calculate from Cart
 	var result float64 = 0
@@ -20,50 +19,50 @@ func (t Transaction) GenerateTotalPayment() float64 {
 
 // Getter Setter
 func (t *Transaction) GetCart() []DetailProduct {
-	return t.cart
+	return t.Cart
 }
 
 func (t *Transaction) SetCart(cart []DetailProduct) {
-	t.cart = cart
+	t.Cart = cart
 }
 
 func (t *Transaction) GetPaymentOption() string {
-	return t.paymentOption
+	return t.PaymentOption
 }
 
 func (t *Transaction) SetPaymentOption(paymentOption string) {
-	t.paymentOption = paymentOption
+	t.PaymentOption = paymentOption
 }
 
 func (t *Transaction) GetSubTotal() float64 {
-	return t.subTotal
+	return t.SubTotal
 }
 
 // Udh ada di GenerateTotalPayment ?
 func (t *Transaction) SetSubTotal(subTotal float64) {
-	t.subTotal = subTotal
+	t.SubTotal = subTotal
 }
 
 func (t *Transaction) GetTransactionDate() time.Time {
-	return t.transactionDate
+	return t.TransactionDate
 }
 
 func (t *Transaction) SetTransactionDate(transactionDate time.Time) {
-	t.transactionDate = transactionDate
+	t.TransactionDate = transactionDate
 }
 
 func (t *Transaction) GetTransactionId() string {
-	return t.transactionId
+	return t.TransactionId
 }
 
 func (t *Transaction) SetTransactionId(transactionId string) {
-	t.transactionId = transactionId
+	t.TransactionId = transactionId
 }
 
 func (t *Transaction) GetUsername() string {
-	return t.username
+	return t.Username
 }
 
 func (t *Transaction) SetUsername(username string) {
-	t.username = username
+	t.Username = username
 }
