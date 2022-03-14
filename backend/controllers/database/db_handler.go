@@ -49,3 +49,4 @@ func CloseConnection(con *gorm.DB) {
 		sqlDB.Close()
 	}
 }
+

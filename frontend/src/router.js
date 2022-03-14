@@ -131,7 +131,7 @@ const router = new Router({
           meta: {
             breadcrumb: [
               { title: 'Home', url: '/' },
-              { title: 'Store', url:'/apps/store/shop'},
+              { title: 'Store'},
               { title: 'Cart', active: true }
             ],
             pageTitle: 'Cart',
@@ -145,7 +145,7 @@ const router = new Router({
           meta: {
             breadcrumb: [
               { title: 'Home', url: '/' },
-              { title: 'Store', url:'/apps/store/shop'},
+              { title: 'Store'},
               { title: 'Checkout', active: true }
             ],
             pageTitle: 'Checkout',
@@ -159,7 +159,7 @@ const router = new Router({
           meta: {
             breadcrumb: [
               { title: 'Home', url: '/' },
-              { title: 'Store', url:'/apps/eCommerce/shop'},
+              { title: 'Store'},
               { title: 'History', active: true }
             ],
             pageTitle: 'History',
