@@ -1,14 +1,18 @@
 package entities
 
-import "time"
+import (
+	"time"
+
+	prDto "github.com/Foodut/backend/modules/product/rest-api/dto"
+)
 
 type Transaction struct {
-	TransactionId   string          `form:"transactionId" json:"transactionId"`
-	TransactionDate time.Time       `form:"transactionDate" json:"transactionDate"`
-	Username        string          `form:"username" json:"username"`
-	PaymentOption   string          `form:"paymentOption" json:"paymentOption"`
-	SubTotal        float64         `form:"subTotal" json:"subTotal"`
-	Cart            []DetailProduct `form:"cart" json:"cart"`
+	TransactionId   string                `form:"transactionId" json:"transactionId"`
+	TransactionDate time.Time             `form:"transactionDate" json:"transactionDate"`
+	Username        string                `form:"username" json:"username"`
+	PaymentOption   string                `form:"paymentOption" json:"paymentOption"`
+	SubTotal        float64               `form:"subTotal" json:"subTotal"`
+	Cart            []prDto.DetailProduct `form:"cart" json:"cart"`
 }
 
 func (t Transaction) GenerateTotalPayment() float64 {
@@ -18,11 +22,11 @@ func (t Transaction) GenerateTotalPayment() float64 {
 }
 
 // Getter Setter
-func (t *Transaction) GetCart() []DetailProduct {
+func (t *Transaction) GetCart() []prDto.DetailProduct {
 	return t.Cart
 }
 
-func (t *Transaction) SetCart(cart []DetailProduct) {
+func (t *Transaction) SetCart(cart []prDto.DetailProduct) {
 	t.Cart = cart
 }
 

@@ -1,12 +1,17 @@
 package entities
 
-import "fmt"
+import (
+	"fmt"
+
+	prDto "github.com/Foodut/backend/modules/product/rest-api/dto"
+	trDto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
+)
 
 type Customer struct {
-	User        User            `form:"user" json:"user"`
-	Address     string          `form:"address" json:"address"`
-	ListHistory []Transaction   `form:"transaction" json:"transaction"`
-	Cart        []DetailProduct `form:"cart" json:"cart"`
+	User        User                  `form:"user" json:"user"`
+	Address     string                `form:"address" json:"address"`
+	ListHistory []trDto.Transaction   `form:"transaction" json:"transaction"`
+	Cart        []prDto.DetailProduct `form:"cart" json:"cart"`
 }
 
 func (c Customer) AddToCart(productId string) {
@@ -35,19 +40,19 @@ func (c *Customer) SetAddress(address string) {
 	c.Address = address
 }
 
-func (c *Customer) GetCart() []DetailProduct {
+func (c *Customer) GetCart() []prDto.DetailProduct {
 	return c.Cart
 }
 
-func (c *Customer) SetCart(cart []DetailProduct) {
+func (c *Customer) SetCart(cart []prDto.DetailProduct) {
 	c.Cart = cart
 }
 
-func (c *Customer) GetListHistory() []Transaction {
+func (c *Customer) GetListHistory() []trDto.Transaction {
 	return c.ListHistory
 }
 
-func (c *Customer) SetListHistory(listHistory []Transaction) {
+func (c *Customer) SetListHistory(listHistory []trDto.Transaction) {
 	c.ListHistory = listHistory
 }
 

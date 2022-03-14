@@ -1,15 +1,19 @@
 package entities
 
-import "fmt"
+import (
+	"fmt"
+
+	prDto "github.com/Foodut/backend/modules/product/rest-api/dto"
+)
 
 type Seller struct {
-	User        User      `form:"user" json:"user"`
-	StoreName   string    `form:"storeName" json:"storeName"`
-	City        string    `form:"city" json:"city"`
-	ListProduct []Product `form:"listProduct" json:"listProduct"`
+	User        User            `form:"user" json:"user"`
+	StoreName   string          `form:"storeName" json:"storeName"`
+	City        string          `form:"city" json:"city"`
+	ListProduct []prDto.Product `form:"listProduct" json:"listProduct"`
 }
 
-func (s Seller) AddProduct(Product Product) {
+func (s Seller) AddProduct(Product prDto.Product) {
 	fmt.Println("Seller Add Product")
 	// Add Product to database
 	// Assign to the seller
@@ -34,11 +38,11 @@ func (s *Seller) SetTransactionId(city string) {
 	s.City = city
 }
 
-func (s *Seller) GetListProduct() []Product {
+func (s *Seller) GetListProduct() []prDto.Product {
 	return s.ListProduct
 }
 
-func (s *Seller) SetListProduct(listProduct []Product) {
+func (s *Seller) SetListProduct(listProduct []prDto.Product) {
 	s.ListProduct = listProduct
 }
 

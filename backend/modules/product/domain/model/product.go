@@ -1,9 +1,5 @@
 package model
 
-import (
-	picModel "github.com/Foodut/backend/modules/picture/domain/model"
-)
-
 type Product struct {
 	ID           int     `form:"id" json:"id" gorm:"primaryKey"`
 	ProductName  string  `form:"productName" json:"productName"`
@@ -12,7 +8,7 @@ type Product struct {
 	ProductStock int16   `form:"productStock" json:"productStock"`
 	SellerID     int     `form:"seller" json:"seller"`
 	CategoryID   int
-	Picture      []picModel.Picture `gorm:"foreignKey:ProductID;references:ID"`
+	Picture      []Picture `gorm:"foreignKey:ProductID;references:ID"`
 }
 
 type ProductResponse struct {

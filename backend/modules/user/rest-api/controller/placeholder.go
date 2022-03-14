@@ -1,4 +1,4 @@
-package controllers
+package controller
 
 import (
 	"encoding/json"
@@ -6,10 +6,9 @@ import (
 	"net/http"
 
 	dbController "github.com/Foodut/backend/database"
-	dto "github.com/Foodut/backend/dto"
-	picModel "github.com/Foodut/backend/modules/picture/domain/model"
 	prModel "github.com/Foodut/backend/modules/product/domain/model"
 	usrModel "github.com/Foodut/backend/modules/user/domain/model"
+	usrDto "github.com/Foodut/backend/modules/user/rest-api/dto"
 	response "github.com/Foodut/backend/responses"
 )
 
@@ -94,17 +93,17 @@ func AddSeller() {
 func AddProduct() {
 	db := dbController.GetConnection()
 
-	pic := picModel.Picture{
+	pic := prModel.Picture{
 		PicturePath: "database/picture/product/mrb1.jpg",
 		ProductID:   2,
 	}
 
-	pic2 := picModel.Picture{
+	pic2 := prModel.Picture{
 		PicturePath: "database/picture/product/mrb2.jpg",
 		ProductID:   2,
 	}
 
-	var picArr []picModel.Picture
+	var picArr []prModel.Picture
 	picArr = append(picArr, pic)
 	picArr = append(picArr, pic2)
 
@@ -155,8 +154,8 @@ func GetUserResponse(writer http.ResponseWriter, req *http.Request) {
 
 	db.Limit(1).Find(&userRepo)
 
-	var user dto.User
-	var users []dto.User
+	var user usrDto.User
+	var users []usrDto.User
 
 	user.SetEmail(userRepo.Email)
 	user.SetName(userRepo.Name)
