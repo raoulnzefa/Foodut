@@ -5,10 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
-
-	controller "github.com/Foodut/backend/controllers"
 	dbController "github.com/Foodut/backend/database"
+	rt "github.com/Foodut/backend/router"
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -20,22 +19,7 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/usersTest", controller.GetUserResponse).Methods("GET")
-
-	//  USER
-	//
-	//- Get All User
-	router.HandleFunc("/users", controller.GetAllUsers).Methods("GET")
-
-	//  PRODUCT
-	//
-	//- Get All Product
-	router.HandleFunc("/products", controller.GetAllProducts).Methods("GET")
-
-	//  TRANSACTION
-	//
-	//- Get All Transaction
-	router.HandleFunc("/transactions", controller.GetAllTransactions).Methods("GET")
+	rt.LoadRouter(router)
 
 	http.Handle("/", router)
 	fmt.Println("Connected to port 1234")
