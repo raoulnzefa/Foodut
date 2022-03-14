@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	dbController "github.com/Foodut/backend/controllers/database"
+	dbController "github.com/Foodut/backend/database"
 	dto "github.com/Foodut/backend/dto"
 	model "github.com/Foodut/backend/models"
 	response "github.com/Foodut/backend/responses"

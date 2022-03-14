@@ -1,7 +1,7 @@
 package repository
 
 import (
-	dbController "github.com/Foodut/backend/controllers/database"
+	dbController "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/models"
 )
 

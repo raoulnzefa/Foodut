@@ -8,8 +8,7 @@ import (
 	"github.com/gorilla/mux"
 
 	controller "github.com/Foodut/backend/controllers"
-	dbController "github.com/Foodut/backend/controllers/database"
-	model "github.com/Foodut/backend/models"
+	dbController "github.com/Foodut/backend/database"
 )
 
 func main() {
@@ -17,17 +16,7 @@ func main() {
 	db := dbController.GetConnection()
 
 	// Automigrate model to database
-	db.Debug().AutoMigrate(
-		&model.User{},
-		&model.Admin{},
-		&model.Customer{},
-		&model.Seller{},
-		&model.DetailProduct{},
-		&model.Transaction{},
-		&model.Category{},
-		&model.Product{},
-		&model.Picture{},
-	)
+	dbController.Migrate(db)
 
 	router := mux.NewRouter()
 

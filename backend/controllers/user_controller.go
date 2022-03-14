@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	dbController "github.com/Foodut/backend/controllers/database"
+	dbController "github.com/Foodut/backend/database"
 	"github.com/Foodut/backend/models"
 )
 

@@ -1,4 +1,4 @@
-package controllers
+package database
 
 import (
 	"log"
@@ -49,4 +49,3 @@ func CloseConnection(con *gorm.DB) {
 		sqlDB.Close()
 	}
 }
-
