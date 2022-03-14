@@ -7,7 +7,7 @@
 1119007 – Timothy Ray <br>
 1119023 – Jedediah Fanuel <br>
 1119033 – Fedly Septian <br>
-1119038 – Elangel Neilea Shaday <br>
+1119038 – Elangel Neilea Shaday(Test)<br>
 1119045 – Rafael Christo Gracia <br>
 
 ## Tools, Library, and Framework
@@ -24,23 +24,37 @@
   <br>
   The MariaDB we use is the one that comes bundled with the XAMPP app.
 
-### Dukungan Framework
+### Libraries
+
+- [Gorilla/mux](https://github.com/gorilla/mux)
+  <br>
+  Package gorilla/mux implements a request router and dispatcher for matching incoming requests to their respective handler.
+
+- [Gorm.io](https://gorm.io/index.html)
+  <br>
+  The fantastic ORM library for Golang.
+
+- [go-gorm/mysql](https://github.com/go-gorm/mysql)
+  <br>
+  A GORM MySQL Driver.
+
+### Frameworks
 
 - [Vue.js](https://vuejs.org/)
   <br>
   Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web
 
-### Dukungan Template
+### Templates
 
 - [Vuexy](https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/dashboard/ecommerce)
   <br>
   ArchitectUI is one of the most popular admin dashboard templates ever released. It is used by thousands of developers to create webapps and SaaS totaling 100 million monthly active users.
 
-### Model Deployment
+### Deployment
 
-- [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/)
-  <br>
-  AWS Elastic Beanstalk is an easy-to-use service for deploying and scaling web applications and services developed with Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker on familiar servers such as Apache, Nginx, Passenger, and IIS.
+- Localhost
+  <br>  
+  We are deploying this website on localhost as an assignment for an Advanced Software Engineering course.
 
 ### Web Application Architecture
 
@@ -49,6 +63,7 @@
   - User Interface (Presentation): The user interface, be it a web page, a CLI or a native desktop application;
   - Business logic (Domain): The logic that is the reason why the application exists;
   - Data source: The data persistence mechanism (DB), or communication with other applications.
+  **Still being discussed with the team.**
 
 ## Start Application
 
@@ -71,6 +86,7 @@ cd frontend
 ```
 // Pastikan ada di direktori frontend
 npm install
+npm rebuild node-sass
 ```
 
 #### Melakukan development server
@@ -109,9 +125,9 @@ git push -u origin main
 Jika terjadi error seperti ini :
 
 ```
-To https://github.com/albertusangkuw/Cheems.git
+To https://github.com/elangelshaday/Foodut.git
  ! [rejected]        main -> main (non-fast-forward)
-error: failed to push some refs to 'https://github.com/albertusangkuw/Cheems.git'
+error: failed to push some refs to 'https://github.com/elangelshaday/Foodut.git'
 hint: Updates were rejected because the tip of your current branch is behind
 hint: its remote counterpart. Integrate the remote changes (e.g.
 hint: 'git pull ...') before pushing again.

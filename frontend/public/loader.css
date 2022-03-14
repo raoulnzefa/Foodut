@@ -7,13 +7,13 @@
 }
 .loading-logo{
   position: absolute;
-  left: calc(50% - 45px);
-  top: 40%;
+  left: calc(49% - 45px);
+  top: 35%;
 }
 .loading {
   position: absolute;
   left: calc(50% - 35px);
-  top: 50%;
+  top: 55%;
   width: 55px;
   height: 55px;
   border-radius: 50%;

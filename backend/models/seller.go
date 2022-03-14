@@ -3,10 +3,16 @@ package models
 import "fmt"
 
 type Seller struct {
-	City        string
-	ListProduct []Product
-	StoreName   string
-	User        User
+	ID          int       `form:"id" json:"id" gorm:"primaryKey"`
+	City        string    `form:"city" json:"city"`
+	ListProduct []Product `gorm:"foreignKey:SellerID;references:ID"`
+	StoreName   string    `form:"storeName" json:"storeName"`
+}
+
+type SellerResponse struct {
+	Status  int      `form:"status" json:"status"`
+	Message string   `form:"message" json:"message"`
+	Data    []Seller `form:"data" json:"data"`
 }
 
 func (s Seller) AddProduct(Product Product) {
