@@ -165,9 +165,9 @@ func GetUserResponse(writer http.ResponseWriter, req *http.Request) {
 
 	users = append(users, user)
 
-	var userResponse response.HttpResponse
-	userResponse.StatusCode = 200
-	userResponse.Message = "Succes Get User Data"
+	var userResponse response.SuccessfullResponse
+	userResponse.Http.StatusCode = 200
+	userResponse.Http.Message = "Succes Get User Data"
 	userResponse.Data = users
 
 	fmt.Println(userResponse)
