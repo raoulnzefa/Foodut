@@ -37,3 +37,15 @@ func GetConnection() *gorm.DB {
 	}
 	return con
 }
+
+func CloseConnection(con *gorm.DB) {
+	if con == nil {
+		sqlDB, err := con.DB()
+
+		if err != nil {
+			log.Panic("failed to close connection", err)
+		}
+
+		sqlDB.Close()
+	}
+}
