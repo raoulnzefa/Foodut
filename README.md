@@ -1,4 +1,4 @@
-![Foodut Logo](https://github.com/elangelshaday/Foodut/blob/main/frontend/src/assets/images/logo/foodut.png)
+![Foodut Logo](https://github.com/elangelshaday/Foodut/blob/main/frontend/src/assets/images/logo/foodut_shadow.png)
 # Foodut
 
 ## WEB MAKANAN RINGAN UMKM
