@@ -5,14 +5,14 @@ import (
 	"net/http"
 
 	dbController "github.com/Foodut/backend/database"
-	"github.com/Foodut/backend/models"
+	model "github.com/Foodut/backend/modules/transaction/domain/model"
 )
 
 func GetAllTransactions(w http.ResponseWriter, r *http.Request) {
 	db := dbController.GetConnection()
 	//defer db.Close()
 
-	var transactions []models.Transaction
+	var transactions []model.Transaction
 
 	transactionID := r.URL.Query()["id"]
 	if transactionID != nil {
@@ -22,7 +22,7 @@ func GetAllTransactions(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Set response
-	var response models.TransactionResponse
+	var response model.TransactionResponse
 	if len(transactions) > 0 {
 		response.Status = 200
 		response.Message = "Success Get Transaction"

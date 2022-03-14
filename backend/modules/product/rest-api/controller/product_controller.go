@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	model "github.com/Foodut/backend/models"
-	service "github.com/Foodut/backend/services"
+	model "github.com/Foodut/backend/modules/product/domain/model"
+	service "github.com/Foodut/backend/modules/product/domain/service"
 )
 
 func GetAllProducts(writer http.ResponseWriter, req *http.Request) {

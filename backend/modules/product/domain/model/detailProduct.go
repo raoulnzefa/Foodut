@@ -1,4 +1,4 @@
-package models
+package model
 
 type DetailProduct struct {
 	UserID    int `form:"id" json:"id" gorm:"primaryKey;autoIncrement:false"`

@@ -2,7 +2,7 @@ package repository
 
 import (
 	dbController "github.com/Foodut/backend/database"
-	model "github.com/Foodut/backend/models"
+	model "github.com/Foodut/backend/modules/product/domain/model"
 )
 
 func FindProductByName(productName []string) []model.Product {

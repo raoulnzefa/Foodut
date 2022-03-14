@@ -5,18 +5,14 @@ import (
 	"net/http"
 
 	dbController "github.com/Foodut/backend/database"
-	"github.com/Foodut/backend/models"
+	usrModel "github.com/Foodut/backend/modules/user/domain/model"
+	response "github.com/Foodut/backend/responses"
 )
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	db := dbController.GetConnection()
 
-	// dbSQL, ok := db.DB()
-	// if ok != nil {
-	// 	defer dbSQL.Close()
-	// }
-
-	var users []models.User
+	var users []usrModel.User
 
 	name := r.URL.Query()["name"]
 	if name != nil {
@@ -26,14 +22,11 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Set response
-	var response models.UserResponse
+	var response response.Response
 	if len(users) > 0 {
-		response.Status = 200
-		response.Message = "Success Get User Data"
-		response.Data = users
+		response.Response_200(users)
 	} else {
-		response.Status = 204
-		response.Message = "Not Found, No Content"
+		response.Response_204()
 	}
 
 	w.Header().Set("Content-Type", "application/json")

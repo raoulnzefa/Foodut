@@ -7,7 +7,9 @@ import (
 
 	dbController "github.com/Foodut/backend/database"
 	dto "github.com/Foodut/backend/dto"
-	model "github.com/Foodut/backend/models"
+	picModel "github.com/Foodut/backend/modules/picture/domain/model"
+	prModel "github.com/Foodut/backend/modules/product/domain/model"
+	usrModel "github.com/Foodut/backend/modules/user/domain/model"
 	response "github.com/Foodut/backend/responses"
 )
 
@@ -22,7 +24,7 @@ func TestDB() {
 func AddCategory() {
 	db := dbController.GetConnection()
 
-	cate := model.Category{
+	cate := prModel.Category{
 		ProductCategory: "Basah",
 	}
 
@@ -36,7 +38,7 @@ func AddCategory() {
 func AddUser() {
 	db := dbController.GetConnection()
 
-	user := model.User{
+	user := usrModel.User{
 		ID:           2,
 		Username:     "Timothy123",
 		Email:        "timothy@gmail.com",
@@ -58,7 +60,7 @@ func AddUser() {
 func AddCustomer() {
 	db := dbController.GetConnection()
 
-	cust := model.Customer{
+	cust := usrModel.Customer{
 		ID:      2,
 		Address: "Jl. Kopo Permai No. 42",
 	}
@@ -75,7 +77,7 @@ func AddCustomer() {
 func AddSeller() {
 	db := dbController.GetConnection()
 
-	sell := model.Seller{
+	sell := usrModel.Seller{
 		City:      "Bandung",
 		StoreName: "Makaroni Asoy",
 	}
@@ -92,21 +94,21 @@ func AddSeller() {
 func AddProduct() {
 	db := dbController.GetConnection()
 
-	pic := model.Picture{
+	pic := picModel.Picture{
 		PicturePath: "database/picture/product/mrb1.jpg",
 		ProductID:   2,
 	}
 
-	pic2 := model.Picture{
+	pic2 := picModel.Picture{
 		PicturePath: "database/picture/product/mrb2.jpg",
 		ProductID:   2,
 	}
 
-	var picArr []model.Picture
+	var picArr []picModel.Picture
 	picArr = append(picArr, pic)
 	picArr = append(picArr, pic2)
 
-	prod := model.Product{
+	prod := prModel.Product{
 		ProductName:  "Makaroni Royco Basah",
 		ProductPrice: 5000,
 		ProductRate:  4.8,
@@ -126,7 +128,7 @@ func AddProduct() {
 func GetSeller() {
 	db := dbController.GetConnection()
 
-	var user model.User
+	var user usrModel.User
 
 	db.Limit(1).Find(&user)
 
@@ -149,7 +151,7 @@ func GetUserResponse(writer http.ResponseWriter, req *http.Request) {
 
 	db := dbController.GetConnection()
 
-	var userRepo model.User
+	var userRepo usrModel.User
 
 	db.Limit(1).Find(&userRepo)
 
@@ -165,7 +167,7 @@ func GetUserResponse(writer http.ResponseWriter, req *http.Request) {
 
 	users = append(users, user)
 
-	var userResponse response.SuccessfullResponse
+	var userResponse response.Response
 	userResponse.Response_200(users)
 
 	fmt.Println(userResponse)
