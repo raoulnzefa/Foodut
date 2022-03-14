@@ -1,6 +1,6 @@
 package responses
 
-/*
+/**
   An error may have been caused by the client. The request contains bad syntax or cannot be fulfilled.
   400 - Bad Request
   401 - Unauthorized
@@ -9,17 +9,17 @@ package responses
   405 - Method Not Allowed
 */
 type ClientErrorResponse struct {
-	Http BasicResponse `form:"response" json:"response"`
+	Http BasicResponse `form:"http" json:"http"`
 }
 
-/*
+/**
   Get Client Error Response object
 */
 func (c ClientErrorResponse) GetClientErrorResponse() ClientErrorResponse {
 	return c
 }
 
-/*
+/**
   The server cannot or will not process the request due to something that is perceived to be a client error
   (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).
 
@@ -31,7 +31,7 @@ func (c *ClientErrorResponse) Response_400() {
 	c.Http.Message = "Bad Request"
 }
 
-/*
+/**
   Although the HTTP standard specifies "unauthorized", semantically this response means "unauthenticated".
   That is, the client must authenticate itself to get the requested response.
 
@@ -43,7 +43,7 @@ func (c *ClientErrorResponse) Response_401() {
 	c.Http.Message = "Unauthorized"
 }
 
-/*
+/**
   The client does not have access rights to the content; that is, it is unauthorized,
   so the server is refusing to give the requested resource. Unlike 401 Unauthorized,
   the client identity is known to the server.
@@ -56,7 +56,7 @@ func (c *ClientErrorResponse) Response_403() {
 	c.Http.Message = "Forbidden"
 }
 
-/*
+/**
   The server can not find the requested resource. In the browser, this means the URL is not recognized.
   In an API, this can also mean that the endpoint is valid but the resource itself does not exist.
   Servers may also send this response instead of '403 Forbidden' to hide the existence of a resource from an unauthorized client.
@@ -70,7 +70,7 @@ func (c *ClientErrorResponse) Response_404() {
 	c.Http.Message = "Not Found"
 }
 
-/*
+/**
   The request method is known by the server but is not supported by the target resource.
   For example, an API may not allow calling DELETE to remove a resource.
 
