@@ -3,11 +3,11 @@ package entities
 import "encoding/json"
 
 type User struct {
-	Email        string `form:"email" json:"email"`
 	Name         string `form:"name" json:"name"`
+	Username     string `form:"username" json:"username"`
+	Email        string `form:"email" json:"email"`
 	Password     string `form:"password" json:"password"`
 	ProfilePhoto string `form:"profilePhoto" json:"profilePhoto"`
-	Username     string `form:"username" json:"username"`
 	Level        int    `form:"level" json:"level"`
 }
 

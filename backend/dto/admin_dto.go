@@ -3,7 +3,7 @@ package entities
 import "fmt"
 
 type Admin struct {
-	user User
+	User User `form:"user" json:"user"`
 }
 
 func (a Admin) DeleteProduct(productId string) {
@@ -18,9 +18,9 @@ func (a Admin) EditProduct(productId string) {
 
 // Getter Setter
 func (a *Admin) GetUser() User {
-	return a.user
+	return a.User
 }
 
 func (a *Admin) SetUser(user User) {
-	a.user = user
+	a.User = user
 }

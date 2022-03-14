@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	dbController "github.com/Foodut/backend/controllers/database"
-	entity "github.com/Foodut/backend/entities"
+	dto "github.com/Foodut/backend/dto"
 	model "github.com/Foodut/backend/models"
 	response "github.com/Foodut/backend/responses"
 )
@@ -153,8 +153,8 @@ func GetUserResponse(writer http.ResponseWriter, req *http.Request) {
 
 	db.Limit(1).Find(&userRepo)
 
-	var user entity.User
-	var users []entity.User
+	var user dto.User
+	var users []dto.User
 
 	user.SetEmail(userRepo.Email)
 	user.SetName(userRepo.Name)

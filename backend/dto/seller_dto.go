@@ -3,10 +3,10 @@ package entities
 import "fmt"
 
 type Seller struct {
-	city        string
-	listProduct []Product
-	storeName   string
-	user        User
+	User        User      `form:"user" json:"user"`
+	StoreName   string    `form:"storeName" json:"storeName"`
+	City        string    `form:"city" json:"city"`
+	ListProduct []Product `form:"listProduct" json:"listProduct"`
 }
 
 func (s Seller) AddProduct(Product Product) {
@@ -27,33 +27,33 @@ func (s Seller) EditProduct(productId string) {
 
 // Getter Setter
 func (s *Seller) GetCity() string {
-	return s.city
+	return s.City
 }
 
 func (s *Seller) SetTransactionId(city string) {
-	s.city = city
+	s.City = city
 }
 
 func (s *Seller) GetListProduct() []Product {
-	return s.listProduct
+	return s.ListProduct
 }
 
 func (s *Seller) SetListProduct(listProduct []Product) {
-	s.listProduct = listProduct
+	s.ListProduct = listProduct
 }
 
 func (s *Seller) GetStoreName() string {
-	return s.storeName
+	return s.StoreName
 }
 
 func (s *Seller) SetStoreName(storeName string) {
-	s.storeName = storeName
+	s.StoreName = storeName
 }
 
 func (s *Seller) GetUser() User {
-	return s.user
+	return s.User
 }
 
 func (s *Seller) SetUser(user User) {
-	s.user = user
+	s.User = user
 }
