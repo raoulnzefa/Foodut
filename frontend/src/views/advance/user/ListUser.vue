@@ -8,7 +8,6 @@
 ========================================================================================== -->
 
 <template>
-
   <div id="page-user-list">
 
     <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
