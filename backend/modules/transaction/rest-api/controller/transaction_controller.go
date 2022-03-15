@@ -5,7 +5,8 @@ import (
 	"net/http"
 
 	dbController "github.com/Foodut/backend/database"
-	model "github.com/Foodut/backend/modules/transaction/domain/model"
+	"github.com/Foodut/backend/modules/transaction/domain/model"
+	rspn "github.com/Foodut/backend/responses"
 )
 
 func GetAllTransactions(w http.ResponseWriter, r *http.Request) {
@@ -22,14 +23,12 @@ func GetAllTransactions(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Set response
-	var response model.TransactionResponse
+	var response rspn.Response
 	if len(transactions) > 0 {
-		response.Status = 200
-		response.Message = "Success Get Transaction"
-		response.Data = transactions
+		response.Response_200(transactions)
+
 	} else {
-		response.Status = 204
-		response.Message = "Not Found, No Content"
+		response.Response_204()
 	}
 
 	w.Header().Set("Content-Type", "application/json")

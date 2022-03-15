@@ -8,10 +8,10 @@ import (
 )
 
 type Customer struct {
-	ID            int                     `form:"id" json:"id" gorm:"primaryKey"`
-	Address       string                  `form:"address" json:"address"`
-	DetailProduct []prModel.DetailProduct `form:"detailProduct" json:"detailProduct" gorm:"foreignKey:ProductID;references:ID"`
-	ListHistory   []trModel.Transaction   `form:"listHistory" json:"listHistory" gorm:"foreignKey:CustomerID;references:ID"`
+	ID          int                   `form:"id" json:"id" gorm:"primaryKey"`
+	Address     string                `form:"address" json:"address"`
+	TempCart    []prModel.Product     `gorm:"many2many:carts"`
+	ListHistory []trModel.Transaction `gorm:"foreignKey:CustomerID;references:ID"`
 }
 
 func (c Customer) AddToCart(productId string) {

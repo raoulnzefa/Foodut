@@ -18,6 +18,7 @@ func TestDB(writer http.ResponseWriter, req *http.Request) {
 	// AddCustomer()
 	// AddSeller()
 	// AddProduct()
+	GetSeller()
 }
 
 func AddCategory() {
@@ -29,7 +30,7 @@ func AddCategory() {
 
 	result := db.Create(&cate)
 
-	fmt.Println("Category ID just inserted {}", cate.CategoryID)
+	fmt.Println("Category ID just inserted {}", cate.ID)
 
 	fmt.Println(result.Error)
 }
@@ -141,7 +142,6 @@ func GetSeller() {
 
 	db.Model(&user.Seller).Association("ListProduct")
 	db.Model(&user.Seller).Association("ListProduct").Find(&user.Seller.ListProduct)
-
 	db.Model(&user.Seller.ListProduct).Association("Picture")
 
 	for i := 0; i < len(user.Seller.ListProduct); i++ {

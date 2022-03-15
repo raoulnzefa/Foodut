@@ -1,24 +1,16 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	prModel "github.com/Foodut/backend/modules/product/domain/model"
+)
 
 type Transaction struct {
-	TransactionID   int `form:"id" json:"id" gorm:"primaryKey"`
+	ID              int `form:"id" json:"id" gorm:"primaryKey"`
 	CustomerID      int
-	PaymentOption   string    `form:"paymentOption" json:"paymentOption"`
-	SubTotal        float64   `form:"subTotal" json:"subTotal"`
-	TransactionDate time.Time `form:"transactionDate" json:"transactionDate"`
-}
-
-type TransactionResponse struct {
-	Status  int           `form:"status" json:"status"`
-	Message string        `form:"message" json:"message"`
-	Data    []Transaction `form:"data" json:"data"`
-}
-
-// Ini agak bingung, apa mau di Setter subTotal aja ?
-func (t Transaction) GenerateTotalPayment() float64 {
-	// Calculate from Cart
-	var result float64 = 0
-	return result
+	PaymentOption   string            `form:"paymentOption" json:"paymentOption"`
+	SubTotal        float64           `form:"subTotal" json:"subTotal"`
+	TransactionDate time.Time         `form:"transactionDate" json:"transactionDate"`
+	ProductDetail   []prModel.Product `gorm:"many2many:transaction_details"`
 }
