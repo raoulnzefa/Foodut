@@ -5,6 +5,17 @@ import (
 	repo "github.com/Foodut/backend/modules/product/repository"
 )
 
+func EmptySearchBy() []model.Product {
+	return repo.FindAllProducts()
+}
+
 func SearchByName(name []string) []model.Product {
-	return repo.FindProductByName(name)
+	products := repo.FindProductsByName(name)
+
+	// If none, try find using LIKE
+	if len(products) < 1 {
+		products = repo.FindProductsByNameAlike(name)
+	}
+
+	return products
 }
