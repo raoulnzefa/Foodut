@@ -21,8 +21,6 @@ func Migrate(con *gorm.DB) {
 		&usrModel.Admin{},
 		&usrModel.Customer{},
 		&usrModel.Seller{},
-		// &trModel.DetailTransaksi{},
-		// &trModel.Cart{},
 		&trModel.Transaction{},
 		&prModel.Category{},
 		&prModel.Product{},

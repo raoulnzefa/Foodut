@@ -15,10 +15,13 @@ import (
 func TestDB(writer http.ResponseWriter, req *http.Request) {
 	// AddCategory()
 	// AddUser()
+	// AddAdmin()
 	// AddCustomer()
 	// AddSeller()
 	// AddProduct()
+	GetAdmin()
 	GetSeller()
+	GetCustomer()
 }
 
 func AddCategory() {
@@ -38,14 +41,34 @@ func AddCategory() {
 func AddUser() {
 	db := dbController.GetConnection()
 
+	// user := usrModel.User{
+	// 	// ID:           3,
+	// 	Username:     "Jeddi123",
+	// 	Email:        "jeddi@gmail.com",
+	// 	Name:         "Jedediah Fanuel",
+	// 	Password:     "43214321",
+	// 	ProfilePhoto: "database/photo/profile/jf.jpg",
+	// 	Level:        2, // Admin
+	// }
+
+	// user := usrModel.User{
+	// 	// ID:           3,
+	// 	Username:     "Fedly123",
+	// 	Email:        "fedly@gmail.com",
+	// 	Name:         "Fedly Septian",
+	// 	Password:     "12345678",
+	// 	ProfilePhoto: "database/photo/profile/fs.jpg",
+	// 	Level:        1, // Seller
+	// }
+
 	user := usrModel.User{
 		// ID:           3,
-		Username:     "Jeddi123",
-		Email:        "jeddi@gmail.com",
-		Name:         "Jedediah Fanuel",
-		Password:     "43214321",
-		ProfilePhoto: "database/photo/profile/jf.jpg",
-		Level:        1, // Seller
+		Username:     "Timothy123",
+		Email:        "timothy@gmail.com",
+		Name:         "Timothy Ray",
+		Password:     "12344321",
+		ProfilePhoto: "database/photo/profile/tr.jpg",
+		Level:        0, // Customer
 	}
 
 	result := db.Create(&user)
@@ -57,17 +80,31 @@ func AddUser() {
 
 }
 
+func AddAdmin() {
+	db := dbController.GetConnection()
+
+	user := usrModel.Admin{
+		UserID: 1,
+	}
+
+	result := db.Create(&user)
+
+	fmt.Println(user.UserID)
+
+	fmt.Println(result.Error)
+
+}
+
 func AddCustomer() {
 	db := dbController.GetConnection()
 
 	cust := usrModel.Customer{
-		ID:      2,
+		UserID:  3,
 		Address: "Jl. Kopo Permai No. 42",
 	}
 
 	result := db.Create(&cust)
 
-	fmt.Println(cust.ID)
 	fmt.Println(cust.Address)
 
 	fmt.Println(result.Error)
@@ -78,14 +115,13 @@ func AddSeller() {
 	db := dbController.GetConnection()
 
 	sell := usrModel.Seller{
-		ID:        3,
-		City:      "Jayapura",
-		StoreName: "Papeda Legit",
+		UserID:    2,
+		City:      "Bandung",
+		StoreName: "Makaroni Asoy",
 	}
 
 	result := db.Create(&sell)
 
-	fmt.Println(sell.ID)
 	fmt.Println(sell.StoreName)
 
 	fmt.Println(result.Error)
@@ -130,25 +166,43 @@ func AddProduct() {
 	fmt.Println(result.Error)
 }
 
+func GetAdmin() {
+	db := dbController.GetConnection()
+
+	var adm usrModel.Admin
+
+	db.Limit(1).Find(&adm)
+
+	db.Model(&adm).Association("User")
+	db.Model(&adm).Association("User").Find(&adm.User)
+
+	fmt.Printf("%+v \n", adm)
+}
+
 func GetSeller() {
 	db := dbController.GetConnection()
 
-	var user usrModel.User
+	var seller usrModel.Seller
 
-	db.Limit(1).Find(&user)
+	db.Limit(1).Find(&seller)
 
-	db.Model(&user).Association("Seller")
-	db.Model(&user).Association("Seller").Find(&user.Seller)
+	db.Model(&seller).Association("User")
+	db.Model(&seller).Association("User").Find(&seller.User)
 
-	db.Model(&user.Seller).Association("ListProduct")
-	db.Model(&user.Seller).Association("ListProduct").Find(&user.Seller.ListProduct)
-	db.Model(&user.Seller.ListProduct).Association("Picture")
+	fmt.Printf("%+v \n", seller)
+}
 
-	for i := 0; i < len(user.Seller.ListProduct); i++ {
-		db.Model(&user.Seller.ListProduct[i]).Association("Picture").Find(&user.Seller.ListProduct[i].Picture)
-	}
+func GetCustomer() {
+	db := dbController.GetConnection()
 
-	fmt.Println(user)
+	var cust usrModel.Customer
+
+	db.Limit(1).Find(&cust)
+
+	db.Model(&cust).Association("User")
+	db.Model(&cust).Association("User").Find(&cust.User)
+
+	fmt.Printf("%+v \n", cust)
 }
 
 func GetUserResponse(writer http.ResponseWriter, req *http.Request) {

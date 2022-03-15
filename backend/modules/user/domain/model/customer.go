@@ -8,10 +8,11 @@ import (
 )
 
 type Customer struct {
-	ID          int                   `form:"id" json:"id" gorm:"primaryKey"`
-	Address     string                `form:"address" json:"address"`
+	UserID      int  `gorm:"primaryKey"`
+	User        User `gorm:"foreignKey:UserID;references:ID"`
+	Address     string
 	TempCart    []prModel.Product     `gorm:"many2many:carts"`
-	ListHistory []trModel.Transaction `gorm:"foreignKey:CustomerID;references:ID"`
+	ListHistory []trModel.Transaction `gorm:"foreignKey:CustomerID;references:UserID"`
 }
 
 func (c Customer) AddToCart(productId string) {

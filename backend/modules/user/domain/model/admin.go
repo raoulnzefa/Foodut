@@ -1,5 +1,6 @@
 package model
 
 type Admin struct {
-	ID int `form:"id" json:"id" gorm:"primaryKey"`
+	UserID int  `gorm:"primaryKey"`
+	User   User `gorm:"foreignKey:UserID;references:ID"`
 }

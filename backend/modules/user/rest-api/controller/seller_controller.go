@@ -16,17 +16,17 @@ func something() usrModel.User {
 
 	db.Limit(1).Find(&user)
 
-	db.Model(&user).Association("Seller")
-	db.Model(&user).Association("Seller").Find(&user.Seller)
+	// db.Model(&user).Association("Seller")
+	// db.Model(&user).Association("Seller").Find(&user.Seller)
 
-	db.Model(&user.Seller).Association("ListProduct")
-	db.Model(&user.Seller).Association("ListProduct").Find(&user.Seller.ListProduct)
+	// db.Model(&user.Seller).Association("ListProduct")
+	// db.Model(&user.Seller).Association("ListProduct").Find(&user.Seller.ListProduct)
 
-	db.Model(&user.Seller.ListProduct).Association("Picture")
+	// db.Model(&user.Seller.ListProduct).Association("Picture")
 
-	for i := 0; i < len(user.Seller.ListProduct); i++ {
-		db.Model(&user.Seller.ListProduct[i]).Association("Picture").Find(&user.Seller.ListProduct[i].Picture)
-	}
+	// for i := 0; i < len(user.Seller.ListProduct); i++ {
+	// 	db.Model(&user.Seller.ListProduct[i]).Association("Picture").Find(&user.Seller.ListProduct[i].Picture)
+	// }
 
 	return user
 }
