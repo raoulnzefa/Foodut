@@ -12,6 +12,10 @@ import (
 
 var con *gorm.DB
 
+/**
+  Open initialize db session based on dialector.
+  If error occured, the program will panic!.
+*/
 func connect() *gorm.DB {
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
@@ -31,6 +35,11 @@ func connect() *gorm.DB {
 	return db
 }
 
+/**
+  This is 'singleton' like connection.
+  If the connection is nil, then
+  create a new connection.
+*/
 func GetConnection() *gorm.DB {
 	if con == nil {
 		con = connect()
@@ -38,6 +47,11 @@ func GetConnection() *gorm.DB {
 	return con
 }
 
+/**
+  Close closes the database and prevents new queries from starting. Close then waits for all queries that have started processing on the server to finish.
+
+  It is rare to Close a DB, as the DB handle is meant to be long-lived and shared between many goroutines.
+*/
 func CloseConnection(con *gorm.DB) {
 	if con == nil {
 		sqlDB, err := con.DB()
