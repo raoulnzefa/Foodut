@@ -11,4 +11,16 @@ func TransactionRouter(router *mux.Router) {
 	//
 	//- Get All Transaction
 	router.HandleFunc("/transactions", trController.GetAllTransactions).Methods("GET")
+
+	//- Get Transaction Detail
+	// router.HandleFunc("/transactions-detail", trController.GetTransactionDetail).Methods("GET")
+
+	//- Insert Transaction
+	// router.HandleFunc("/transactions", trController.InsertTransaction).Methods("POST")
+
+	//- Update Transaction
+	// router.HandleFunc("/transactions/{transaction_id}", trController.UpdateTransaction).Methods("PUT")
+
+	//- Delete Transaction
+	// router.HandleFunc("/transactions/{transaction_id}", trController.DeleteTransaction).Methods("DELETE")
 }

@@ -12,7 +12,7 @@ import (
 	response "github.com/Foodut/backend/responses"
 )
 
-func TestDB() {
+func TestDB(writer http.ResponseWriter, req *http.Request) {
 	// AddCategory()
 	// AddUser()
 	// AddCustomer()
@@ -38,13 +38,13 @@ func AddUser() {
 	db := dbController.GetConnection()
 
 	user := usrModel.User{
-		ID:           2,
-		Username:     "Timothy123",
-		Email:        "timothy@gmail.com",
-		Name:         "Timothy Ray",
-		Password:     "12341234",
-		ProfilePhoto: "database/photo/profile/tr.jpg",
-		Level:        0, // Seller
+		// ID:           3,
+		Username:     "Jeddi123",
+		Email:        "jeddi@gmail.com",
+		Name:         "Jedediah Fanuel",
+		Password:     "43214321",
+		ProfilePhoto: "database/photo/profile/jf.jpg",
+		Level:        1, // Seller
 	}
 
 	result := db.Create(&user)
@@ -77,8 +77,9 @@ func AddSeller() {
 	db := dbController.GetConnection()
 
 	sell := usrModel.Seller{
-		City:      "Bandung",
-		StoreName: "Makaroni Asoy",
+		ID:        3,
+		City:      "Jayapura",
+		StoreName: "Papeda Legit",
 	}
 
 	result := db.Create(&sell)
@@ -94,32 +95,36 @@ func AddProduct() {
 	db := dbController.GetConnection()
 
 	pic := prModel.Picture{
-		PicturePath: "database/picture/product/mrb1.jpg",
-		ProductID:   2,
+		PicturePath: "database/picture/product/pad3.jpg",
+		ProductID:   5,
 	}
 
 	pic2 := prModel.Picture{
-		PicturePath: "database/picture/product/mrb2.jpg",
-		ProductID:   2,
+		PicturePath: "database/picture/product/pad1.jpg",
+		ProductID:   5,
+	}
+
+	pic3 := prModel.Picture{
+		PicturePath: "database/picture/product/pad2.jpg",
+		ProductID:   5,
 	}
 
 	var picArr []prModel.Picture
 	picArr = append(picArr, pic)
 	picArr = append(picArr, pic2)
+	picArr = append(picArr, pic3)
 
 	prod := prModel.Product{
-		ProductName:  "Makaroni Royco Basah",
-		ProductPrice: 5000,
-		ProductRate:  4.8,
-		ProductStock: 100,
-		SellerID:     1,
-		CategoryID:   2,
+		ProductName:  "Papeda Cake January",
+		ProductPrice: 25000,
+		ProductRate:  4.9,
+		ProductStock: 90,
+		SellerID:     3,
+		CategoryID:   1,
 		Picture:      picArr,
 	}
 
 	result := db.Create(&prod)
-
-	fmt.Println(prod.CategoryID)
 
 	fmt.Println(result.Error)
 }

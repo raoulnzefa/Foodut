@@ -6,25 +6,40 @@ import (
 
 	model "github.com/Foodut/backend/modules/product/domain/model"
 	service "github.com/Foodut/backend/modules/product/domain/service"
+	rspn "github.com/Foodut/backend/responses"
 )
 
 func GetAllProducts(writer http.ResponseWriter, req *http.Request) {
+
+	// Get product and check by query
+	var products []model.Product = service.EmptySearchBy()
+
+	// Set response
+	var response rspn.Response
+	if len(products) > 0 {
+		response.Response_200(products)
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+func GetProductByName(writer http.ResponseWriter, req *http.Request) {
+
+	// Check product_name query
 	nameToFind := req.URL.Query()["product_name"]
 
-	// Get product and check by query product_name
+	// Get product and check by query
 	var products []model.Product = service.SearchByName(nameToFind)
 
 	// Set response
-	var response model.ProductResponse
+	var response rspn.Response
 	if len(products) > 0 {
-		// createDataResponse(products, response)
-		response.Status = 200
-		response.Message = "Success Get Product"
-		response.Data = products
+		response.Response_200(products)
 	} else {
-		// createEmptyResponse(response)
-		response.Status = 204
-		response.Message = "Not Found, No Content"
+		response.Response_204()
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
