@@ -19,9 +19,9 @@ func TestDB(writer http.ResponseWriter, req *http.Request) {
 	// AddCustomer()
 	// AddSeller()
 	// AddProduct()
-	GetAdmin()
+	// GetAdmin()
 	GetSeller()
-	GetCustomer()
+	// GetCustomer()
 }
 
 func AddCategory() {
@@ -115,9 +115,9 @@ func AddSeller() {
 	db := dbController.GetConnection()
 
 	sell := usrModel.Seller{
-		UserID:    2,
-		City:      "Bandung",
-		StoreName: "Makaroni Asoy",
+		UserID:    3,
+		City:      "Sumedang",
+		StoreName: "Tahu Sumedang",
 	}
 
 	result := db.Create(&sell)

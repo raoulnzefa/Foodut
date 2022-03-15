@@ -9,32 +9,27 @@ import (
 	rspn "github.com/Foodut/backend/responses"
 )
 
-func something() usrModel.User {
+// TODO
+// not done
+// Belom Tambahin productnya juga
+// belom di pisah ke service, ke repository,
+// dan output JSON nya pikirin lagi, DTO nya pake
+func something() usrModel.Seller {
 	db := dbController.GetConnection()
 
-	var user usrModel.User
+	var seller usrModel.Seller
 
-	db.Limit(1).Find(&user)
+	db.Limit(1).Find(&seller)
+	db.Model(&seller).Association("User")
+	db.Model(&seller).Association("User").Find(&seller.User)
 
-	// db.Model(&user).Association("Seller")
-	// db.Model(&user).Association("Seller").Find(&user.Seller)
-
-	// db.Model(&user.Seller).Association("ListProduct")
-	// db.Model(&user.Seller).Association("ListProduct").Find(&user.Seller.ListProduct)
-
-	// db.Model(&user.Seller.ListProduct).Association("Picture")
-
-	// for i := 0; i < len(user.Seller.ListProduct); i++ {
-	// 	db.Model(&user.Seller.ListProduct[i]).Association("Picture").Find(&user.Seller.ListProduct[i].Picture)
-	// }
-
-	return user
+	return seller
 }
 
 func GetSellerWithProducts(writer http.ResponseWriter, req *http.Request) {
 
 	// Get product and check by query
-	var seller []usrModel.User
+	var seller []usrModel.Seller
 
 	seller = append(seller, something())
 
