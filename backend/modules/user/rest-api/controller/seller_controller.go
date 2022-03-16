@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	dbController "github.com/Foodut/backend/database"
-	usrModel "github.com/Foodut/backend/modules/user/domain/model"
+	"github.com/Foodut/backend/modules/user/domain/model"
+	srvc "github.com/Foodut/backend/modules/user/domain/service"
 	rspn "github.com/Foodut/backend/responses"
 )
 
@@ -14,26 +14,18 @@ import (
 // Belom Tambahin productnya juga
 // belom di pisah ke service, ke repository,
 // dan output JSON nya pikirin lagi, DTO nya pake
-func something() usrModel.Seller {
-	db := dbController.GetConnection()
 
-	var seller usrModel.Seller
+func RequestSellerByStoreWithProducts(writer http.ResponseWriter, req *http.Request) {
 
-	db.Limit(1).Find(&seller)
-	db.Model(&seller).Association("User")
-	db.Model(&seller).Association("User").Find(&seller.User)
+	// Check product_name query
+	storeName := req.URL.Query()["store_name"]
 
-	return seller
-}
-
-func GetSellerWithProducts(writer http.ResponseWriter, req *http.Request) {
-	var seller []usrModel.Seller
-
-	seller = append(seller, something())
+	// Get list of seller object
+	var seller model.Seller = srvc.CombinedSellerProduct(storeName)
 
 	// Set response
 	var response rspn.Response
-	if len(seller) > 0 {
+	if seller.UserID != 0 {
 		response.Response_200(seller)
 	} else {
 		response.Response_204()
