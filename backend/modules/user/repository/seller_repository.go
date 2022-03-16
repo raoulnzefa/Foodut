@@ -5,6 +5,18 @@ import (
 	model "github.com/Foodut/backend/modules/user/domain/model"
 )
 
+func FindAllSeller() []model.Seller {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Get sellers from database, filter by store_name
+	var sellers []model.Seller
+
+	con.Find(&sellers)
+
+	return sellers
+}
+
 func FindSellerByStoreName(storeName []string) model.Seller {
 	// Check connection
 	con := dbController.GetConnection()
@@ -12,7 +24,7 @@ func FindSellerByStoreName(storeName []string) model.Seller {
 	// Get seller from database, filter by store_name
 	var seller model.Seller
 	if storeName != nil {
-		con.Where("store_name = ?", storeName).First(&seller)
+		con.Where("store_name = ?", storeName[0]).First(&seller)
 	}
 
 	// Get user data

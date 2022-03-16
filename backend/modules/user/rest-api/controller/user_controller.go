@@ -12,7 +12,7 @@ import (
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 
 	// Get list of user object
-	var users []model.User = srvc.EmptySearchBy()
+	var users []model.User = srvc.EmptyUserSearch()
 
 	// Set response
 	var response rspn.Response

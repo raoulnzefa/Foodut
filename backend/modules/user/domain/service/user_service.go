@@ -5,6 +5,6 @@ import (
 	repo "github.com/Foodut/backend/modules/user/repository"
 )
 
-func EmptySearchBy() []model.User {
+func EmptyUserSearch() []model.User {
 	return repo.FindAllUsers()
 }

@@ -6,8 +6,26 @@ import (
 
 	model "github.com/Foodut/backend/modules/user/domain/model"
 	srvc "github.com/Foodut/backend/modules/user/domain/service"
+	dto "github.com/Foodut/backend/modules/user/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
 )
+
+func GetAllSeller(w http.ResponseWriter, r *http.Request) {
+
+	// Get list of seller object
+	var sellers []dto.SellerMinimal = srvc.EmptySellerMinimal()
+
+	// Set response
+	var response rspn.Response
+	if len(sellers) > 0 {
+		response.Response_200(sellers)
+	} else {
+		response.Response_204()
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
 
 func GetSellerByStoreWithProducts(writer http.ResponseWriter, req *http.Request) {
 
