@@ -27,8 +27,6 @@ func something() usrModel.Seller {
 }
 
 func GetSellerWithProducts(writer http.ResponseWriter, req *http.Request) {
-
-	// Get product and check by query
 	var seller []usrModel.Seller
 
 	seller = append(seller, something())
