@@ -15,7 +15,7 @@ func UserRouter(router *mux.Router) {
 	router.HandleFunc("/users", usrController.GetAllUsers).Methods("GET")
 
 	//- Get Seller with Products
-	router.HandleFunc("/store", usrController.RequestSellerByStoreWithProducts).Methods("GET")
+	router.HandleFunc("/store", usrController.GetSellerByStoreWithProducts).Methods("GET")
 
 	//- Get User Detail Transaction
 	// router.HandleFunc("/detail-user-transactions", usrController.GetDetailUserTransaction).Methods("GET")

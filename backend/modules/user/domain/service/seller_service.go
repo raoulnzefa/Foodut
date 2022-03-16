@@ -5,7 +5,7 @@ import (
 	repo "github.com/Foodut/backend/modules/user/repository"
 )
 
-func CombinedSellerProduct(storeName []string) model.Seller {
+func SearchByStoreName(storeName []string) model.Seller {
 	return repo.FindSellerByStoreName(storeName)
 }
 
