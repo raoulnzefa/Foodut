@@ -1,6 +1,13 @@
 package service
 
-// import "github.com/Foodut/backend/modules/user/domain/model"
+// import (
+// 	model "github.com/Foodut/backend/modules/user/domain/model"
+// 	repo "github.com/Foodut/backend/modules/user/repository"
+// )
+
+// func CombinedSellerProduct() []model.Seller {
+
+// }
 
 // func EmptySearchBy() []model.Seller {
 // 	return repo.FindAllProducts()

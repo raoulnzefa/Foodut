@@ -7,11 +7,11 @@ import (
 )
 
 type Seller struct {
-	UserID      int               `gorm:"primaryKey"`
-	User        User              `gorm:"foreignKey:UserID;references:ID"`
-	City        string            `form:"city" json:"city"`
-	ListProduct []prModel.Product `gorm:"foreignKey:SellerID;references:UserID"`
+	UserID      int               `form:"userId" json:"userId" gorm:"primaryKey"`
+	User        User              `form:"user" json:"user" gorm:"foreignKey:UserID;references:ID"`
 	StoreName   string            `form:"storeName" json:"storeName" gorm:"uniqueIndex:idx_store_name"`
+	City        string            `form:"city" json:"city"`
+	ListProduct []prModel.Product `form:"listProduct" json:"listProduct" gorm:"foreignKey:SellerID;references:UserID"`
 }
 
 func (s Seller) AddProduct(Product prModel.Product) {

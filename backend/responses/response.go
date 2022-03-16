@@ -56,7 +56,7 @@ func (r *Response) Response_201() {
   Message: "No Content"
 */
 func (r *Response) Response_204() {
-	r.StatusCode = 201
+	r.StatusCode = 204
 	r.Message = "No Content"
 }
 
