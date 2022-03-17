@@ -4,23 +4,16 @@ import (
 	"encoding/json"
 	"net/http"
 
-	dbController "github.com/Foodut/backend/database"
-	"github.com/Foodut/backend/modules/transaction/domain/model"
+	model "github.com/Foodut/backend/modules/transaction/domain/model"
+	srvc "github.com/Foodut/backend/modules/transaction/domain/service"
 	rspn "github.com/Foodut/backend/responses"
 )
 
-func GetAllTransactions(w http.ResponseWriter, r *http.Request) {
-	db := dbController.GetConnection()
-	//defer db.Close()
+func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 
-	var transactions []model.Transaction
+	transactionId := req.URL.Query()["id"]
 
-	transactionID := r.URL.Query()["id"]
-	if transactionID != nil {
-		db.Where("transaction_id = ?", transactionID[0]).First(&transactions)
-	} else {
-		db.Find(&transactions)
-	}
+	var transactions []model.Transaction = srvc.SearchById(transactionId)
 
 	// Set response
 	var response rspn.Response
@@ -31,6 +24,6 @@ func GetAllTransactions(w http.ResponseWriter, r *http.Request) {
 		response.Response_204()
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
 }

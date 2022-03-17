@@ -4,36 +4,40 @@ import (
 	"encoding/json"
 	"net/http"
 
-	dbController "github.com/Foodut/backend/database"
-	usrModel "github.com/Foodut/backend/modules/user/domain/model"
+	model "github.com/Foodut/backend/modules/user/domain/model"
+	srvc "github.com/Foodut/backend/modules/user/domain/service"
+	dto "github.com/Foodut/backend/modules/user/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
 )
 
-// TODO
-// not done
-// Belom Tambahin productnya juga
-// belom di pisah ke service, ke repository,
-// dan output JSON nya pikirin lagi, DTO nya pake
-func something() usrModel.Seller {
-	db := dbController.GetConnection()
+func GetAllSeller(w http.ResponseWriter, r *http.Request) {
 
-	var seller usrModel.Seller
-
-	db.Limit(1).Find(&seller)
-	db.Model(&seller).Association("User")
-	db.Model(&seller).Association("User").Find(&seller.User)
-
-	return seller
-}
-
-func GetSellerWithProducts(writer http.ResponseWriter, req *http.Request) {
-	var seller []usrModel.Seller
-
-	seller = append(seller, something())
+	// Get list of seller object
+	var sellers []dto.SellerMinimal = srvc.EmptySellerMinimal()
 
 	// Set response
 	var response rspn.Response
-	if len(seller) > 0 {
+	if len(sellers) > 0 {
+		response.Response_200(sellers)
+	} else {
+		response.Response_204()
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+func GetSellerByStoreWithProducts(writer http.ResponseWriter, req *http.Request) {
+
+	// Check product_name query
+	storeName := req.URL.Query()["store_name"]
+
+	// Get list of seller object
+	var seller model.Seller = srvc.SearchByStoreName(storeName)
+
+	// Set response
+	var response rspn.Response
+	if seller.UserID != 0 {
 		response.Response_200(seller)
 	} else {
 		response.Response_204()

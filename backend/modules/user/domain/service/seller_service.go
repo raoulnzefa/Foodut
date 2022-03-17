@@ -1,25 +1,27 @@
 package service
 
-// import (
-// 	model "github.com/Foodut/backend/modules/user/domain/model"
-// 	repo "github.com/Foodut/backend/modules/user/repository"
-// )
+import (
+	model "github.com/Foodut/backend/modules/user/domain/model"
+	repo "github.com/Foodut/backend/modules/user/repository"
+	dto "github.com/Foodut/backend/modules/user/rest-api/dto"
+)
 
-// func CombinedSellerProduct() []model.Seller {
+func EmptySellerMinimal() []dto.SellerMinimal {
+	sellers := repo.FindAllSeller()
 
-// }
+	var sellerDto []dto.SellerMinimal
 
-// func EmptySearchBy() []model.Seller {
-// 	return repo.FindAllProducts()
-// }
+	for _, s := range sellers {
+		var tempSeller dto.SellerMinimal
+		tempSeller.SetUserId(s.UserID)
+		tempSeller.SetStoreName(s.StoreName)
+		tempSeller.SetCity(s.City)
+		sellerDto = append(sellerDto, tempSeller)
+	}
 
-// func SearchByName(name []string) []model.Product {
-// 	products := repo.FindProductsByName(name)
+	return sellerDto
+}
 
-// 	// If none, try find using LIKE
-// 	if len(products) < 1 {
-// 		products = repo.FindProductsByNameAlike(name)
-// 	}
-
-// 	return products
-// }
+func SearchByStoreName(storeName []string) model.Seller {
+	return repo.FindSellerByStoreName(storeName)
+}

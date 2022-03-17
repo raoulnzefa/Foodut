@@ -4,7 +4,7 @@ type Product struct {
 	ProductId       string   `form:"productId" json:"productId"`
 	ProductName     string   `form:"productName" json:"productName"`
 	SellerName      string   `form:"sellerName" json:"sellerName"`
-	ProductCategory Category `form:"productCategory" json:"productCategory"`
+	ProductCategory string   `form:"productCategory" json:"productCategory"`
 	ProductStock    int      `form:"productStock" json:"productStock"`
 	ProductPrice    float64  `form:"productPrice" json:"productPrice"`
 	ProductRate     float32  `form:"productRate" json:"productRate"`
@@ -12,11 +12,11 @@ type Product struct {
 }
 
 // Getter Setter
-func (p *Product) GetProductCategory() Category {
+func (p *Product) GetProductCategory() string {
 	return p.ProductCategory
 }
 
-func (p *Product) SetProductCategory(productCategory Category) {
+func (p *Product) SetProductCategory(productCategory string) {
 	p.ProductCategory = productCategory
 }
 

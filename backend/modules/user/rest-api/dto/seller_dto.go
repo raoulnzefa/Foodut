@@ -1,8 +1,6 @@
 package entities
 
 import (
-	"fmt"
-
 	prDto "github.com/Foodut/backend/modules/product/rest-api/dto"
 )
 
@@ -13,28 +11,42 @@ type Seller struct {
 	ListProduct []prDto.Product `form:"listProduct" json:"listProduct"`
 }
 
-func (s Seller) AddProduct(Product prDto.Product) {
-	fmt.Println("Seller Add Product")
-	// Add Product to database
-	// Assign to the seller
+type SellerMinimal struct {
+	UserID    int    `form:"id" json:"id"`
+	StoreName string `form:"storeName" json:"storeName"`
+	City      string `form:"city" json:"city"`
 }
 
-func (s Seller) DeleterProduct(productId string) {
-	fmt.Println("Seller Delete Product")
-	// Delete Product from database
+type SellerMinimalProducts struct {
+	UserID      int             `form:"id" json:"id"`
+	StoreName   string          `form:"storeName" json:"storeName"`
+	City        string          `form:"city" json:"city"`
+	ListProduct []prDto.Product `form:"listProduct" json:"listProduct"`
 }
 
-func (s Seller) EditProduct(productId string) {
-	fmt.Println("Seller Edit Product")
-	// Update Product in database
+//-------------------------------------------------
+// Getter Setter Full
+func (s *Seller) GetUser() User {
+	return s.User
 }
 
-// Getter Setter
+func (s *Seller) SetUser(user User) {
+	s.User = user
+}
+
+func (s *Seller) GetStoreName() string {
+	return s.StoreName
+}
+
+func (s *Seller) SetStoreName(storeName string) {
+	s.StoreName = storeName
+}
+
 func (s *Seller) GetCity() string {
 	return s.City
 }
 
-func (s *Seller) SetTransactionId(city string) {
+func (s *Seller) SetCity(city string) {
 	s.City = city
 }
 
@@ -46,18 +58,62 @@ func (s *Seller) SetListProduct(listProduct []prDto.Product) {
 	s.ListProduct = listProduct
 }
 
-func (s *Seller) GetStoreName() string {
+//-------------------------------------------------
+// Getter Setter Minimal
+func (s *SellerMinimal) GetUserId() int {
+	return s.UserID
+}
+
+func (s *SellerMinimal) SetUserId(id int) {
+	s.UserID = id
+}
+
+func (s *SellerMinimal) GetStoreName() string {
 	return s.StoreName
 }
 
-func (s *Seller) SetStoreName(storeName string) {
+func (s *SellerMinimal) SetStoreName(storeName string) {
 	s.StoreName = storeName
 }
 
-func (s *Seller) GetUser() User {
-	return s.User
+func (s *SellerMinimal) GetCity() string {
+	return s.City
 }
 
-func (s *Seller) SetUser(user User) {
-	s.User = user
+func (s *SellerMinimal) SetCity(city string) {
+	s.City = city
+}
+
+//-------------------------------------------------
+// Getter Setter Minimal Products
+func (s *SellerMinimalProducts) GetUserId() int {
+	return s.UserID
+}
+
+func (s *SellerMinimalProducts) SetUserId(id int) {
+	s.UserID = id
+}
+
+func (s *SellerMinimalProducts) GetStoreName() string {
+	return s.StoreName
+}
+
+func (s *SellerMinimalProducts) SetStoreName(storeName string) {
+	s.StoreName = storeName
+}
+
+func (s *SellerMinimalProducts) GetCity() string {
+	return s.City
+}
+
+func (s *SellerMinimalProducts) SetCity(city string) {
+	s.City = city
+}
+
+func (s *SellerMinimalProducts) GetListProduct() []prDto.Product {
+	return s.ListProduct
+}
+
+func (s *SellerMinimalProducts) SetListProduct(listProduct []prDto.Product) {
+	s.ListProduct = listProduct
 }
