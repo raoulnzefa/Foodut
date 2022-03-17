@@ -2,10 +2,12 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	model "github.com/Foodut/backend/modules/product/domain/model"
 	srvc "github.com/Foodut/backend/modules/product/domain/service"
+	dto "github.com/Foodut/backend/modules/product/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
 )
 
@@ -52,6 +54,36 @@ func GetProductByName(writer http.ResponseWriter, req *http.Request) {
 		response.Response_200(products)
 	} else {
 		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+/**
+  Seller can add a single product each post
+  and assign it to his/her store.
+*/
+func PostProduct(writer http.ResponseWriter, req *http.Request) {
+
+	// Decode JSON
+	var createProduct dto.PostProduct
+	err := json.NewDecoder(req.Body).Decode(&createProduct)
+	if err != nil {
+		http.Error(writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Send DTO to service
+	result := srvc.MapToProduct(createProduct)
+
+	// Set response
+	var response rspn.Response
+	if result.Error == nil {
+		response.Response_201()
+	} else {
+		fmt.Println(result.Error)
+		response.Response_400()
 	}
 
 	writer.Header().Set("Content-Type", "application/json")

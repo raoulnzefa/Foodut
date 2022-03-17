@@ -40,11 +40,11 @@ func (r *Response) Response_200(data interface{}) {
   This is typically the response sent after POST requests, or some PUT requests.
 
   Status Code: "201"
-  Message: "Created"
+  Message: "Created | Updated"
 */
 func (r *Response) Response_201() {
 	r.StatusCode = 201
-	r.Message = "Created"
+	r.Message = "Created | Updated"
 }
 
 /**
