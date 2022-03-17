@@ -6,21 +6,23 @@ import (
 )
 
 func GetProductsAssociation(products []model.Product) {
-	// Check Connection
-	con := dbController.GetConnection()
-
 	// For each product
 	for i := 0; i < len(products); i++ {
 		// with picture
-		for j := 0; j < len(products); j++ {
-			con.Model(&products).Association("Picture").Find(&products[i].Picture)
-		}
+		GetOneProductAssociation(&products[i])
 	}
+}
 
+func GetOneProductAssociation(product *model.Product) {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Picture Association
+	con.Model(&product).Association("Picture").Find(&product.Picture)
 }
 
 func FindAllProducts(productId []string) []model.Product {
-	// Check Connection
+	// Check connection
 	con := dbController.GetConnection()
 
 	// Get all products from database
@@ -37,7 +39,7 @@ func FindAllProducts(productId []string) []model.Product {
 }
 
 func FindProductsByName(productName []string) []model.Product {
-	// Check Connection
+	// Check connection
 	con := dbController.GetConnection()
 
 	// Get product from database, filter by product_name
@@ -50,7 +52,7 @@ func FindProductsByName(productName []string) []model.Product {
 }
 
 func FindProductsByNameAlike(productName []string) []model.Product {
-	// Check Connection
+	// Check connection
 	con := dbController.GetConnection()
 
 	// Get product from database, filter by name LIKE

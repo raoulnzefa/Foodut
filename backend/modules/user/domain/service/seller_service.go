@@ -11,6 +11,7 @@ func EmptySellerMinimal() []dto.SellerMinimal {
 
 	var sellerDto []dto.SellerMinimal
 
+	// Move from database model to JSON DTO
 	for _, s := range sellers {
 		var tempSeller dto.SellerMinimal
 		tempSeller.SetUserId(s.UserID)
@@ -23,5 +24,12 @@ func EmptySellerMinimal() []dto.SellerMinimal {
 }
 
 func SearchByStoreName(storeName []string) model.Seller {
-	return repo.FindSellerByStoreName(storeName)
+	seller := repo.FindSellerByStoreName(storeName)
+
+	// Association
+	if seller.UserID != 0 {
+		repo.GetOneSellerAssociation(&seller)
+	}
+
+	return seller
 }

@@ -6,10 +6,8 @@ import (
 )
 
 func SearchById(productId []string) []model.Product {
-	// Get products from database table
 	products := repo.FindAllProducts(productId)
 
-	// Fill out relation
 	// Association
 	if len(products) > 0 {
 		repo.GetProductsAssociation(products)
@@ -21,12 +19,11 @@ func SearchById(productId []string) []model.Product {
 func SearchByName(name []string) []model.Product {
 	products := repo.FindProductsByName(name)
 
-	// If none, try find using LIKE
+	// If none, try find using 'LIKE'
 	if len(products) < 1 {
 		products = repo.FindProductsByNameAlike(name)
 	}
 
-	// Fill out relation
 	// Association
 	if len(products) > 0 {
 		repo.GetProductsAssociation(products)
