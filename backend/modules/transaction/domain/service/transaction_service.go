@@ -7,5 +7,12 @@ import (
 )
 
 func SearchById(transactionId []string) []model.Transaction {
-	return repo.FindAllTransaction(transactionId)
+	transactions := repo.FindAllTransaction(transactionId)
+
+	// Association
+	if len(transactions) > 0 {
+		repo.GetTransactionsAssociation(transactions)
+	}
+
+	return transactions
 }
