@@ -1,8 +1,11 @@
 package repository
 
 import (
+	"fmt"
+
 	dbController "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/user/domain/model"
+	"gorm.io/gorm"
 )
 
 func FindAllSeller() []model.Seller {
@@ -20,25 +23,29 @@ func FindAllSeller() []model.Seller {
 func FindSellerByStoreName(storeName []string) model.Seller {
 	// Check connection
 	con := dbController.GetConnection()
+	var result *gorm.DB
 
 	// Get seller from database, filter by store_name
 	var seller model.Seller
 	if storeName != nil {
-		con.Where("store_name = ?", storeName[0]).First(&seller)
+		result = con.Where("store_name = ?", storeName[0]).First(&seller)
 	}
 
-	// Get user data
-	con.Model(&seller).Association("User")
-	con.Model(&seller).Association("User").Find(&seller.User)
+	// Association
+	if result.Error == nil {
+		// with user data
+		con.Model(&seller).Association("User").Find(&seller.User)
 
-	// Get seller's products
-	con.Model(&seller).Association("ListProduct")
-	con.Model(&seller).Association("ListProduct").Find(&seller.ListProduct)
+		// with list product
+		con.Model(&seller).Association("ListProduct").Find(&seller.ListProduct)
 
-	// Get product pictures
-	con.Model(&seller.ListProduct).Association("Picture")
-	for i := 0; i < len(seller.ListProduct); i++ {
-		con.Model(&seller.ListProduct[i]).Association("Picture").Find(&seller.ListProduct[i].Picture)
+		// for each product
+		for i := 0; i < len(seller.ListProduct); i++ {
+			// with picture
+			con.Model(&seller.ListProduct).Association("Picture").Find(&seller.ListProduct[i].Picture)
+		}
+	} else {
+		fmt.Println(result.Error)
 	}
 
 	return seller

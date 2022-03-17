@@ -15,8 +15,11 @@ import (
 */
 func GetAllProducts(writer http.ResponseWriter, req *http.Request) {
 
+	// Check id query
+	productId := req.URL.Query()["id"]
+
 	// Get list of product object
-	var products []model.Product = srvc.EmptySearchBy()
+	var products []model.Product = srvc.SearchById(productId)
 
 	// Set response
 	var response rspn.Response

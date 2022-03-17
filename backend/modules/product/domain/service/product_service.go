@@ -5,8 +5,8 @@ import (
 	repo "github.com/Foodut/backend/modules/product/repository"
 )
 
-func EmptySearchBy() []model.Product {
-	return repo.FindAllProducts()
+func SearchById(productId []string) []model.Product {
+	return repo.FindAllProducts(productId)
 }
 
 func SearchByName(name []string) []model.Product {

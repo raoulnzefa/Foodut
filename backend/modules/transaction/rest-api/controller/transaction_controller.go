@@ -9,9 +9,9 @@ import (
 	rspn "github.com/Foodut/backend/responses"
 )
 
-func GetAllTransactions(w http.ResponseWriter, r *http.Request) {
+func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 
-	transactionId := r.URL.Query()["id"]
+	transactionId := req.URL.Query()["id"]
 
 	var transactions []model.Transaction = srvc.SearchById(transactionId)
 
@@ -24,6 +24,6 @@ func GetAllTransactions(w http.ResponseWriter, r *http.Request) {
 		response.Response_204()
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
 }
