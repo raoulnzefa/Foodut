@@ -67,7 +67,6 @@ func FindProductsByNameAlike(productName []string) []model.Product {
 }
 
 func CreateProduct(product model.Product) *gorm.DB {
-
 	// Check connection
 	con := dbController.GetConnection()
 

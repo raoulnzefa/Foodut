@@ -6,8 +6,8 @@ import (
 )
 
 func UserRouter(router *mux.Router) {
-	router.HandleFunc("/usersTest", usrController.GetUserResponse).Methods("GET")
-	router.HandleFunc("/TestDB", usrController.TestDB).Methods("GET")
+	// router.HandleFunc("/usersTest", usrController.GetUserResponse).Methods("GET")
+	// router.HandleFunc("/TestDB", usrController.TestDB).Methods("GET")
 
 	//  USER
 	//
@@ -23,8 +23,17 @@ func UserRouter(router *mux.Router) {
 	//- Get User Detail Transaction
 	// router.HandleFunc("/detail-user-transactions", usrController.GetDetailUserTransaction).Methods("GET")
 
-	//- Insert User
-	// router.HandleFunc("/users", usrController.InsertUser).Methods("POST")
+	//- Post User
+	// router.HandleFunc("/user", usrController.PostUser).Methods("POST")
+
+	//- Post Customer
+	router.HandleFunc("/customer", usrController.PostCustomer).Methods("POST")
+
+	//- Post Seller
+	router.HandleFunc("/seller", usrController.PostSeller).Methods("POST")
+
+	//- Post Admin
+	router.HandleFunc("/admin", usrController.PostAdmin).Methods("POST")
 
 	//- Update User
 	// router.HandleFunc("/users/{user_id}", usrController.UpdateUser).Methods("PUT")

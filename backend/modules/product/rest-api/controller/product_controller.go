@@ -67,15 +67,15 @@ func GetProductByName(writer http.ResponseWriter, req *http.Request) {
 func PostProduct(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
-	var createProduct dto.PostProduct
-	err := json.NewDecoder(req.Body).Decode(&createProduct)
+	var postProductDto dto.PostProduct
+	err := json.NewDecoder(req.Body).Decode(&postProductDto)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	// Send DTO to service
-	result := srvc.MapToProduct(createProduct)
+	result := srvc.MapToProduct(postProductDto)
 
 	// Set response
 	var response rspn.Response
