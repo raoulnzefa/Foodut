@@ -4,6 +4,7 @@ import (
 	dbController "github.com/Foodut/backend/database"
 	prRepo "github.com/Foodut/backend/modules/product/repository"
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
+	"gorm.io/gorm"
 )
 
 func GetTransactionsAssociation(transactions []model.Transaction) {
@@ -39,4 +40,14 @@ func FindAllTransaction(transactionId []string) []model.Transaction {
 	}
 
 	return transactions
+}
+
+func DeleteProductById(transactionId string) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	//delete Product on db by id
+	var transaction model.Transaction
+	result := con.Delete(&transaction, transactionId)
+	return result
 }
