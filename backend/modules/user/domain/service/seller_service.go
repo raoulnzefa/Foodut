@@ -27,7 +27,7 @@ func SearchByStoreName(storeName []string) model.Seller {
 	seller := repo.FindSellerByStoreName(storeName)
 
 	// Association
-	if seller.UserID != 0 {
+	if seller.UserID > 0 {
 		repo.GetOneSellerAssociation(&seller)
 	}
 

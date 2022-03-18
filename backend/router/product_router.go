@@ -16,7 +16,7 @@ func ProductRouter(router *mux.Router) {
 	router.HandleFunc("/products-by-name", prController.GetProductByName).Methods("GET")
 
 	//- Insert Product
-	// router.HandleFunc("/products", prController.InsertProduct).Methods("POST")
+	router.HandleFunc("/products", prController.PostProduct).Methods("POST")
 
 	//- Update Product
 	// router.HandleFunc("/products/{product_id}", prController.UpdateProduct).Methods("PUT")

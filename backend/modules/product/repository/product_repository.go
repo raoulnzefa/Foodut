@@ -3,6 +3,7 @@ package repository
 import (
 	dbController "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/product/domain/model"
+	"gorm.io/gorm"
 )
 
 func GetProductsAssociation(products []model.Product) {
@@ -63,4 +64,15 @@ func FindProductsByNameAlike(productName []string) []model.Product {
 	}
 
 	return products
+}
+
+func CreateProduct(product model.Product) *gorm.DB {
+
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Insert object to database
+	result := con.Create(&product)
+
+	return result
 }

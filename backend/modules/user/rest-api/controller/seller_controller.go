@@ -37,7 +37,7 @@ func GetSellerByStoreWithProducts(writer http.ResponseWriter, req *http.Request)
 
 	// Set response
 	var response rspn.Response
-	if seller.UserID != 0 {
+	if seller.UserID > 0 {
 		response.Response_200(seller)
 	} else {
 		response.Response_204()
