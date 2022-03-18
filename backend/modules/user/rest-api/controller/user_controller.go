@@ -2,7 +2,10 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 
 	model "github.com/Foodut/backend/modules/user/domain/model"
 	srvc "github.com/Foodut/backend/modules/user/domain/service"
@@ -50,3 +53,22 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 // 	w.Header().Set("Content-Type", "application/json")
 // 	json.NewEncoder(w).Encode(response)
 // }
+
+func DeleteUser(writer http.ResponseWriter, req *http.Request) {
+	// Check id query
+	vars := mux.Vars(req)
+	userId := vars["id"]
+
+	deleteErr := srvc.DeleteById(userId)
+	fmt.Println(deleteErr)
+	var response rspn.Response
+	//response.Response_200("masuk delete prod ctrl")
+	if deleteErr.Error == nil {
+		response.Response_200("data has been deleted")
+	} else {
+		response.Response_400(deleteErr)
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}

@@ -76,6 +76,9 @@ func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
 	} else {
 		response.Response_400(deleteErr)
 	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
 }
 
 /**
