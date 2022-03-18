@@ -67,9 +67,10 @@ func (r *Response) Response_204() {
   Status Code: "400"
   Message: "Bad Request"
 */
-func (r *Response) Response_400() {
+func (r *Response) Response_400(data interface{}) {
 	r.StatusCode = 400
 	r.Message = "Bad Request"
+	r.Data = data
 }
 
 /**

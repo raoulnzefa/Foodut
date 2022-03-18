@@ -31,3 +31,9 @@ func SearchByName(name []string) []model.Product {
 
 	return products
 }
+
+func DeleteById(productId []string) error {
+	deleteFeedback := repo.DeleteProductById(productId)
+
+	return deleteFeedback
+}

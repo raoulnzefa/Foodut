@@ -22,6 +22,6 @@ func ProductRouter(router *mux.Router) {
 	// router.HandleFunc("/products/{product_id}", prController.UpdateProduct).Methods("PUT")
 
 	//- Delete Product
-	// router.HandleFunc("/products/{product_id}", prController.DeleteProduct).Methods("DELETE")
+	router.HandleFunc("/products/{product_id}", prController.DeleteProductById).Methods("DELETE")
 
 }

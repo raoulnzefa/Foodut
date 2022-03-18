@@ -57,3 +57,20 @@ func GetProductByName(writer http.ResponseWriter, req *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(writer).Encode(response)
 }
+
+func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
+	// Check id query
+	productId := req.URL.Query()["id"]
+
+	deleteErr := srvc.DeleteById(productId)
+
+	var response rspn.Response
+	if deleteErr == nil {
+		response.Response_200("data has been deleted")
+	} else {
+		response.Response_400(deleteErr)
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
