@@ -6,12 +6,12 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateAdmin(admin model.Admin) *gorm.DB {
+func CreateCustomer(customer model.Customer) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 
 	// Insert object to database
-	result := con.Create(&admin)
+	result := con.Create(&customer)
 
 	return result
 }

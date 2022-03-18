@@ -27,33 +27,3 @@ func CreateUser(user model.User) *gorm.DB {
 
 	return result
 }
-
-func CreateCustomer(customer model.Customer) *gorm.DB {
-	// Check connection
-	con := dbController.GetConnection()
-
-	// Insert object to database
-	result := con.Create(&customer)
-
-	return result
-}
-
-func CreateSeller(seller model.Seller) *gorm.DB {
-	// Check connection
-	con := dbController.GetConnection()
-
-	// Insert object to database
-	result := con.Create(&seller)
-
-	return result
-}
-
-func CreateAdmin(admin model.Admin) *gorm.DB {
-	// Check connection
-	con := dbController.GetConnection()
-
-	// Insert object to database
-	result := con.Create(&admin)
-
-	return result
-}
