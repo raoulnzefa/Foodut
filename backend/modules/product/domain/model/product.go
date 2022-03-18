@@ -5,7 +5,7 @@ type Product struct {
 	ProductName  string    `form:"productName" json:"productName"`
 	ProductPrice float64   `form:"productPrice" json:"productPrice"`
 	ProductRate  float32   `form:"productRate" json:"productRate"`
-	ProductStock int16     `form:"productStock" json:"productStock"`
+	ProductStock int       `form:"productStock" json:"productStock"`
 	SellerID     int       `form:"sellerId" json:"sellerId"`
 	CategoryID   int       `form:"categoryId" json:"categoryId"`
 	Picture      []Picture `form:"pictures" json:"pictures" gorm:"foreignKey:ProductID;references:ID"`
