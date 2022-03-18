@@ -3,6 +3,7 @@ package services
 import (
 	model "github.com/Foodut/backend/modules/product/domain/model"
 	repo "github.com/Foodut/backend/modules/product/repository"
+	"gorm.io/gorm"
 )
 
 func SearchById(productId []string) []model.Product {
@@ -32,7 +33,7 @@ func SearchByName(name []string) []model.Product {
 	return products
 }
 
-func DeleteById(productId []string) error {
+func DeleteById(productId string) *gorm.DB {
 	deleteFeedback := repo.DeleteProductById(productId)
 
 	return deleteFeedback

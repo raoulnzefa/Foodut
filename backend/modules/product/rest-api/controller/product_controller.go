@@ -2,7 +2,10 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 
 	model "github.com/Foodut/backend/modules/product/domain/model"
 	srvc "github.com/Foodut/backend/modules/product/domain/service"
@@ -60,12 +63,14 @@ func GetProductByName(writer http.ResponseWriter, req *http.Request) {
 
 func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
 	// Check id query
-	productId := req.URL.Query()["id"]
+	vars := mux.Vars(req)
+	productId := vars["id"]
 
 	deleteErr := srvc.DeleteById(productId)
-
+	fmt.Println(deleteErr)
 	var response rspn.Response
-	if deleteErr == nil {
+	//response.Response_200("masuk delete prod ctrl")
+	if deleteErr.Error == nil {
 		response.Response_200("data has been deleted")
 	} else {
 		response.Response_400(deleteErr)

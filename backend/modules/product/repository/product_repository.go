@@ -1,10 +1,9 @@
 package repository
 
 import (
-	"fmt"
-
 	dbController "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/product/domain/model"
+	"gorm.io/gorm"
 )
 
 func GetProductsAssociation(products []model.Product) {
@@ -67,19 +66,19 @@ func FindProductsByNameAlike(productName []string) []model.Product {
 	return products
 }
 
-func DeleteProductById(productId []string) error {
+func DeleteProductById(productId string) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 
 	//delete Product on db by id
 	var product model.Product
-	con.Delete(&product, productId)
+	result := con.Delete(&product, productId)
+	return result
+	//if con.Error != nil {
+	//	return con.Error
+	//} else if con.RowsAffected < 1 {
+	//	return fmt.Errorf("row with id=%d cannot be deleted because it doesn't exist", productId)
+	//}
 
-	if con.Error != nil {
-		return con.Error
-	} else if con.RowsAffected < 1 {
-		return fmt.Errorf("row with id=%d cannot be deleted because it doesn't exist", productId)
-	}
-
-	return nil
+	//return nil
 }
