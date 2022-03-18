@@ -75,8 +75,9 @@ func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
 		response.Response_200("data has been deleted")
 	} else {
 		response.Response_400(deleteErr)
-  }
+	}
 }
+
 /**
   Seller can add a single product each post
   and assign it to his/her store.
@@ -100,7 +101,7 @@ func PostProduct(writer http.ResponseWriter, req *http.Request) {
 		response.Response_201()
 	} else {
 		fmt.Println(result.Error)
-		response.Response_400()
+		response.Response_400("")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
