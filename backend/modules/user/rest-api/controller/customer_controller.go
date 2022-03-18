@@ -10,7 +10,7 @@ import (
 	rspn "github.com/Foodut/backend/responses"
 )
 
-func PostAdmin(writer http.ResponseWriter, req *http.Request) {
+func PostCustomer(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
 	var postUserDto dto.PostUser
@@ -21,7 +21,7 @@ func PostAdmin(writer http.ResponseWriter, req *http.Request) {
 	}
 
 	// Send DTO to service
-	result := srvc.MapToAdmin(postUserDto)
+	result := srvc.MapToCustomer(postUserDto)
 
 	// Set response
 	var response rspn.Response

@@ -24,6 +24,15 @@ type SellerMinimalProducts struct {
 	ListProduct []prDto.Product `form:"listProduct" json:"listProduct"`
 }
 
+type PostSeller struct {
+	Name      string `form:"name" json:"name"`
+	Username  string `form:"username" json:"username"`
+	Email     string `form:"email" json:"email"`
+	Password  string `form:"password" json:"password"`
+	StoreName string `form:"storeName" json:"storeName"`
+	City      string `form:"city" json:"city"`
+}
+
 //-------------------------------------------------
 // Getter Setter Full
 func (s *Seller) GetUser() User {

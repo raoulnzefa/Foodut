@@ -4,6 +4,7 @@ import (
 	dbController "github.com/Foodut/backend/database"
 	prRepo "github.com/Foodut/backend/modules/product/repository"
 	model "github.com/Foodut/backend/modules/user/domain/model"
+	"gorm.io/gorm"
 )
 
 func GetSellersAssociation(sellers []model.Seller) {
@@ -50,4 +51,14 @@ func FindSellerByStoreName(storeName []string) model.Seller {
 	}
 
 	return seller
+}
+
+func CreateSeller(seller model.Seller) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Insert object to database
+	result := con.Create(&seller)
+
+	return result
 }

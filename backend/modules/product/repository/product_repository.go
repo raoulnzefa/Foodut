@@ -83,7 +83,6 @@ func DeleteProductById(productId string) *gorm.DB {
 	//return nil
 }
 func CreateProduct(product model.Product) *gorm.DB {
-
 	// Check connection
 	con := dbController.GetConnection()
 
