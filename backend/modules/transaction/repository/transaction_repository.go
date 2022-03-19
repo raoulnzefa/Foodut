@@ -51,3 +51,13 @@ func DeleteProductById(transactionId string) *gorm.DB {
 	result := con.Delete(&transaction, transactionId)
 	return result
 }
+
+func CreateTransaction(transaction model.Transaction) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Insert object to database
+	result := con.Create(&transaction)
+
+	return result
+}
