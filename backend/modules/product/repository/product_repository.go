@@ -66,6 +66,22 @@ func FindProductsByNameAlike(productName []string) []model.Product {
 	return products
 }
 
+func DeleteProductById(productId string) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	//delete Product on db by id
+	var product model.Product
+	result := con.Delete(&product, productId)
+	return result
+	//if con.Error != nil {
+	//	return con.Error
+	//} else if con.RowsAffected < 1 {
+	//	return fmt.Errorf("row with id=%d cannot be deleted because it doesn't exist", productId)
+	//}
+
+	//return nil
+}
 func CreateProduct(product model.Product) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()

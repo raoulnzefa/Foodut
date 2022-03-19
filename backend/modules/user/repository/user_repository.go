@@ -27,3 +27,13 @@ func CreateUser(user model.User) *gorm.DB {
 
 	return result
 }
+
+func DeleteUserById(userId string) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	//delete user on db by id
+	var user model.User
+	result := con.Delete(&user, userId)
+	return result
+}

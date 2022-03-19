@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/mux"
+
 	model "github.com/Foodut/backend/modules/product/domain/model"
 	srvc "github.com/Foodut/backend/modules/product/domain/service"
 	dto "github.com/Foodut/backend/modules/product/rest-api/dto"
@@ -54,6 +56,25 @@ func GetProductByName(writer http.ResponseWriter, req *http.Request) {
 		response.Response_200(products)
 	} else {
 		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
+	// Check id query
+	vars := mux.Vars(req)
+	productId := vars["id"]
+
+	deleteErr := srvc.DeleteById(productId)
+	fmt.Println(deleteErr)
+	var response rspn.Response
+	//response.Response_200("masuk delete prod ctrl")
+	if deleteErr.Error == nil {
+		response.Response_200("data has been deleted")
+	} else {
+		response.Response_400(deleteErr)
 	}
 
 	writer.Header().Set("Content-Type", "application/json")

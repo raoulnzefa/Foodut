@@ -4,6 +4,7 @@ import (
 	model "github.com/Foodut/backend/modules/user/domain/model"
 	repo "github.com/Foodut/backend/modules/user/repository"
 	dto "github.com/Foodut/backend/modules/user/rest-api/dto"
+	"gorm.io/gorm"
 )
 
 func EmptyUserSearch() []model.User {
@@ -22,4 +23,10 @@ func MapToUser(usr dto.PostUser, lv int) model.User {
 	}
 
 	return user
+}
+
+func DeleteById(userId string) *gorm.DB {
+	deleteFeedback := repo.DeleteUserById(userId)
+
+	return deleteFeedback
 }
