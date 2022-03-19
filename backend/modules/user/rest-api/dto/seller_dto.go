@@ -1,4 +1,4 @@
-package entities
+package dto
 
 import (
 	prDto "github.com/Foodut/backend/modules/product/rest-api/dto"

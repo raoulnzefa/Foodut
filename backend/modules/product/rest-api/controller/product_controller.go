@@ -83,7 +83,7 @@ func PostProduct(writer http.ResponseWriter, req *http.Request) {
 		response.Response_201()
 	} else {
 		fmt.Println(result.Error)
-		response.Response_400()
+		response.Response_400("")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")

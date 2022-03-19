@@ -1,4 +1,4 @@
-package entities
+package dto
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ type Customer struct {
 	User        User                  `form:"user" json:"user"`
 	Address     string                `form:"address" json:"address"`
 	ListHistory []trDto.Transaction   `form:"transaction" json:"transaction"`
-	Cart        []prDto.DetailProduct `form:"cart" json:"cart"`
+	Cart        []prDto.ProductDetail `form:"cart" json:"cart"`
 }
 
 func (c Customer) AddToCart(productId string) {
@@ -40,11 +40,11 @@ func (c *Customer) SetAddress(address string) {
 	c.Address = address
 }
 
-func (c *Customer) GetCart() []prDto.DetailProduct {
+func (c *Customer) GetCart() []prDto.ProductDetail {
 	return c.Cart
 }
 
-func (c *Customer) SetCart(cart []prDto.DetailProduct) {
+func (c *Customer) SetCart(cart []prDto.ProductDetail) {
 	c.Cart = cart
 }
 

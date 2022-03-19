@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	model "github.com/Foodut/backend/modules/user/domain/model"
@@ -66,8 +65,7 @@ func PostSeller(writer http.ResponseWriter, req *http.Request) {
 	if result.Error == nil {
 		response.Response_201()
 	} else {
-		fmt.Println(result.Error)
-		response.Response_400()
+		response.Response_400(result.Error)
 	}
 
 	writer.Header().Set("Content-Type", "application/json")

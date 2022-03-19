@@ -1,4 +1,4 @@
-package entities
+package dto
 
 type Product struct {
 	ProductId       string   `form:"productId" json:"productId"`
