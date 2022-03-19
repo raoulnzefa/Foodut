@@ -20,7 +20,32 @@ func PostToCart(writer http.ResponseWriter, req *http.Request) {
 	}
 
 	// Send DTO to service
-	result := srvc.MapToCart(postCartDto)
+	result := srvc.SendCartForCreate(postCartDto)
+
+	// Set response
+	var response rspn.Response
+	if result.Error == nil {
+		response.Response_201()
+	} else {
+		response.Response_400(result.Error)
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+func UpdateCart(writer http.ResponseWriter, req *http.Request) {
+
+	// Decode JSON
+	var postCartDto dto.PostCart
+	err := json.NewDecoder(req.Body).Decode(&postCartDto)
+	if err != nil {
+		http.Error(writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Send DTO to service
+	result := srvc.SendCartForUpdate(postCartDto)
 
 	// Set response
 	var response rspn.Response

@@ -38,7 +38,7 @@ func TestPostCart(t *testing.T) {
 		Products: temp,
 	}
 
-	result := srvc.MapToCart(cart)
+	result := srvc.SendCartForCreate(cart)
 
 	require.NoError(t, result.Error)
 }
@@ -64,7 +64,7 @@ func TestDuplicateEntry(t *testing.T) {
 		Products: temp,
 	}
 
-	result := srvc.MapToCart(cart)
+	result := srvc.SendCartForCreate(cart)
 
 	assert.ErrorContains(t, result.Error, "Duplicate")
 }
