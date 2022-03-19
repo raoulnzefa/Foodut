@@ -25,6 +25,27 @@ func GetCartById(customerId int) []model.Cart {
 	return cart
 }
 
+func UpdateCarts(carts []model.Cart) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Update object in database
+	var result *gorm.DB
+
+	// For each data in carts, update its quantity
+	for i := 0; i < len(carts); i++ {
+		result = con.Model(&model.Cart{}).
+			Where("customer_user_id = ? AND product_id = ?", carts[i].CustomerUserID, carts[i].ProductID).
+			Update("quantity", carts[i].Quantity)
+
+		if result.Error != nil {
+			return result
+		}
+	}
+
+	return result
+}
+
 func DeleteCartById(customerId int) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()

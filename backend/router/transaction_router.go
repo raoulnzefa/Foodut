@@ -21,6 +21,9 @@ func TransactionRouter(router *mux.Router) {
 	//- Insert Transaction
 	router.HandleFunc("/transactions", trController.PostTransaction).Methods("POST")
 
+	//- Update Cart
+	router.HandleFunc("/cart", trController.UpdateCart).Methods("PUT")
+
 	//- Update Transaction
 	// router.HandleFunc("/transactions/{transaction_id}", trController.UpdateTransaction).Methods("PUT")
 
