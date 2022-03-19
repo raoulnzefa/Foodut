@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
@@ -62,7 +61,6 @@ func DeleteTransaction(writer http.ResponseWriter, req *http.Request) {
 	transId := vars["id"]
 
 	deleteErr := srvc.DeleteById(transId)
-	fmt.Println(deleteErr)
 	var response rspn.Response
 	//response.Response_200("masuk delete prod ctrl")
 	if deleteErr.Error == nil {
