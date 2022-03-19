@@ -12,10 +12,10 @@ import (
 
 func main() {
 	// Connect to Database
-	_ = dbController.GetConnection()
+	db := dbController.GetConnection()
 
 	// Automigrate model to database
-	// dbController.Migrate(db)
+	dbController.Migrate(db)
 
 	router := mux.NewRouter()
 
