@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	dbController "github.com/Foodut/backend/database"
-	"github.com/Foodut/backend/modules/product/domain/model"
+	model "github.com/Foodut/backend/modules/product/domain/model"
 	repo "github.com/Foodut/backend/modules/product/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

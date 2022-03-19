@@ -17,35 +17,39 @@ func TestDatabaseConnection(t *testing.T) {
 	require.NoError(t, con.Error)
 }
 
-var n = tc.StringWithCharset(10)
-var u = tc.StringWithCharset(10)
-var e = tc.StringWithCharset(10)
-var p = tc.StringWithCharset(10)
+var N = tc.StringWithCharset(10)
+var U = tc.StringWithCharset(10)
+var E = tc.StringWithCharset(10)
+var P = tc.StringWithCharset(10)
+var S = tc.StringWithCharset(10)
+var C = tc.StringWithCharset(10)
 
 var beforeLength int
 var afterLength int
 
-func TestPostAdmin(t *testing.T) {
+func TestPostSeller(t *testing.T) {
 
 	con := dbController.GetConnection()
 
-	con.Raw("SELECT COUNT('id') FROM admins").Scan(&beforeLength)
+	con.Raw("SELECT COUNT('id') FROM sellers").Scan(&beforeLength)
 
-	dto := dto.PostUser{
-		Name:     n,
-		Username: u,
-		Email:    e,
-		Password: p,
+	dto := dto.PostSeller{
+		Name:      N,
+		Username:  U,
+		Email:     E,
+		Password:  P,
+		StoreName: S,
+		City:      C,
 	}
 
-	result := srvc.MapToAdmin(dto)
+	result := srvc.MapToSeller(dto)
 
-	con.Raw("SELECT COUNT('id') FROM admins").Scan(&afterLength)
+	con.Raw("SELECT COUNT('id') FROM sellers").Scan(&afterLength)
 
 	assert.NoError(t, result.Error)
 
 }
 
-func TestAdminTableLengthCount(t *testing.T) {
+func TestSellerTableLengthCount(t *testing.T) {
 	assert.Equal(t, (beforeLength + 1), (afterLength))
 }
