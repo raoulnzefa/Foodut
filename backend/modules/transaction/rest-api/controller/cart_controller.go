@@ -4,23 +4,23 @@ import (
 	"encoding/json"
 	"net/http"
 
-	srvc "github.com/Foodut/backend/modules/user/domain/service"
-	dto "github.com/Foodut/backend/modules/user/rest-api/dto"
+	srvc "github.com/Foodut/backend/modules/transaction/domain/service"
+	dto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
 )
 
-func PostCustomer(writer http.ResponseWriter, req *http.Request) {
+func PostToCart(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
-	var postUserDto dto.PostUser
-	err := json.NewDecoder(req.Body).Decode(&postUserDto)
+	var postCartDto dto.PostCart
+	err := json.NewDecoder(req.Body).Decode(&postCartDto)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	// Send DTO to service
-	result := srvc.MapToCustomer(postUserDto)
+	result := srvc.MapToCart(postCartDto)
 
 	// Set response
 	var response rspn.Response

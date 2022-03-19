@@ -1,4 +1,4 @@
-package entities
+package dto
 
 import (
 	"time"
@@ -8,11 +8,11 @@ import (
 
 type Transaction struct {
 	TransactionId   string                `form:"transactionId" json:"transactionId"`
-	TransactionDate time.Time             `form:"transactionDate" json:"transactionDate"`
 	Username        string                `form:"username" json:"username"`
 	PaymentOption   string                `form:"paymentOption" json:"paymentOption"`
 	SubTotal        float64               `form:"subTotal" json:"subTotal"`
-	Cart            []prDto.DetailProduct `form:"cart" json:"cart"`
+	TransactionDate time.Time             `form:"transactionDate" json:"transactionDate"`
+	ProductDetail   []prDto.ProductDetail `form:"productDetail" json:"productDetail"`
 }
 
 func (t Transaction) GenerateTotalPayment() float64 {
@@ -22,12 +22,12 @@ func (t Transaction) GenerateTotalPayment() float64 {
 }
 
 // Getter Setter
-func (t *Transaction) GetCart() []prDto.DetailProduct {
-	return t.Cart
+func (t *Transaction) GetCart() []prDto.ProductDetail {
+	return t.ProductDetail
 }
 
-func (t *Transaction) SetCart(cart []prDto.DetailProduct) {
-	t.Cart = cart
+func (t *Transaction) SetCart(cart []prDto.ProductDetail) {
+	t.ProductDetail = cart
 }
 
 func (t *Transaction) GetPaymentOption() string {
