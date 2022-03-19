@@ -1,6 +1,9 @@
 package service
 
 import (
+	"fmt"
+	"time"
+
 	prModel "github.com/Foodut/backend/modules/product/domain/model"
 	productRepo "github.com/Foodut/backend/modules/product/repository"
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
@@ -34,9 +37,10 @@ func InsertTransaction(trans dto.Transaction) *gorm.DB {
 		CustomerID:      trans.CustomerId,
 		PaymentOption:   trans.PaymentOption,
 		SubTotal:        sub,
-		TransactionDate: trans.TransactionDate,
+		TransactionDate: GetServerTime(),
 		ProductDetail:   products,
 	}
+
 	check := repo.CreateTransaction(transaction)
 	if check.Error == nil {
 		return repo.DeleteCartById(trans.CustomerId)
@@ -58,4 +62,14 @@ func GenerateTotalPayment(customerId int) float64 {
 		subTotal = subTotal + (float64(cart[i].Quantity) * product.ProductPrice)
 	}
 	return subTotal
+}
+
+func GetServerTime() time.Time {
+	t := time.Now()
+	location, err := time.LoadLocation("Asia/Jakarta")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return t.In(location)
 }
