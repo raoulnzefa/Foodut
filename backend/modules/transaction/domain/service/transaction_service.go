@@ -26,7 +26,7 @@ func SearchById(transactionId []string) []model.Transaction {
 func InsertTransaction(trans dto.Transaction) *gorm.DB {
 
 	sub := GenerateTotalPayment(trans.CustomerId)
-	carts := repo.GetCartById(trans.CustomerId)
+	carts := repo.GetCartByCustId(trans.CustomerId)
 	var products []prModel.Product
 
 	for i := 0; i < len(carts); i++ {
@@ -43,19 +43,19 @@ func InsertTransaction(trans dto.Transaction) *gorm.DB {
 
 	check := repo.CreateTransaction(transaction)
 	if check.Error == nil {
-		return repo.DeleteCartById(trans.CustomerId)
+		return repo.DeleteCartByCustId(trans.CustomerId)
 	}
 	return check
 }
 
 func DeleteById(transId string) *gorm.DB {
-	deleteFeedback := repo.DeleteProductById(transId)
+	deleteFeedback := repo.DeleteTransactionById(transId)
 
 	return deleteFeedback
 }
 
 func GenerateTotalPayment(customerId int) float64 {
-	cart := repo.GetCartById(customerId)
+	cart := repo.GetCartByCustId(customerId)
 	var subTotal float64
 	for i := 0; i < len(cart); i++ {
 		product := productRepo.GetProductById(cart[i].ProductID)

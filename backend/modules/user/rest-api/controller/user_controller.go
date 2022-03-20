@@ -12,7 +12,7 @@ import (
 	rspn "github.com/Foodut/backend/responses"
 )
 
-func GetAllUsers(w http.ResponseWriter, r *http.Request) {
+func GetAllUsers(writer http.ResponseWriter, req *http.Request) {
 
 	// Get list of user object
 	var users []model.User = srvc.EmptyUserSearch()
@@ -25,17 +25,17 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 		response.Response_204()
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
 }
 
 // TODO
-// func GetUsersByUsernameLike(w http.ResponseWriter, r *http.Request) {
+// func GetUsersByUsernameLike(writer http.ResponseWriter, req *http.Request) {
 
 // 	// Get list of user object
 // 	var users []model.User = srvc.EmptySearchBy()
 
-// 	name := r.URL.Query()["name"]
+// 	name := req.URL.Query()["name"]
 // 	if name != nil {
 // 		db.Where("name = ?", name[0]).First(&users)
 // 	} else {
@@ -50,8 +50,8 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 // 		response.Response_204()
 // 	}
 
-// 	w.Header().Set("Content-Type", "application/json")
-// 	json.NewEncoder(w).Encode(response)
+// 	writer.Header().Set("Content-Type", "application/json")
+// 	json.NewEncoder(writer).Encode(response)
 // }
 
 func DeleteUser(writer http.ResponseWriter, req *http.Request) {
