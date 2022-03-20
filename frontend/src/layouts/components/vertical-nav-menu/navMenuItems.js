@@ -27,14 +27,14 @@ export default [
     i18n: 'Dashboard',
     submenu: [
       {
-        url: '/pages/login',
+        url: '/',
         name: 'Login',
         slug: 'pages-login',
         i18n: 'Login',
         target: '_blank'
       },
       {
-        url: '/pages/register',
+        url: '/register',
         name: 'Register',
         slug: 'pages-register',
         i18n: 'Register',
