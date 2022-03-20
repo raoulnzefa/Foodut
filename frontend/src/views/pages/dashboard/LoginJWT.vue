@@ -27,10 +27,10 @@
 
     <div class="flex flex-wrap justify-between my-5">
         <vs-checkbox v-model="checkbox_remember_me" class="mb-3">Remember Me</vs-checkbox>
-        <router-link to="/pages/forgot-password">Forgot Password?</router-link>
+        <router-link to="/forgot-password">Forgot Password?</router-link>
     </div>
     <div class="flex flex-wrap justify-between mb-3">
-      <!-- <vs-button  type="border" @click="registerUser">Register</vs-button> -->
+      <vs-button  type="border" @click="registerUser">Register</vs-button>
       <vs-button :disabled="!validateForm" @click="loginJWT">Login</vs-button>
     </div>
   </div>
@@ -100,7 +100,7 @@ export default {
     },
     registerUser () {
       if (!this.checkLogin()) return
-      this.$router.push('/pages/register').catch(() => {})
+      this.$router.push('/register').catch(() => {})
     }
   }
 }

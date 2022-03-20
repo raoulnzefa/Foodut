@@ -18,7 +18,7 @@ func ToOneCart(uid int, pid int, q int) model.Cart {
 	return cart
 }
 
-func MapToCart(cr dto.PostCart) *gorm.DB {
+func MapToCart(cr dto.PostCart) []model.Cart {
 
 	var carts []model.Cart
 	// For each products, map it
@@ -26,6 +26,13 @@ func MapToCart(cr dto.PostCart) *gorm.DB {
 		cart := ToOneCart(cr.UserId, p.ProductId, p.Quantity)
 		carts = append(carts, cart)
 	}
+	return carts
+}
 
-	return repo.CreateCart(carts)
+func SendCartForCreate(cr dto.PostCart) *gorm.DB {
+	return repo.CreateCart(MapToCart(cr))
+}
+
+func SendCartForUpdate(cr dto.PostCart) *gorm.DB {
+	return repo.UpdateCarts(MapToCart(cr))
 }

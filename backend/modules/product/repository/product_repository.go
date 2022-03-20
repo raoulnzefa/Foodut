@@ -91,3 +91,12 @@ func CreateProduct(product model.Product) *gorm.DB {
 
 	return result
 }
+
+func GetProductById(productId int) model.Product {
+	// Check connection
+	con := dbController.GetConnection()
+
+	var product model.Product
+	con.Find(&product, productId)
+	return product
+}

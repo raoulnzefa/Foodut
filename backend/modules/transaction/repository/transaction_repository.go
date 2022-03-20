@@ -42,12 +42,22 @@ func FindAllTransaction(transactionId []string) []model.Transaction {
 	return transactions
 }
 
-func DeleteProductById(transactionId string) *gorm.DB {
+func DeleteTransactionById(transactionId string) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 
 	//delete Product on db by id
 	var transaction model.Transaction
 	result := con.Delete(&transaction, transactionId)
+	return result
+}
+
+func CreateTransaction(transaction model.Transaction) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Insert object to database
+	result := con.Create(&transaction)
+
 	return result
 }
