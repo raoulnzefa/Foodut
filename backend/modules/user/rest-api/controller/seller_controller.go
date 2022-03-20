@@ -10,7 +10,7 @@ import (
 	rspn "github.com/Foodut/backend/responses"
 )
 
-func GetAllSeller(w http.ResponseWriter, r *http.Request) {
+func GetAllSeller(writer http.ResponseWriter, req *http.Request) {
 
 	// Get list of seller object
 	var sellers []dto.SellerMinimal = srvc.EmptySellerMinimal()
@@ -23,8 +23,8 @@ func GetAllSeller(w http.ResponseWriter, r *http.Request) {
 		response.Response_204()
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
 }
 
 func GetSellerByStoreWithProducts(writer http.ResponseWriter, req *http.Request) {

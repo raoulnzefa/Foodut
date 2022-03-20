@@ -1,7 +1,7 @@
 package dto
 
 type Product struct {
-	ProductId       string   `form:"productId" json:"productId"`
+	ProductId       int      `form:"productId" json:"productId"`
 	SellerName      string   `form:"sellerName" json:"sellerName"`
 	ProductName     string   `form:"productName" json:"productName"`
 	ProductCategory string   `form:"productCategory" json:"productCategory"`
@@ -22,11 +22,11 @@ type PostProduct struct {
 
 //-----------------------------------------------------
 // Getter Setter Product
-func (p *Product) GetProductId() string {
+func (p *Product) GetProductId() int {
 	return p.ProductId
 }
 
-func (p *Product) SetProductId(productId string) {
+func (p *Product) SetProductId(productId int) {
 	p.ProductId = productId
 }
 

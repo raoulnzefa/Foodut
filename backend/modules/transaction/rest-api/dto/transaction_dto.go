@@ -13,12 +13,6 @@ type Transaction struct {
 	ProductDetail   []prDto.ProductDetail `form:"productDetail" json:"productDetail"`
 }
 
-func (t Transaction) GenerateTotalPayment() float64 {
-	// Calculate from Cart
-	var result float64 = 0
-	return result
-}
-
 // Getter Setter
 func (t *Transaction) GetCart() []prDto.ProductDetail {
 	return t.ProductDetail
