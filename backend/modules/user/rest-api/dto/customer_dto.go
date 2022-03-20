@@ -1,8 +1,6 @@
 package dto
 
 import (
-	"fmt"
-
 	prDto "github.com/Foodut/backend/modules/product/rest-api/dto"
 	trDto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
 )
@@ -12,23 +10,6 @@ type Customer struct {
 	Address     string                `form:"address" json:"address"`
 	ListHistory []trDto.Transaction   `form:"transaction" json:"transaction"`
 	Cart        []prDto.ProductDetail `form:"cart" json:"cart"`
-}
-
-func (c Customer) AddToCart(productId string) {
-	fmt.Println("Add product to customer cart")
-}
-
-//
-// Apa mending digabung aja sama BuyProduct?
-// Jadi kek DoPayment, abis itu langsung -
-// add history juga di dalem DoPayment??
-// Jangan lupa flush cart kalau sudah bayar
-func (c Customer) AddToHistory(productId string) {
-	fmt.Println("Add transaction to customer history")
-}
-
-func (c Customer) BuyProduct(productId string) {
-	fmt.Println("Add product to customer cart")
 }
 
 // Getter Setter

@@ -16,7 +16,7 @@ func CreateCart(carts []model.Cart) *gorm.DB {
 	return result
 }
 
-func GetCartById(customerId int) []model.Cart {
+func GetCartByCustId(customerId int) []model.Cart {
 	// Check connection
 	con := dbController.GetConnection()
 
@@ -46,7 +46,7 @@ func UpdateCarts(carts []model.Cart) *gorm.DB {
 	return result
 }
 
-func DeleteCartById(customerId int) *gorm.DB {
+func DeleteCartByCustId(customerId int) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 

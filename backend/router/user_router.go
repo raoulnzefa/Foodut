@@ -6,8 +6,6 @@ import (
 )
 
 func UserRouter(router *mux.Router) {
-	// router.HandleFunc("/usersTest", usrController.GetUserResponse).Methods("GET")
-	// router.HandleFunc("/TestDB", usrController.TestDB).Methods("GET")
 
 	//  USER
 	//
