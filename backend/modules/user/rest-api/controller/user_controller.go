@@ -7,10 +7,74 @@ import (
 
 	"github.com/gorilla/mux"
 
+	database "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/user/domain/model"
 	srvc "github.com/Foodut/backend/modules/user/domain/service"
 	rspn "github.com/Foodut/backend/responses"
 )
+
+func LoginUser(w http.ResponseWriter, r *http.Request) {
+	db := database.GetConnection()
+
+	email := r.URL.Query()["email"]
+	password := r.URL.Query()["password"]
+	var user model.User
+	cekEmail := GetEmailFromToken(r)
+
+	if cekEmail == "" {
+		if err := db.Where("email = ? AND password = ?", email[0], password[0]).First(&user).Error; err == nil {
+			if user.Level == 1 {
+				generateToken(w, user.Email, 1)
+			} else if user.Level == 0 {
+				generateToken(w, user.Email, 0)
+			}
+			sendSuccessResponse(w)
+		} else {
+			sendErrorResponse(w)
+		}
+	} else {
+		var response rspn.BasicResponse
+		response.StatusCode = 406
+		response.Message = "Already logged in as " + cekEmail
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+	}
+}
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	resetUserToken(w)
+
+	var response rspn.BasicResponse
+	response.StatusCode = 200
+	response.Message = "Success Logout |  Bye - Bye"
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+func sendSuccessResponse(w http.ResponseWriter) {
+	var response rspn.BasicResponse
+	response.StatusCode = 200
+	response.Message = "Success Login"
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+func sendErrorResponse(w http.ResponseWriter) {
+	var response rspn.BasicResponse
+	response.StatusCode = 400
+	response.Message = "Failed Login"
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+func sendUnauthorizedResponse(w http.ResponseWriter) {
+	var response rspn.BasicResponse
+	response.StatusCode = 401
+	response.Message = "Unauthorized Access"
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 
