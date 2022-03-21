@@ -4,10 +4,51 @@ import (
 	"encoding/json"
 	"net/http"
 
+	model "github.com/Foodut/backend/modules/user/domain/model"
 	srvc "github.com/Foodut/backend/modules/user/domain/service"
 	dto "github.com/Foodut/backend/modules/user/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
 )
+
+func GetAllCustomerWithAssociation(writer http.ResponseWriter, req *http.Request) {
+
+	// Check store_name query
+	customerId := req.URL.Query()["user_id"]
+
+	// Get list of user object
+	var customer []model.Customer = srvc.SearchCustByIdWithAssociation(customerId)
+
+	// Set response
+	var response rspn.Response
+	if len(customer) > 0 {
+		response.Response_200(customer)
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+func GetAllCustomerWithAssociationComplete(writer http.ResponseWriter, req *http.Request) {
+
+	// Check store_name query
+	customerId := req.URL.Query()["user_id"]
+
+	// Get list of user object
+	var users []dto.GetCustomer = srvc.SearchCustByIdWithAssociationCollapse(customerId)
+
+	// Set response
+	var response rspn.Response
+	if len(users) > 0 {
+		response.Response_200(users)
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
 
 func PostCustomer(writer http.ResponseWriter, req *http.Request) {
 

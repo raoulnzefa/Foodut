@@ -29,7 +29,7 @@ func GetAllSeller(writer http.ResponseWriter, req *http.Request) {
 
 func GetSellerByStoreWithProducts(writer http.ResponseWriter, req *http.Request) {
 
-	// Check product_name query
+	// Check store_name query
 	storeName := req.URL.Query()["store_name"]
 
 	// Get list of seller object

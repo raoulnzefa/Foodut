@@ -8,7 +8,7 @@ import (
 )
 
 func EmptySellerMinimal() []dto.SellerMinimal {
-	sellers := repo.FindAllSeller()
+	sellers := repo.ReadAllSeller()
 
 	var sellerDto []dto.SellerMinimal
 
@@ -25,7 +25,7 @@ func EmptySellerMinimal() []dto.SellerMinimal {
 }
 
 func SearchByStoreName(storeName []string) model.Seller {
-	seller := repo.FindSellerByStoreName(storeName)
+	seller := repo.ReadSellerByStoreName(storeName)
 
 	// Association
 	if seller.UserID > 0 {

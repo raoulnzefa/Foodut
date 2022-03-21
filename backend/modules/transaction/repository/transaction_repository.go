@@ -2,7 +2,6 @@ package repository
 
 import (
 	dbController "github.com/Foodut/backend/database"
-	prRepo "github.com/Foodut/backend/modules/product/repository"
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	"gorm.io/gorm"
 )
@@ -20,9 +19,6 @@ func GetOneTransactionAssociation(transaction *model.Transaction) {
 
 	// with product detail
 	con.Model(&transaction).Association("ProductDetail").Find(&transaction.ProductDetail)
-
-	// get each product association
-	prRepo.GetProductsAssociation(transaction.ProductDetail)
 
 }
 

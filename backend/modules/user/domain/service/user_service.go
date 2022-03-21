@@ -7,8 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func EmptyUserSearch() []model.User {
-	return repo.FindAllUsers()
+func SearchUserById(userId []string) []model.User {
+	return repo.ReadAllUsers(userId)
 }
 
 func MapToUser(usr dto.PostUser, lv int) model.User {

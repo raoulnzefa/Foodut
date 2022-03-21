@@ -75,8 +75,11 @@ func sendUnauthorizedResponse(w http.ResponseWriter) {
 
 func GetAllUsers(writer http.ResponseWriter, req *http.Request) {
 
+	// Check user_id query
+	userId := req.URL.Query()["user_id"]
+
 	// Get list of user object
-	var users []model.User = srvc.EmptyUserSearch()
+	var users []model.User = srvc.SearchUserById(userId)
 
 	// Set response
 	var response rspn.Response
@@ -90,7 +93,7 @@ func GetAllUsers(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
-// TODO
+// TODO?
 // func GetUsersByUsernameLike(writer http.ResponseWriter, req *http.Request) {
 
 // 	// Get list of user object

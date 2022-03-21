@@ -33,7 +33,7 @@ func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
-	var postTransactionDto dto.Transaction
+	var postTransactionDto dto.PostTransaction
 	err := json.NewDecoder(req.Body).Decode(&postTransactionDto)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusBadRequest)

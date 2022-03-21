@@ -5,7 +5,7 @@ import (
 	"time"
 
 	prModel "github.com/Foodut/backend/modules/product/domain/model"
-	productRepo "github.com/Foodut/backend/modules/product/repository"
+	prRepo "github.com/Foodut/backend/modules/product/repository"
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	repo "github.com/Foodut/backend/modules/transaction/repository"
 	"github.com/Foodut/backend/modules/transaction/rest-api/dto"
@@ -18,19 +18,27 @@ func SearchById(transactionId []string) []model.Transaction {
 	// Association
 	if len(transactions) > 0 {
 		repo.GetTransactionsAssociation(transactions)
+
+		// Child Association
+		for i := 0; i < len(transactions); i++ {
+			if len(transactions[i].ProductDetail) > 0 {
+				// for each product, get its association
+				prRepo.GetProductsAssociation(transactions[i].ProductDetail)
+			}
+		}
 	}
 
 	return transactions
 }
 
-func InsertTransaction(trans dto.Transaction) *gorm.DB {
+func InsertTransaction(trans dto.PostTransaction) *gorm.DB {
 
 	sub := GenerateTotalPayment(trans.CustomerId)
 	carts := repo.GetCartByCustId(trans.CustomerId)
 	var products []prModel.Product
 
 	for i := 0; i < len(carts); i++ {
-		products = append(products, productRepo.GetProductById(carts[i].ProductID))
+		products = append(products, prRepo.GetProductById(carts[i].ProductID))
 	}
 
 	transaction := model.Transaction{
@@ -54,11 +62,21 @@ func DeleteById(transId string) *gorm.DB {
 	return deleteFeedback
 }
 
+func MapToTransactionDTO(t model.Transaction) dto.Transaction {
+	return dto.Transaction{
+		ID:              t.ID,
+		CustomerId:      t.CustomerID,
+		PaymentOption:   t.PaymentOption,
+		SubTotal:        t.SubTotal,
+		TransactionDate: t.TransactionDate,
+	}
+}
+
 func GenerateTotalPayment(customerId int) float64 {
 	cart := repo.GetCartByCustId(customerId)
 	var subTotal float64
 	for i := 0; i < len(cart); i++ {
-		product := productRepo.GetProductById(cart[i].ProductID)
+		product := prRepo.GetProductById(cart[i].ProductID)
 		subTotal = subTotal + (float64(cart[i].Quantity) * product.ProductPrice)
 	}
 	return subTotal

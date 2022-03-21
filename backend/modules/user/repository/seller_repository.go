@@ -28,7 +28,7 @@ func GetOneSellerAssociation(seller *model.Seller) {
 	prRepo.GetProductsAssociation(seller.ListProduct)
 }
 
-func FindAllSeller() []model.Seller {
+func ReadAllSeller() []model.Seller {
 	// Check connection
 	con := dbController.GetConnection()
 
@@ -40,7 +40,7 @@ func FindAllSeller() []model.Seller {
 	return sellers
 }
 
-func FindSellerByStoreName(storeName []string) model.Seller {
+func ReadSellerByStoreName(storeName []string) model.Seller {
 	// Check connection
 	con := dbController.GetConnection()
 
