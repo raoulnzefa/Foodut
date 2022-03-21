@@ -23,11 +23,8 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 
 	if cekEmail == "" {
 		if err := db.Where("email = ? AND password = ?", email[0], password[0]).First(&user).Error; err == nil {
-			if user.Level == 1 {
-				generateToken(w, user.Email, 1)
-			} else if user.Level == 0 {
-				generateToken(w, user.Email, 0)
-			}
+			generateToken(w, user.Email, user.Level)
+
 			sendSuccessResponse(w)
 		} else {
 			sendErrorResponse(w)
