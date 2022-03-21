@@ -16,7 +16,7 @@ type GetProductDetail struct {
 	ProductPrice    float64  `form:"productPrice" json:"productPrice"`
 	ProductRate     float32  `form:"productRate" json:"productRate"`
 	Quantity        int      `form:"quantity" json:"quantity"`
-	ProductPicture  []string `form:"productPicture" json:"productPicture"`
+	ProductPicture  []string `form:"productPicture" json:"productPicture" gorm:"type:text"`
 }
 
 type PostProductDetail struct {
