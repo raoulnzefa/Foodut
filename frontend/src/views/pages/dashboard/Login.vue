@@ -1,44 +1,42 @@
 <!-- =========================================================================================
     File Name: Login.vue
     Description: Login Page
-    ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-      Author: Pixinvent
-    Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->
 
-
 <template>
-  <div class="h-screen flex w-full bg-img vx-row no-gutter items-center justify-center" id="page-login">
-    <div class="vx-col sm:w-1/2 md:w-1/2 lg:w-3/4 xl:w-3/5 sm:m-0 m-4">
+  <div class="h-screen flex w-full bg-img vx-row no-gutter items-center justify-center" id="landing-page">
+    <div class="vx-col sm:m-0 m-4">
       <vx-card>
         <div slot="no-body" class="full-page-bg-color">
 
           <div class="vx-row no-gutter justify-center items-center">
 
             <div class="vx-col hidden lg:block lg:w-1/2">
-              <img src="@/assets/images/pages/login.png" alt="login" class="mx-auto">
+              <img src="@/assets/images/logo/foodut_shadow.png" width="100%" alt="foodut logo" class="mx-auto">
             </div>
 
             <div class="vx-col sm:w-full md:w-full lg:w-1/2 d-theme-dark-bg">
               <div class="px-8 pt-8 login-tabs-container">
 
                 <div class="vx-card__title mb-4">
-                  <h4 class="mb-4">Login</h4>
-                  <p>Welcome back, please login to your account.</p>
+                  <h4 class="mb-4">Foodut</h4>
+                  <p>Welcome to the most complete vast variant home made snack website ever.</p>
                 </div>
 
                 <vs-tabs>
-                  <vs-tab label="JWT">
-                    <login-jwt></login-jwt>
+                  <vs-tab label="LOGIN">
+                    <login></login>
                   </vs-tab>
 
-                  <vs-tab label="Firebase">
-                    <login-firebase></login-firebase>
-                  </vs-tab>
-
-                  <vs-tab label="Auth0">
-                    <login-auth0></login-auth0>
+                  <vs-tab label="GUEST">
+                    
+                    <h4 class="mb-4">Just passing by?</h4>
+                    <p>We really welcome you. As a guest, you can browse products and shops.</p> 
+                    <p>You just can't make any purchases. Make sure to register if you want</p> 
+                    <p>to buy the product.</p><br>
+                    
+                    <!-- Redirect to home page products -->
+                    <vs-button type="gradient" to="../apps/store/browse">Start Wandering</vs-button>
                   </vs-tab>
                 </vs-tabs>
 
@@ -53,15 +51,12 @@
 
 
 <script>
-import LoginJwt from './LoginJWT.vue'
-import LoginFirebase from './LoginFirebase.vue'
-import LoginAuth0 from './LoginAuth0.vue'
+import Login from './LoginJWT.vue'
+
 
 export default {
   components: {
-    LoginJwt,
-    LoginFirebase,
-    LoginAuth0
+    Login
   }
 }
 </script>

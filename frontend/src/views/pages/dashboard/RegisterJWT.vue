@@ -1,3 +1,13 @@
+<!-- =========================================================================================
+File Name: RegisterJWT.vue
+Description: Register Page for JWT
+----------------------------------------------------------------------------------------
+Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Author: Pixinvent
+Author URL: http://www.themeforest.net/user/pixinvent
+========================================================================================== -->
+
+
 <template>
   <div class="clearfix">
     <vs-input
@@ -46,8 +56,8 @@
     <span class="text-danger text-sm">{{ errors.first('confirm_password') }}</span>
 
     <vs-checkbox v-model="isTermsConditionAccepted" class="mt-6">I accept the terms & conditions.</vs-checkbox>
-    <vs-button  type="border" to="/pages/login" class="mt-6">Login</vs-button>
-    <vs-button class="float-right mt-6" @click="registerUser" :disabled="!validateForm">Register</vs-button>
+    <vs-button  type="border" to="/" class="mt-6">Login</vs-button>
+    <vs-button class="float-right mt-6" @click="registerUserJWt" :disabled="!validateForm">Register</vs-button>
   </div>
 </template>
 
@@ -87,7 +97,7 @@ export default {
       }
       return true
     },
-    registerUser () {
+    registerUserJWt () {
       // If form is not validated or user is already login return
       if (!this.validateForm || !this.checkLogin()) return
 
@@ -100,7 +110,7 @@ export default {
         },
         notify: this.$vs.notify
       }
-      this.$store.dispatch('auth/registerUser', payload)
+      this.$store.dispatch('auth/registerUserJWT', payload)
     }
   }
 }
