@@ -86,7 +86,11 @@ export default {
       }
 
       this.$store.dispatch('auth/loginJWT', payload)
-        .then(() => { this.$vs.loading.close() })
+        .then(() => { 
+          this.$vs.loading.close() 
+            this.$router.push('/apps/store/browse').catch(() => {})
+          }
+        )
         .catch(error => {
           this.$vs.loading.close()
           this.$vs.notify({
