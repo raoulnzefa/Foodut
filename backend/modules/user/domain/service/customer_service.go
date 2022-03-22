@@ -42,7 +42,7 @@ func SearchCustByIdWithAssociation(custId []string) []model.Customer {
 	return customers
 }
 
-func SearchCustByIdWithAssociationCollapse(custId []string) []dto.GetCustomer {
+func SearchCustByIdWithAssociationComplete(custId []string) []dto.GetCustomer {
 	customers := repo.ReadAllCustomers(custId)
 
 	var getCustomerDTO []dto.GetCustomer
@@ -71,13 +71,14 @@ func SearchCustByIdWithAssociationCollapse(custId []string) []dto.GetCustomer {
 
 				for j := 0; j < len(customers[i].ListHistory); j++ {
 
+					// Map from model to dto
 					getCustomerDTO[i].ListHistory = append(getCustomerDTO[i].ListHistory, trSrvc.MapToTransactionDTO(customers[i].ListHistory[j]))
 
 					// Get from customer
-					history := prSrvc.ProductDetailAssociationWithTransaction(customers[i].ListHistory[j].ID)
+					historyDetail := prSrvc.ProductDetailAssociationWithTransaction(customers[i].ListHistory[j].ID)
 
-					// Set it to customer collapse
-					getCustomerDTO[i].ListHistory[j].ProductDetail = history
+					// Set it to customer complete dto
+					getCustomerDTO[i].ListHistory[j].ProductDetail = historyDetail
 
 				}
 			}

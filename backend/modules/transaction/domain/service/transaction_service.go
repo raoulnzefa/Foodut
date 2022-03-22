@@ -2,18 +2,24 @@ package service
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	prModel "github.com/Foodut/backend/modules/product/domain/model"
+	prSrvc "github.com/Foodut/backend/modules/product/domain/service"
 	prRepo "github.com/Foodut/backend/modules/product/repository"
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	repo "github.com/Foodut/backend/modules/transaction/repository"
-	"github.com/Foodut/backend/modules/transaction/rest-api/dto"
+	dto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
 	"gorm.io/gorm"
 )
 
-func SearchById(transactionId []string) []model.Transaction {
+func SearchById(transactionId []string) []dto.Transaction {
 	transactions := repo.FindAllTransaction(transactionId)
+
+	transId, _ := strconv.ParseInt(transactionId[0], 6, 12)
+
+	var getTransactionDTO []dto.Transaction
 
 	// Association
 	if len(transactions) > 0 {
@@ -22,13 +28,20 @@ func SearchById(transactionId []string) []model.Transaction {
 		// Child Association
 		for i := 0; i < len(transactions); i++ {
 			if len(transactions[i].ProductDetail) > 0 {
-				// for each product, get its association
-				prRepo.GetProductsAssociation(transactions[i].ProductDetail)
+
+				// Map from model to dto
+				getTransactionDTO = append(getTransactionDTO, MapToTransactionDTO(transactions[i]))
+
+				// Get from customer
+				historyDetail := prSrvc.ProductDetailAssociationWithTransaction(int(transId))
+
+				// Set it to customer collapse
+				getTransactionDTO[i].ProductDetail = historyDetail
 			}
 		}
 	}
 
-	return transactions
+	return getTransactionDTO
 }
 
 func InsertTransaction(trans dto.PostTransaction) *gorm.DB {
