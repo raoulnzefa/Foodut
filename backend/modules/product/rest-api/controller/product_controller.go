@@ -62,6 +62,46 @@ func GetProductByName(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+func GetProductByCategoryId(writer http.ResponseWriter, req *http.Request) {
+
+	// Check product_name query
+	nameToFind := req.URL.Query()["category_id"]
+
+	// Get products using query
+	var products []model.Product = srvc.SearchByCategoryId(nameToFind)
+
+	// Set response
+	var response rspn.Response
+	if len(products) > 0 {
+		response.Response_200(products)
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+func GetProductByCategoryName(writer http.ResponseWriter, req *http.Request) {
+
+	// Check product_name query
+	nameToFind := req.URL.Query()["category_name"]
+
+	// Get products using query
+	var products []model.Product = srvc.SearchByCategoryName(nameToFind)
+
+	// Set response
+	var response rspn.Response
+	if len(products) > 0 {
+		response.Response_200(products)
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
 func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
 	// Check id query
 	vars := mux.Vars(req)
@@ -96,7 +136,7 @@ func PostProduct(writer http.ResponseWriter, req *http.Request) {
 	}
 
 	// Send DTO to service
-	result := srvc.MapToProduct(postProductDto)
+	result := srvc.SendForCreateProduct(postProductDto)
 
 	// Set response
 	var response rspn.Response

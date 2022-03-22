@@ -35,7 +35,7 @@ func TestDuplicateStore(t *testing.T) {
 		City:      C,
 	}
 
-	result := srvc.MapToSeller(dto)
+	result := srvc.SendForCreateSeller(dto)
 
 	assert.ErrorContains(t, result.Error, "idx_store_name")
 }

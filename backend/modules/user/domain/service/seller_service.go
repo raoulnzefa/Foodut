@@ -35,7 +35,11 @@ func SearchByStoreName(storeName []string) model.Seller {
 	return seller
 }
 
-func MapToSeller(u dto.PostSeller) *gorm.DB {
+func SendForCreateSeller(u dto.PostSeller) *gorm.DB {
+	return repo.CreateSeller(MapToSeller(u))
+}
+
+func MapToSeller(u dto.PostSeller) model.Seller {
 
 	// Parse from JSON DTO -> Database Model
 	usr := dto.PostUser{
@@ -54,5 +58,5 @@ func MapToSeller(u dto.PostSeller) *gorm.DB {
 		City:      u.City,
 	}
 
-	return repo.CreateSeller(sell)
+	return sell
 }

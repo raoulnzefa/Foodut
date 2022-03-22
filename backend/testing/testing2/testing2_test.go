@@ -22,7 +22,7 @@ func TestFindAllProduct(t *testing.T) {
 	var expected []model.Product
 	con.Find(&expected)
 
-	actual := repo.FindAllProducts(nil)
+	actual := repo.ReadAllProducts(nil)
 
 	assert.Equal(t, len(expected), len(actual))
 }

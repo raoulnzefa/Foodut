@@ -61,7 +61,7 @@ func PostCustomer(writer http.ResponseWriter, req *http.Request) {
 	}
 
 	// Send DTO to service
-	result := srvc.MapToCustomer(postUserDto)
+	result := srvc.SendForCreateCustomer(postUserDto)
 
 	// Set response
 	var response rspn.Response

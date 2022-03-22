@@ -29,7 +29,7 @@ func TestDuplicateEmailAdmin(t *testing.T) {
 		Password: P,
 	}
 
-	result := srvc.MapToAdmin(usrDto)
+	result := srvc.SendForCreateAdmin(usrDto)
 
 	assert.ErrorContains(t, result.Error, "fk_admins_user")
 }
@@ -47,7 +47,7 @@ func TestDuplicateEmailSeller(t *testing.T) {
 		City:      C,
 	}
 
-	result := srvc.MapToSeller(dto)
+	result := srvc.SendForCreateSeller(dto)
 
 	assert.ErrorContains(t, result.Error, "fk_sellers_user")
 }
@@ -60,7 +60,7 @@ func TestDuplicateEmailCustomer(t *testing.T) {
 		Password: P,
 	}
 
-	result := srvc.MapToCustomer(usrDto)
+	result := srvc.SendForCreateCustomer(usrDto)
 
 	assert.ErrorContains(t, result.Error, "fk_customers_user")
 }

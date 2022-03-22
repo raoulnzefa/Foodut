@@ -58,7 +58,7 @@ func PostSeller(writer http.ResponseWriter, req *http.Request) {
 	}
 
 	// Send DTO to service
-	result := srvc.MapToSeller(postSellerDto)
+	result := srvc.SendForCreateSeller(postSellerDto)
 
 	// Set response
 	var response rspn.Response
