@@ -84,7 +84,7 @@ func ReadProductsByCategoryName(categoryName []string) []model.Product {
 	var products []model.Product
 	if categoryName != nil {
 		category := GetCategoryByName(categoryName)
-		ReadProductsByCategoryId(category.ID)
+		products = ReadProductsByCategoryId(category.ID)
 	}
 
 	return products
