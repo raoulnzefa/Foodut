@@ -10,7 +10,7 @@ func UserRouter(router *mux.Router) {
 	//  USER
 	//
 	//- Get All User
-	router.HandleFunc("/users", usrController.GetAllUsers).Methods("GET")
+	router.HandleFunc("/users", usrController.Authenticate(usrController.GetAllUsers, 3)).Methods("GET")
 
 	//- Get All Seller
 	router.HandleFunc("/sellers", usrController.GetAllSeller).Methods("GET")
