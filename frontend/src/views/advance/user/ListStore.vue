@@ -1,6 +1,6 @@
 <!-- =========================================================================================
-  File Name: UserList.vue
-  Description: User List page
+  File Name: ListStore.vue
+  Description: List Store page
   ----------------------------------------------------------------------------------------
   Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
   Author: Pixinvent
@@ -13,8 +13,8 @@
     <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
       <div class="vx-row">
         <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Status</label>
-          <v-select :options="statusOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="statusFilter" class="mb-4 md:mb-0" />
+          <label class="text-sm opacity-75">Role</label>
+          <v-select :options="roleOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="roleFilter" class="mb-4 md:mb-0" />
         </div>
       </div>
     </vx-card>
@@ -39,12 +39,6 @@
               <vs-dropdown-item @click="gridApi.paginationSetPageSize(20)">
                 <span>20</span>
               </vs-dropdown-item>
-              <vs-dropdown-item @click="gridApi.paginationSetPageSize(25)">
-                <span>25</span>
-              </vs-dropdown-item>
-              <vs-dropdown-item @click="gridApi.paginationSetPageSize(30)">
-                <span>30</span>
-              </vs-dropdown-item>
             </vs-dropdown-menu>
           </vs-dropdown>
         </div>
@@ -55,42 +49,18 @@
 
           <!-- ACTION - DROPDOWN -->
           <vs-dropdown vs-trigger-click class="cursor-pointer">
-
             <div class="p-3 shadow-drop rounded-lg d-theme-dark-light-bg cursor-pointer flex items-end justify-center text-lg font-medium w-32">
               <span class="mr-2 leading-none">Actions</span>
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
 
             <vs-dropdown-menu>
-
               <vs-dropdown-item>
                 <span class="flex items-center">
                   <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
                   <span>Delete</span>
                 </span>
               </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="ArchiveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Archive</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="FileIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Print</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="SaveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>CSV</span>
-                </span>
-              </vs-dropdown-item>
-
             </vs-dropdown-menu>
           </vs-dropdown>
       </div>
@@ -134,8 +104,6 @@ import vSelect from 'vue-select'
 import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
 
 // Cell Renderer
-import CellRendererLink from './cell-renderer/CellRendererLink.vue'
-import CellRendererStatus from './cell-renderer/CellRendererStatus.vue'
 import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
 import CellRendererActions from './cell-renderer/CellRendererActions.vue'
 
@@ -146,8 +114,6 @@ export default {
     vSelect,
 
     // Cell Renderer
-    CellRendererLink,
-    CellRendererStatus,
     CellRendererVerified,
     CellRendererActions
   },
@@ -155,6 +121,12 @@ export default {
     return {
 
       // Filter Options
+      roleFilter: { label: 'All', value: 'all' },
+      roleOptions: [
+        { label: 'Pabrik', value: 'Pabrik' },
+        { label: 'UMKM', value: 'UMKM' }
+      ],
+
       statusFilter: { label: 'All', value: 'all' },
       statusOptions: [
         { label: 'All', value: 'all' },
@@ -187,33 +159,25 @@ export default {
           headerName: 'Username',
           field: 'username',
           filter: true,
-          width: 210,
-          cellRendererFramework: 'CellRendererLink'
+          width: 230
         },
         {
           headerName: 'Email',
           field: 'email',
           filter: true,
-          width: 225
-        },
-        {
-          headerName: 'Name',
-          field: 'name',
-          filter: true,
-          width: 200
+          width: 280
         },
         {
           headerName: 'Country',
           field: 'country',
           filter: true,
-          width: 150
+          width: 200
         },
         {
-          headerName: 'Status',
-          field: 'status',
+          headerName: 'Role',
+          field: 'role',
           filter: true,
-          width: 150,
-          cellRendererFramework: 'CellRendererStatus'
+          width: 170
         },
         {
           headerName: 'Actions',
@@ -225,14 +189,15 @@ export default {
 
       // Cell Renderer Components
       components: {
-        CellRendererLink,
-        CellRendererStatus,
         CellRendererVerified,
         CellRendererActions
       }
     }
   },
   watch: {
+    roleFilter (obj) {
+      this.setColumnFilter('role', obj.value)
+    },
     statusFilter (obj) {
       this.setColumnFilter('status', obj.value)
     }

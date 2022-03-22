@@ -296,9 +296,6 @@
                             @input="(val) => { refine(val - 1) }" />
                         </div>
                     </ais-pagination>
-
-                    <!-- ALGOLIA LOGO -->
-                    <img class="flex mt-4 mx-auto h-8" src="@/assets/images/pages/eCommerce/Algolia-logo.png" alt="algolia-logo">
                 </div>
             </div>
         </ais-instant-search>

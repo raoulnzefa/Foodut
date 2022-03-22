@@ -60,9 +60,9 @@ export default [
             i18n: 'Browse'
           },
           {
-            url: '/apps/eCommerce/item/',
+            url: '/apps/store/item/',
             name: 'Item Details',
-            slug: 'ecommerce-item-detail-view',
+            slug: 'store-item-detail-view',
             i18n: 'Item Details'
           },
           {
@@ -125,7 +125,7 @@ export default [
         i18n: 'User',
         submenu: [
           {
-            url: '/advance/user/user-list',
+            url: '/advance/user/user-list/268',
             name: 'List User',
             slug: 'advance-user-list',
             i18n: 'List User'

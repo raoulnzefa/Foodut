@@ -75,7 +75,7 @@ const router = new Router({
           component: () => import('./views/apps/store/Browse.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Browse', active: true }
             ],
@@ -84,7 +84,7 @@ const router = new Router({
           }
         },
         {
-          path: '/apps/eCommerce/item/',
+          path: '/apps/store/item/',
           redirect: '/apps/eCommerce/item/5546604'
         },
         {
@@ -93,12 +93,12 @@ const router = new Router({
           component: () => import('./views/apps/store/ItemDetailView.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
-              { title: 'eCommerce'},
-              { title: 'Shop', url: {name: 'ecommerce-shop'} },
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Shop', url: {name: 'store-shop'} },
               { title: 'Item Details', active: true }
             ],
-            parent: 'ecommerce-item-detail-view',
+            parent: 'store-item-detail-view',
             pageTitle: 'Item Details',
             rule: 'editor'
           }
@@ -109,7 +109,7 @@ const router = new Router({
           component: () => import('./views/apps/store/Cart.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Cart', active: true }
             ],
@@ -123,7 +123,7 @@ const router = new Router({
           component: () => import('./views/apps/store/Checkout.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Checkout', active: true }
             ],
@@ -137,7 +137,7 @@ const router = new Router({
           component: () => import('./views/apps/store/History.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'History', active: true }
             ],
@@ -154,7 +154,7 @@ const router = new Router({
           component: () => import('./views/advance/store/AddProduct.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Product'},
               { title: 'Add', active: true }
@@ -169,7 +169,7 @@ const router = new Router({
           component: () => import('./views/advance/store/EditProduct.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Product'},
               { title: 'Edit', active: true }
@@ -184,7 +184,7 @@ const router = new Router({
           component: () => import('./views/advance/store/ViewStore.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'View', active: true }
             ],
@@ -193,16 +193,16 @@ const router = new Router({
           }
         },
         {
-          path: '/advance/user/user-list',
+          path: '/advance/user/user-list/:userId',
           name: 'advance-user-list',
           component: () => import('@/views/advance/user/ListUser.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'User' },
               { title: 'List', active: true }
             ],
-            pageTitle: 'User List',
+            pageTitle: 'List User',
             rule: 'editor'
           }
         },
@@ -212,14 +212,25 @@ const router = new Router({
           component: () => import('@/views/advance/user/ListStore.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store' },
               { title: 'List', active: true }
             ],
-            pageTitle: 'Store List',
+            pageTitle: 'List Store',
             rule: 'editor'
           }
-        }        
+        },
+        // =============================================================================
+        // Profile Routes
+        // =============================================================================
+        {
+          path: '/profile',
+          name: 'profile',
+          component: () => import('@/views/profile/EditProfile.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        }
       ]
     },
 
