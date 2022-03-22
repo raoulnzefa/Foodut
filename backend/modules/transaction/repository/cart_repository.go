@@ -54,3 +54,14 @@ func DeleteCartByCustId(customerId int) *gorm.DB {
 	result := con.Where("customer_user_id = ?", customerId).Delete(&cart)
 	return result
 }
+
+func DeleteCartByCustIdAndProductId(customerId int, productId int) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	var cart []model.Cart
+	result := con.Where(
+		"customer_user_id = ? AND product_id = ?", customerId, productId).
+		Delete(&cart)
+	return result
+}

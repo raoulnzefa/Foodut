@@ -58,3 +58,28 @@ func UpdateCart(writer http.ResponseWriter, req *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(writer).Encode(response)
 }
+
+func DeleteSpesificProductFromCart(writer http.ResponseWriter, req *http.Request) {
+
+	// Decode JSON
+	var delSpCart dto.DeleteSpecificCart
+	err := json.NewDecoder(req.Body).Decode(&delSpCart)
+	if err != nil {
+		http.Error(writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Send DTO to service
+	result := srvc.SendCartForDelSpesific(delSpCart)
+
+	// Set response
+	var response rspn.Response
+	if result.Error == nil {
+		response.Response_201()
+	} else {
+		response.Response_400(result.Error)
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}

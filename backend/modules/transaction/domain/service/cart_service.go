@@ -36,3 +36,7 @@ func SendCartForCreate(cr dto.PostCart) *gorm.DB {
 func SendCartForUpdate(cr dto.PostCart) *gorm.DB {
 	return repo.UpdateCarts(MapToCart(cr))
 }
+
+func SendCartForDelSpesific(cr dto.DeleteSpecificCart) *gorm.DB {
+	return repo.DeleteCartByCustIdAndProductId(cr.UserId, cr.ProductId)
+}
