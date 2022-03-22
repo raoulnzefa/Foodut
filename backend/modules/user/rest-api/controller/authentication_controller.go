@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	rspn "github.com/Foodut/backend/responses"
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -56,7 +57,9 @@ func Authenticate(next http.HandlerFunc, accessType int) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		isValidToken := validateUserToken(w, r, accessType)
 		if !isValidToken {
-			sendUnauthorizedResponse(w)
+			var response rspn.Response
+			response.Response_401()
+
 		} else {
 			next.ServeHTTP(w, r)
 		}

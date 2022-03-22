@@ -42,3 +42,10 @@ func DeleteUserById(userId string) *gorm.DB {
 	result := con.Delete(&user, userId)
 	return result
 }
+
+func CheckUserEmailPassword(email string, password string) *gorm.DB {
+	con := dbController.GetConnection()
+	var user model.User
+	result := con.Where("email = ? AND password = ?", email, password).First(&user)
+	return result
+}

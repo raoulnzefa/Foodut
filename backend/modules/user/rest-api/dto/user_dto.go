@@ -18,6 +18,11 @@ type PostUser struct {
 	Password string `form:"password" json:"password"`
 }
 
+type LoginUser struct {
+	Email    string `form:"email" json:"email"`
+	Password string `form:"password" json:"password"`
+}
+
 // data, _ := json.Marshal(user)
 func (u User) MarshalJSON() ([]byte, error) {
 	j, err := json.Marshal(struct {
