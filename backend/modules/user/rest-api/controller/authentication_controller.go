@@ -13,15 +13,17 @@ var jwtKey = []byte("foodutKey")
 var tokenName = "token"
 
 type Claims struct {
+	ID       int    `json:"id"`
 	Email    string `json:"email"`
 	UserType int    `json:"user_type"`
 	jwt.StandardClaims
 }
 
-func generateToken(w http.ResponseWriter, email string, userType int) {
+func generateToken(w http.ResponseWriter, id int, email string, userType int) {
 	tokenExpiryTime := time.Now().Add(24 * time.Hour)
 
 	claims := &Claims{
+		ID:       id,
 		Email:    email,
 		UserType: userType,
 		StandardClaims: jwt.StandardClaims{
