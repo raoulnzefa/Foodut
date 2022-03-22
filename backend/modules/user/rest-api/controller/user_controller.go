@@ -23,13 +23,12 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cekEmail := GetEmailFromToken(r)
-	var user model.User
 	var response rspn.Response
 	if cekEmail == "" {
-		result := srvc.CheckUserLogin(loginUserDto.Email, loginUserDto.Password)
+		level, result := srvc.CheckUserLogin(loginUserDto.Email, loginUserDto.Password)
 		err := result.Error
 		if err == nil {
-			generateToken(w, loginUserDto.Email, user.Level)
+			generateToken(w, loginUserDto.Email, level)
 
 			response.Response_200("Success Login")
 		} else {

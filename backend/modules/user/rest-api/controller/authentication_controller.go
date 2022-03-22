@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"net/http"
 	"time"
 
@@ -58,7 +59,8 @@ func Authenticate(next http.HandlerFunc, accessType int) http.HandlerFunc {
 		if !isValidToken {
 			var response rspn.Response
 			response.Response_401()
-
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
 		} else {
 			next.ServeHTTP(w, r)
 		}
