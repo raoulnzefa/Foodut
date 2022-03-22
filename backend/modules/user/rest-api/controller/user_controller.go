@@ -24,57 +24,31 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 
 	cekEmail := GetEmailFromToken(r)
 	var user model.User
-
+	var response rspn.Response
 	if cekEmail == "" {
 		result := srvc.CheckUserLogin(loginUserDto.Email, loginUserDto.Password)
 		err := result.Error
 		if err == nil {
 			generateToken(w, loginUserDto.Email, user.Level)
 
-			sendSuccessResponse(w)
+			response.Response_200("Success Login")
 		} else {
-			sendErrorResponse(w)
+			response.Response_404()
 		}
 	} else {
-		var response rspn.BasicResponse
-		response.StatusCode = 406
-		response.Message = "Already logged in as " + cekEmail
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(response)
+		res := "Already logged in as " + cekEmail
+		response.Response_406(res)
 	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
 	resetUserToken(w)
 
-	var response rspn.BasicResponse
-	response.StatusCode = 200
-	response.Message = "Success Logout |  Bye - Bye"
+	var response rspn.Response
+	response.Response_200("Success Logout |  Bye - Bye")
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
-}
-
-func sendSuccessResponse(w http.ResponseWriter) {
-	var response rspn.BasicResponse
-	response.StatusCode = 200
-	response.Message = "Success Login"
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
-}
-
-func sendErrorResponse(w http.ResponseWriter) {
-	var response rspn.BasicResponse
-	response.StatusCode = 400
-	response.Message = "Failed Login"
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
-}
-
-func sendUnauthorizedResponse(w http.ResponseWriter) {
-	var response rspn.BasicResponse
-	response.StatusCode = 401
-	response.Message = "Unauthorized Access"
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
