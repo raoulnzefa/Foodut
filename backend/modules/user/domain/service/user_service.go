@@ -30,3 +30,7 @@ func DeleteById(userId string) *gorm.DB {
 
 	return deleteFeedback
 }
+
+func CheckUserLogin(email string, password string) *gorm.DB {
+	return repo.CheckUserEmailPassword(email, password)
+}

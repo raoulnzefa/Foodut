@@ -43,7 +43,7 @@ func UserRouter(router *mux.Router) {
 	router.HandleFunc("/users/{id}", usrController.DeleteUser).Methods("DELETE")
 
 	//- Login User
-	router.HandleFunc("/loginUser", usrController.LoginUser).Methods("GET")
+	router.HandleFunc("/loginUser", usrController.LoginUser).Methods("POST")
 
 	//- Logout User
 	router.HandleFunc("/logout", usrController.Logout).Methods("GET")

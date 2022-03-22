@@ -7,23 +7,29 @@ import (
 
 	"github.com/gorilla/mux"
 
-	database "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/user/domain/model"
 	srvc "github.com/Foodut/backend/modules/user/domain/service"
+	"github.com/Foodut/backend/modules/user/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
 )
 
 func LoginUser(w http.ResponseWriter, r *http.Request) {
-	db := database.GetConnection()
+	// Decode JSON
+	var loginUserDto dto.LoginUser
+	err := json.NewDecoder(r.Body).Decode(&loginUserDto)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 
-	email := r.URL.Query()["email"]
-	password := r.URL.Query()["password"]
-	var user model.User
 	cekEmail := GetEmailFromToken(r)
+	var user model.User
 
 	if cekEmail == "" {
-		if err := db.Where("email = ? AND password = ?", email[0], password[0]).First(&user).Error; err == nil {
-			generateToken(w, user.Email, user.Level)
+		result := srvc.CheckUserLogin(loginUserDto.Email, loginUserDto.Password)
+		err := result.Error
+		if err == nil {
+			generateToken(w, loginUserDto.Email, user.Level)
 
 			sendSuccessResponse(w)
 		} else {
