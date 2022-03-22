@@ -28,9 +28,6 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		user, result := srvc.CheckUserLogin(loginUserDto.Email, loginUserDto.Password)
 		err := result.Error
 		if err == nil {
-			fmt.Println(user.ID)
-			fmt.Println(loginUserDto.Email)
-			fmt.Println(user.Level)
 			generateToken(w, user.ID, loginUserDto.Email, user.Level)
 
 			response.Response_200("Success Login")
