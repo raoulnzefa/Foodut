@@ -36,7 +36,7 @@ func GetAllCustomerWithAssociationComplete(writer http.ResponseWriter, req *http
 	customerId := req.URL.Query()["user_id"]
 
 	// Get list of user object
-	var users []dto.GetCustomer = srvc.SearchCustByIdWithAssociationCollapse(customerId)
+	var users []dto.GetCustomer = srvc.SearchCustByIdWithAssociationComplete(customerId)
 
 	// Set response
 	var response rspn.Response

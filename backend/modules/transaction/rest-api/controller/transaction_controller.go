@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	srvc "github.com/Foodut/backend/modules/transaction/domain/service"
 	dto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
@@ -15,7 +14,7 @@ func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 
 	transactionId := req.URL.Query()["id"]
 
-	var transactions []model.Transaction = srvc.SearchById(transactionId)
+	var transactions []dto.Transaction = srvc.SearchById(transactionId)
 
 	// Set response
 	var response rspn.Response
