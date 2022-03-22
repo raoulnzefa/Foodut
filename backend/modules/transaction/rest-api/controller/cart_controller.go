@@ -59,7 +59,7 @@ func UpdateCart(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
-func DeleteSpesificCart(writer http.ResponseWriter, req *http.Request) {
+func DeleteSpesificProductFromCart(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
 	var delSpCart dto.DeleteSpecificCart

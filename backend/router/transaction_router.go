@@ -24,8 +24,8 @@ func TransactionRouter(router *mux.Router) {
 	//- Update Cart
 	router.HandleFunc("/cart", trController.UpdateCart).Methods("PUT")
 
-	//- Delete Specific Cart (Update w/ delete spesific item)
-	router.HandleFunc("/cart-specific", trController.DeleteSpesificCart).Methods("DELETE")
+	//- Delete Specific Product from a Cart (Update w/ delete spesific item)
+	router.HandleFunc("/cart-specific", trController.DeleteSpesificProductFromCart).Methods("DELETE")
 
 	//- Update Transaction
 	// router.HandleFunc("/transactions/{transaction_id}", trController.UpdateTransaction).Methods("PUT")
