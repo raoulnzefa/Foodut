@@ -12,7 +12,7 @@ func GetCategoryByName(categoryName []string) model.Category {
 	var category model.Category
 	// Get category from database, check by its name
 	if categoryName != nil {
-		con.Where("product_category = ?", categoryName).Find(category)
+		con.Where("product_category = ?", categoryName[0]).Find(&category)
 	}
 
 	return category
