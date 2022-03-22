@@ -8,8 +8,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-// var jwtKey = []byte("7233345")
-var jwtKey = []byte("bebasapasaja")
+var jwtKey = []byte("foodutKey")
 var tokenName = "token"
 
 type Claims struct {
@@ -19,7 +18,7 @@ type Claims struct {
 }
 
 func generateToken(w http.ResponseWriter, email string, userType int) {
-	tokenExpiryTime := time.Now().Add(20 * time.Minute)
+	tokenExpiryTime := time.Now().Add(24 * time.Hour)
 
 	claims := &Claims{
 		Email:    email,
