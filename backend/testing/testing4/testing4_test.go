@@ -42,7 +42,7 @@ func TestPostSeller(t *testing.T) {
 		City:      C,
 	}
 
-	result := srvc.MapToSeller(dto)
+	result := srvc.SendForCreateSeller(dto)
 
 	con.Raw("SELECT COUNT('id') FROM sellers").Scan(&afterLength)
 

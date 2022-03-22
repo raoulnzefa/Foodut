@@ -51,7 +51,7 @@ func InsertTransaction(trans dto.PostTransaction) *gorm.DB {
 	var products []prModel.Product
 
 	for i := 0; i < len(carts); i++ {
-		products = append(products, prRepo.GetProductById(carts[i].ProductID))
+		products = append(products, prRepo.ReadProductById(carts[i].ProductID))
 	}
 
 	transaction := model.Transaction{
@@ -89,7 +89,7 @@ func GenerateTotalPayment(customerId int) float64 {
 	cart := repo.GetCartByCustId(customerId)
 	var subTotal float64
 	for i := 0; i < len(cart); i++ {
-		product := prRepo.GetProductById(cart[i].ProductID)
+		product := prRepo.ReadProductById(cart[i].ProductID)
 		subTotal = subTotal + (float64(cart[i].Quantity) * product.ProductPrice)
 	}
 	return subTotal

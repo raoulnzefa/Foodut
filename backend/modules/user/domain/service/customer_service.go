@@ -101,7 +101,11 @@ func MapToGetCustomerDTO(usr model.Customer) dto.GetCustomer {
 	}
 }
 
-func MapToCustomer(usr dto.PostUser) *gorm.DB {
+func SendForCreateCustomer(usr dto.PostUser) *gorm.DB {
+	return repo.CreateCustomer(MapToCustomer(usr))
+}
+
+func MapToCustomer(usr dto.PostUser) model.Customer {
 
 	// Parse from JSON DTO -> Database Model
 	user := MapToUser(usr, 1)
@@ -111,5 +115,5 @@ func MapToCustomer(usr dto.PostUser) *gorm.DB {
 		User:   user,
 	}
 
-	return repo.CreateCustomer(cust)
+	return cust
 }

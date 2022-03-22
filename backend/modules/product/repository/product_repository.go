@@ -22,7 +22,7 @@ func GetOneProductAssociation(product *model.Product) {
 	con.Model(&product).Association("Picture").Find(&product.Picture)
 }
 
-func FindAllProducts(productId []string) []model.Product {
+func ReadAllProducts(productId []string) []model.Product {
 	// Check connection
 	con := dbController.GetConnection()
 
@@ -39,7 +39,7 @@ func FindAllProducts(productId []string) []model.Product {
 	return products
 }
 
-func FindProductsByName(productName []string) []model.Product {
+func ReadProductsByName(productName []string) []model.Product {
 	// Check connection
 	con := dbController.GetConnection()
 
@@ -52,7 +52,7 @@ func FindProductsByName(productName []string) []model.Product {
 	return products
 }
 
-func FindProductsByNameAlike(productName []string) []model.Product {
+func ReadProductsByNameAlike(productName []string) []model.Product {
 	// Check connection
 	con := dbController.GetConnection()
 
@@ -61,6 +61,30 @@ func FindProductsByNameAlike(productName []string) []model.Product {
 	if productName != nil {
 		like := "%" + productName[0] + "%"
 		con.Where("product_name LIKE ?", like).Find(&products)
+	}
+
+	return products
+}
+
+func ReadProductsByCategoryId(categoryId int) []model.Product {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Get product from database, filter by name LIKE
+	var products []model.Product
+	if categoryId > 0 {
+		con.Where("category_id = ?", categoryId).Find(&products)
+	}
+
+	return products
+}
+
+func ReadProductsByCategoryName(categoryName []string) []model.Product {
+	// Get product from database, filter by name LIKE
+	var products []model.Product
+	if categoryName != nil {
+		category := GetCategoryByName(categoryName)
+		ReadProductsByCategoryId(category.ID)
 	}
 
 	return products
@@ -82,6 +106,7 @@ func DeleteProductById(productId string) *gorm.DB {
 
 	//return nil
 }
+
 func CreateProduct(product model.Product) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
@@ -92,7 +117,7 @@ func CreateProduct(product model.Product) *gorm.DB {
 	return result
 }
 
-func GetProductById(productId int) model.Product {
+func ReadProductById(productId int) model.Product {
 	// Check connection
 	con := dbController.GetConnection()
 

@@ -1,6 +1,8 @@
 package services
 
 import (
+	"strconv"
+
 	model "github.com/Foodut/backend/modules/product/domain/model"
 	repo "github.com/Foodut/backend/modules/product/repository"
 	dto "github.com/Foodut/backend/modules/product/rest-api/dto"
@@ -9,7 +11,7 @@ import (
 )
 
 func SearchById(productId []string) []model.Product {
-	products := repo.FindAllProducts(productId)
+	products := repo.ReadAllProducts(productId)
 
 	// Association
 	if len(products) > 0 {
@@ -20,11 +22,11 @@ func SearchById(productId []string) []model.Product {
 }
 
 func SearchByName(name []string) []model.Product {
-	products := repo.FindProductsByName(name)
+	products := repo.ReadProductsByName(name)
 
 	// If none, try find using 'LIKE'
 	if len(products) < 1 {
-		products = repo.FindProductsByNameAlike(name)
+		products = repo.ReadProductsByNameAlike(name)
 	}
 
 	// Association
@@ -35,6 +37,33 @@ func SearchByName(name []string) []model.Product {
 	return products
 }
 
+func SearchByCategoryId(id []string) []model.Product {
+	// Convert categoryId to int
+	categoryId, err := strconv.Atoi(id[0])
+
+	var products []model.Product
+	if err == nil {
+		products = repo.ReadProductsByCategoryId(categoryId)
+	}
+
+	// Association
+	if len(products) > 0 {
+		repo.GetProductsAssociation(products)
+	}
+
+	return products
+}
+
+func SearchByCategoryName(categoryName []string) []model.Product {
+	products := repo.ReadProductsByCategoryName(categoryName)
+
+	// Association
+	if len(products) > 0 {
+		repo.GetProductsAssociation(products)
+	}
+
+	return products
+}
 
 func DeleteById(productId string) *gorm.DB {
 	deleteFeedback := repo.DeleteProductById(productId)
@@ -42,7 +71,11 @@ func DeleteById(productId string) *gorm.DB {
 	return deleteFeedback
 }
 
-func MapToProduct(pr dto.PostProduct) *gorm.DB {
+func SendForCreateProduct(pr dto.PostProduct) *gorm.DB {
+	return repo.CreateProduct(MapToProduct(pr))
+}
+
+func MapToProduct(pr dto.PostProduct) model.Product {
 
 	// Convert path string array -> Model Picture
 	var pics []model.Picture
@@ -62,5 +95,5 @@ func MapToProduct(pr dto.PostProduct) *gorm.DB {
 		Picture:      pics,
 	}
 
-	return repo.CreateProduct(product)
+	return product
 }
