@@ -1,6 +1,9 @@
 package service
 
 import (
+	"crypto/md5"
+	"encoding/hex"
+
 	model "github.com/Foodut/backend/modules/user/domain/model"
 	repo "github.com/Foodut/backend/modules/user/repository"
 	dto "github.com/Foodut/backend/modules/user/rest-api/dto"
@@ -12,13 +15,13 @@ func SearchUserById(userId []string) []model.User {
 }
 
 func MapToUser(usr dto.PostUser, lv int) model.User {
-
+	encryptedPassword := GetMD5Hash(usr.Password)
 	// Parse from JSON DTO -> Database Model
 	user := model.User{
 		Username: usr.Username,
 		Email:    usr.Email,
 		Name:     usr.Name,
-		Password: usr.Password,
+		Password: encryptedPassword,
 		Level:    lv,
 	}
 
@@ -32,5 +35,12 @@ func DeleteById(userId string) *gorm.DB {
 }
 
 func CheckUserLogin(email string, password string) *gorm.DB {
-	return repo.CheckUserEmailPassword(email, password)
+	encryptedPassword := GetMD5Hash(password)
+	return repo.CheckUserEmailPassword(email, encryptedPassword)
+}
+
+func GetMD5Hash(text string) string {
+	hasher := md5.New()
+	hasher.Write([]byte(text))
+	return hex.EncodeToString(hasher.Sum(nil))
 }
