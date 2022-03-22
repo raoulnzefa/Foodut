@@ -64,7 +64,7 @@ func GetProductByName(writer http.ResponseWriter, req *http.Request) {
 
 func GetProductByCategoryId(writer http.ResponseWriter, req *http.Request) {
 
-	// Check product_name query
+	// Check category_id query
 	nameToFind := req.URL.Query()["category_id"]
 
 	// Get products using query
@@ -84,7 +84,7 @@ func GetProductByCategoryId(writer http.ResponseWriter, req *http.Request) {
 
 func GetProductByCategoryName(writer http.ResponseWriter, req *http.Request) {
 
-	// Check product_name query
+	// Check category_name query
 	nameToFind := req.URL.Query()["category_name"]
 
 	// Get products using query
