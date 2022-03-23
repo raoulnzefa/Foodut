@@ -40,14 +40,14 @@ func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 	}
 
 	// Send DTO to service
-	result := srvc.InsertTransactionAvailabilityCheck(postTransactionDto)
+	isError := srvc.InsertTransactionAvailabilityCheck(postTransactionDto)
 
 	// Set response
 	var response rspn.Response
-	if result.Error == nil {
+	if isError == nil {
 		response.Response_201()
 	} else {
-		response.Response_400(result.Error)
+		response.Response_400(isError.Error())
 	}
 
 	writer.Header().Set("Content-Type", "application/json")

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"time"
@@ -44,10 +45,18 @@ func SearchById(transactionId []string) []dto.Transaction {
 	return getTransactionDTO
 }
 
-func InsertTransactionAvailabilityCheck(trans dto.PostTransaction) *gorm.DB {
+func InsertTransactionAvailabilityCheck(trans dto.PostTransaction) error {
 
 	// Get customer cart, list only that available in stock
 	carts := repo.GetCartByCustIdWithAvailablityCheck(trans.CustomerId)
+
+	// If empty cart,
+	// perhaps sold out product,
+	// do not checkout
+	if len(carts) < 1 {
+		err := errors.New("empty cart list. make sure that stock is still available")
+		return err
+	}
 
 	var products []prModel.Product
 
@@ -75,7 +84,7 @@ func InsertTransactionAvailabilityCheck(trans dto.PostTransaction) *gorm.DB {
 			products); updateTD.Error != nil {
 
 			// If error, return the error
-			return updateTD
+			return updateTD.Error
 		}
 
 		// Update Product Stock due to transaction
@@ -84,11 +93,11 @@ func InsertTransactionAvailabilityCheck(trans dto.PostTransaction) *gorm.DB {
 			products); updatePR.Error == nil {
 
 			// Remove payed product from customer cart
-			return repo.DeleteCarts(carts)
+			return repo.DeleteCarts(carts).Error
 		}
 	}
 
-	return check
+	return check.Error
 }
 
 func DeleteById(transId string) *gorm.DB {
