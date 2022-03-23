@@ -17,8 +17,10 @@ func SendTDForUpdateAfterTransaction(tid int, carts []model.Cart, products []prM
 		transactionDetails = append(transactionDetails, model.TransactionDetail{
 			TransactionID: tid,
 			ProductID:     products[i].ID,
+			SellerID:      products[i].SellerID,
 			Quantity:      carts[i].Quantity,
 			Price:         products[i].ProductPrice,
+			Status:        "ORDER",
 		})
 	}
 
