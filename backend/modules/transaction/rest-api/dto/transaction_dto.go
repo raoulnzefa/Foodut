@@ -9,6 +9,7 @@ import (
 type Transaction struct {
 	ID              int                      `form:"id" json:"id" gorm:"primaryKey"`
 	CustomerId      int                      `form:"customerId" json:"customerId"`
+	Address         string                   `form:"address" json:"address"`
 	PaymentOption   string                   `form:"paymentOption" json:"paymentOption"`
 	SubTotal        float64                  `form:"subTotal" json:"subTotal"`
 	TransactionDate time.Time                `form:"transactionDate" json:"transactionDate"`
@@ -16,35 +17,18 @@ type Transaction struct {
 }
 
 type PostTransaction struct {
-	CustomerId      int                   `form:"customerId" json:"customerId"`
-	PaymentOption   string                `form:"paymentOption" json:"paymentOption"`
-	TransactionDate time.Time             `form:"transactionDate" json:"transactionDate"`
-	ProductDetail   []prDto.ProductDetail `form:"productDetail" json:"productDetail"`
+	CustomerId    int    `form:"customerId" json:"customerId"`
+	ExtraAddress  string `form:"extraAddress" json:"extraAddress"`
+	PaymentOption string `form:"paymentOption" json:"paymentOption"`
 }
 
 // Getter Setter
-func (t *PostTransaction) GetProductDetail() []prDto.ProductDetail {
-	return t.ProductDetail
-}
-
-func (t *PostTransaction) SetProductDetail(cart []prDto.ProductDetail) {
-	t.ProductDetail = cart
-}
-
 func (t *PostTransaction) GetPaymentOption() string {
 	return t.PaymentOption
 }
 
 func (t *PostTransaction) SetPaymentOption(paymentOption string) {
 	t.PaymentOption = paymentOption
-}
-
-func (t *PostTransaction) GetTransactionDate() time.Time {
-	return t.TransactionDate
-}
-
-func (t *PostTransaction) SetTransactionDate(transactionDate time.Time) {
-	t.TransactionDate = transactionDate
 }
 
 // Getter Setter Transaction

@@ -12,6 +12,7 @@ import (
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	repo "github.com/Foodut/backend/modules/transaction/repository"
 	dto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
+	usrRepo "github.com/Foodut/backend/modules/user/repository"
 	"gorm.io/gorm"
 )
 
@@ -107,8 +108,12 @@ func DeleteById(transId string) *gorm.DB {
 }
 
 func MapToTransactionModel(trans dto.PostTransaction, sub float64, products []prModel.Product) model.Transaction {
+	if trans.ExtraAddress == "" {
+		trans.ExtraAddress = usrRepo.ReadCustomerAddress(trans.CustomerId)
+	}
 	transaction := model.Transaction{
 		CustomerID:      trans.CustomerId,
+		Address:         trans.ExtraAddress,
 		PaymentOption:   trans.PaymentOption,
 		SubTotal:        sub,
 		TransactionDate: GetServerTime(),

@@ -44,6 +44,19 @@ func ReadAllCustomers(custId []string) []model.Customer {
 	return customers
 }
 
+func ReadCustomerAddress(custId int) string {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Get customers from database
+	var address string
+
+	// Extra query by id
+	con.Raw("SELECT address FROM customers WHERE user_id = ?", custId).Scan(&address)
+
+	return address
+}
+
 func CreateCustomer(customer model.Customer) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
