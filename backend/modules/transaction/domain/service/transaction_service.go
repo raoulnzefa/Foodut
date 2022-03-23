@@ -3,7 +3,6 @@ package service
 import (
 	"errors"
 	"fmt"
-	"strconv"
 	"time"
 
 	prModel "github.com/Foodut/backend/modules/product/domain/model"
@@ -12,13 +11,12 @@ import (
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	repo "github.com/Foodut/backend/modules/transaction/repository"
 	dto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
+	usrRepo "github.com/Foodut/backend/modules/user/repository"
 	"gorm.io/gorm"
 )
 
 func SearchById(transactionId []string) []dto.Transaction {
 	transactions := repo.FindAllTransaction(transactionId)
-
-	transId, _ := strconv.ParseInt(transactionId[0], 6, 12)
 
 	var getTransactionDTO []dto.Transaction
 
@@ -34,7 +32,7 @@ func SearchById(transactionId []string) []dto.Transaction {
 				getTransactionDTO = append(getTransactionDTO, MapToTransactionDTO(transactions[i]))
 
 				// Get from customer
-				historyDetail := prSrvc.ProductDetailAssociationWithTransaction(int(transId))
+				historyDetail := prSrvc.ProductDetailAssociationWithTransaction(getTransactionDTO[i].ID)
 
 				// Set it to customer collapse
 				getTransactionDTO[i].ProductDetail = historyDetail
@@ -107,8 +105,12 @@ func DeleteById(transId string) *gorm.DB {
 }
 
 func MapToTransactionModel(trans dto.PostTransaction, sub float64, products []prModel.Product) model.Transaction {
+	if trans.ExtraAddress == "" {
+		trans.ExtraAddress = usrRepo.ReadCustomerAddress(trans.CustomerId)
+	}
 	transaction := model.Transaction{
 		CustomerID:      trans.CustomerId,
+		Address:         trans.ExtraAddress,
 		PaymentOption:   trans.PaymentOption,
 		SubTotal:        sub,
 		TransactionDate: GetServerTime(),
@@ -121,6 +123,7 @@ func MapToTransactionDTO(t model.Transaction) dto.Transaction {
 	return dto.Transaction{
 		ID:              t.ID,
 		CustomerId:      t.CustomerID,
+		Address:         t.Address,
 		PaymentOption:   t.PaymentOption,
 		SubTotal:        t.SubTotal,
 		TransactionDate: t.TransactionDate,
