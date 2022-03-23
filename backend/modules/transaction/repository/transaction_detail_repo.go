@@ -6,6 +6,18 @@ import (
 	"gorm.io/gorm"
 )
 
+// func ReadTDOrderBySeller()  {
+// 	// Check connection
+// 	con := dbController.GetConnection()
+
+// 	// var
+
+// 	// Update object in database
+// 	// result := con.Raw().Scan()
+
+// 	return result
+// }
+
 func UpdateTDAfterTransaction(transactionDetails []model.TransactionDetail) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
