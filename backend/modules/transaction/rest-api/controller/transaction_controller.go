@@ -40,7 +40,7 @@ func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 	}
 
 	// Send DTO to service
-	result := srvc.InsertTransaction(postTransactionDto)
+	result := srvc.InsertTransactionAvailabilityCheck(postTransactionDto)
 
 	// Set response
 	var response rspn.Response

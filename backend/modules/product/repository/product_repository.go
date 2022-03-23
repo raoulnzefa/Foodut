@@ -125,3 +125,27 @@ func ReadProductById(productId int) model.Product {
 	con.Find(&product, productId)
 	return product
 }
+
+func ReadProductStock(productId int) int {
+	// Check connection
+	con := dbController.GetConnection()
+
+	var product model.Product
+	con.Select("product_stock").Find(&product, productId)
+
+	return product.ProductStock
+}
+
+func UpdateProductStock(productId int, newStock int) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	result := con.Exec(
+		"UPDATE `products` "+
+			"SET `product_stock`= ? "+
+			"WHERE id = ?",
+		newStock,
+		productId)
+
+	return result
+}
