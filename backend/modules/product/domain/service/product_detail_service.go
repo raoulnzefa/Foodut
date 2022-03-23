@@ -32,11 +32,3 @@ func ProductDetailAssociationWithTransaction(transactionId int) []prDto.GetProdu
 
 	return productDetails
 }
-
-func BlendProductDetailForTransaction() {
-
-}
-
-func BlendProductDetailForCart() {
-
-}
