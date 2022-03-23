@@ -126,6 +126,7 @@ func MapToTransactionDTO(t model.Transaction) dto.Transaction {
 	return dto.Transaction{
 		ID:              t.ID,
 		CustomerId:      t.CustomerID,
+		Address:         t.Address,
 		PaymentOption:   t.PaymentOption,
 		SubTotal:        t.SubTotal,
 		TransactionDate: t.TransactionDate,
