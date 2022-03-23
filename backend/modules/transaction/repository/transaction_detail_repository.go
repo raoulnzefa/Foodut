@@ -6,6 +6,25 @@ import (
 	"gorm.io/gorm"
 )
 
+func ReadStaticPrice(tid int, pid int) float64 {
+	// Check connection
+	con := dbController.GetConnection()
+
+	var staticPrice float64
+
+	// Update object in database
+	con.Raw(
+		"SELECT `price` "+
+			"FROM `transaction_details` "+
+			"WHERE transaction_id = ? "+
+			"AND product_id = ?",
+		tid,
+		pid,
+	).Scan(&staticPrice)
+
+	return staticPrice
+}
+
 // func ReadTDOrderBySeller()  {
 // 	// Check connection
 // 	con := dbController.GetConnection()

@@ -3,7 +3,6 @@ package service
 import (
 	"errors"
 	"fmt"
-	"strconv"
 	"time"
 
 	prModel "github.com/Foodut/backend/modules/product/domain/model"
@@ -19,8 +18,6 @@ import (
 func SearchById(transactionId []string) []dto.Transaction {
 	transactions := repo.FindAllTransaction(transactionId)
 
-	transId, _ := strconv.ParseInt(transactionId[0], 6, 12)
-
 	var getTransactionDTO []dto.Transaction
 
 	// Association
@@ -35,7 +32,7 @@ func SearchById(transactionId []string) []dto.Transaction {
 				getTransactionDTO = append(getTransactionDTO, MapToTransactionDTO(transactions[i]))
 
 				// Get from customer
-				historyDetail := prSrvc.ProductDetailAssociationWithTransaction(int(transId))
+				historyDetail := prSrvc.ProductDetailAssociationWithTransaction(getTransactionDTO[i].ID)
 
 				// Set it to customer collapse
 				getTransactionDTO[i].ProductDetail = historyDetail
