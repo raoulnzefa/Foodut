@@ -12,6 +12,14 @@ type Customer struct {
 	ListHistory []trDto.Transaction   `form:"transaction" json:"transaction"`
 }
 
+type PostCustomer struct {
+	Name     string `form:"name" json:"name"`
+	Username string `form:"username" json:"username"`
+	Email    string `form:"email" json:"email"`
+	Password string `form:"password" json:"password"`
+	Address  string `form:"address" json:"address"`
+}
+
 type GetCustomer struct {
 	ID           int                      `form:"id" json:"id" gorm:"primaryKey"`
 	Username     string                   `form:"username" json:"username"`
