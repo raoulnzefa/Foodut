@@ -13,8 +13,8 @@ func TransactionRouter(router *mux.Router) {
 	//- Get All Transaction
 	router.HandleFunc("/transactions", usrController.Authenticate(trController.GetAllTransactions, 3)).Methods("GET")
 
-	//- Get Transaction Detail
-	// router.HandleFunc("/transactions-detail", trController.GetTransactionDetail).Methods("GET")
+	//- Get All Order From Seller
+	router.HandleFunc("/orders", trController.GetAllOrders).Methods("GET")
 
 	//- Get Carts With Availability
 	router.HandleFunc("/cart-a", trController.GetCartWithAvailability).Methods("GET")
