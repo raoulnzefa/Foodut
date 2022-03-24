@@ -1,3 +1,3 @@
 <template>
-    <img :src="'/assets/image/logo/foodut.png'"> 
+    <img :src="require('../../assets/images/logo/foodut.png')"/>
 </template>

@@ -9,20 +9,8 @@
 
 <template>
   <div id="page-user-list">
-
-    <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
-      <div class="vx-row">
-        <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Role</label>
-          <v-select :options="roleOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="roleFilter" class="mb-4 md:mb-0" />
-        </div>
-      </div>
-    </vx-card>
-
     <div class="vx-card p-6">
-
       <div class="flex flex-wrap items-center">
-
         <!-- ITEMS PER PAGE -->
         <div class="flex-grow">
           <vs-dropdown vs-trigger-click class="cursor-pointer">
@@ -65,7 +53,6 @@
           </vs-dropdown>
       </div>
 
-
       <!-- AgGrid Table -->
       <ag-grid-vue
         ref="agGridTable"
@@ -89,10 +76,8 @@
         :total="totalPages"
         :max="7"
         v-model="currentPage" />
-
     </div>
   </div>
-
 </template>
 
 <script>
@@ -119,22 +104,6 @@ export default {
   },
   data () {
     return {
-
-      // Filter Options
-      roleFilter: { label: 'All', value: 'all' },
-      roleOptions: [
-        { label: 'Pabrik', value: 'Pabrik' },
-        { label: 'UMKM', value: 'UMKM' }
-      ],
-
-      statusFilter: { label: 'All', value: 'all' },
-      statusOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Active', value: 'active' },
-        { label: 'Deactivated', value: 'deactivated' },
-        { label: 'Blocked', value: 'blocked' }
-      ],
-
       searchQuery: '',
 
       // AgGrid
@@ -156,6 +125,12 @@ export default {
           headerCheckboxSelection: true
         },
         {
+          headerName: 'Store',
+          field: 'storename',
+          filter: true,
+          width: 230
+        },
+        {
           headerName: 'Username',
           field: 'username',
           filter: true,
@@ -168,14 +143,14 @@ export default {
           width: 280
         },
         {
-          headerName: 'Country',
-          field: 'country',
+          headerName: 'Name',
+          field: 'name',
           filter: true,
           width: 200
         },
         {
-          headerName: 'Role',
-          field: 'role',
+          headerName: 'City',
+          field: 'city',
           filter: true,
           width: 170
         },

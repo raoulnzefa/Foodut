@@ -23,7 +23,7 @@
 
           <li
             class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            @click="$router.push('/').catch(() => {})">
+            @click="logout">
             <feather-icon icon="LogOutIcon" svgClasses="w-4 h-4" />
             <span class="ml-2">Logout</span>
           </li>
@@ -34,8 +34,7 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import apiLogout from '../../../../api/user'
 
 export default {
   data () {
@@ -50,30 +49,33 @@ export default {
   },
   methods: {
     logout () {
+      apiLogout
+        .Logout()
+        // .then(() => {
+        //   this.$router.push('/').catch(() => {})
+        // })
+        // .catch((error) => {
+        //   this.$vs.loading.close()
+        //   this.$vs.notify({
+        //     title: 'Error',
+        //     text: error.message,
+        //     iconPack: 'feather',
+        //     icon: 'icon-alert-circle',
+        //     color: 'danger'
+        //   })
+        // })
+      // // If JWT login
+      // if (localStorage.getItem('accessToken')) {
+      //   localStorage.removeItem('accessToken')
+      //   // this.$router.push('/pages/login').catch(() => {})
+      // }
 
-      // if user is logged in via auth0
-      if (this.$auth.profile) this.$auth.logOut()
+      // // Change role on logout. Same value as initialRole of acj.js
+      // this.$acl.change('admin')
+      // localStorage.removeItem('userInfo')
 
-      // if user is logged in via firebase
-      const firebaseCurrentUser = firebase.auth().currentUser
-
-      if (firebaseCurrentUser) {
-        firebase.auth().signOut().then(() => {
-          this.$router.push('/pages/login').catch(() => {})
-        })
-      }
-      // If JWT login
-      if (localStorage.getItem('accessToken')) {
-        localStorage.removeItem('accessToken')
-        this.$router.push('/pages/login').catch(() => {})
-      }
-
-      // Change role on logout. Same value as initialRole of acj.js
-      this.$acl.change('admin')
-      localStorage.removeItem('userInfo')
-
-      // This is just for demo Purpose. If user clicks on logout -> redirect
-      this.$router.push('/pages/login').catch(() => {})
+      // // This is just for demo Purpose. If user clicks on logout -> redirect
+      // // this.$router.push('/pages/login').catch(() => {})
     }
   }
 }

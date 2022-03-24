@@ -16,10 +16,6 @@
           <label class="text-sm opacity-75">Role</label>
           <v-select :options="roleOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="roleFilter" class="mb-4 md:mb-0" />
         </div>
-        <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Status</label>
-          <v-select :options="statusOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="statusFilter" class="mb-4 md:mb-0" />
-        </div>
       </div>
     </vx-card>
 
@@ -135,14 +131,6 @@ export default {
         { label: 'Staff', value: 'staff' }
       ],
 
-      statusFilter: { label: 'All', value: 'all' },
-      statusOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Active', value: 'active' },
-        { label: 'Deactivated', value: 'deactivated' },
-        { label: 'Blocked', value: 'blocked' }
-      ],
-
       searchQuery: '',
 
       // AgGrid
@@ -167,25 +155,19 @@ export default {
           headerName: 'Username',
           field: 'username',
           filter: true,
-          width: 200
+          width: 250
         },
         {
           headerName: 'Email',
           field: 'email',
           filter: true,
-          width: 200
+          width: 250
         },
         {
           headerName: 'Name',
           field: 'name',
           filter: true,
-          width: 200
-        },
-        {
-          headerName: 'Country',
-          field: 'country',
-          filter: true,
-          width: 150
+          width: 250
         },
         {
           headerName: 'Role',
@@ -194,16 +176,9 @@ export default {
           width: 150
         },
         {
-          headerName: 'Status',
-          field: 'status',
-          filter: true,
-          width: 150,
-          cellRendererFramework: 'CellRendererStatus'
-        },
-        {
           headerName: 'Actions',
           field: 'transactions',
-          width: 150,
+          width: 130,
           cellRendererFramework: 'CellRendererActions'
         }
       ],
@@ -219,9 +194,6 @@ export default {
   watch: {
     roleFilter (obj) {
       this.setColumnFilter('role', obj.value)
-    },
-    statusFilter (obj) {
-      this.setColumnFilter('status', obj.value)
     }
   },
   computed: {
