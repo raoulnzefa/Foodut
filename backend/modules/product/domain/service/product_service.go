@@ -6,6 +6,7 @@ import (
 	model "github.com/Foodut/backend/modules/product/domain/model"
 	repo "github.com/Foodut/backend/modules/product/repository"
 	dto "github.com/Foodut/backend/modules/product/rest-api/dto"
+	trModel "github.com/Foodut/backend/modules/transaction/domain/model"
 
 	"gorm.io/gorm"
 )
@@ -69,6 +70,19 @@ func DeleteById(productId string) *gorm.DB {
 	deleteFeedback := repo.DeleteProductById(productId)
 
 	return deleteFeedback
+}
+
+func SendForUpdateProductStockAfterTransaction(carts []trModel.Cart, products []model.Product) *gorm.DB {
+	var updateRes *gorm.DB
+
+	for i := 0; i < len(carts); i++ {
+		updateRes = repo.UpdateProductStock(
+			products[i].ID,
+			(products[i].ProductStock - carts[i].Quantity),
+		)
+	}
+
+	return updateRes
 }
 
 func SendForCreateProduct(pr dto.PostProduct) *gorm.DB {

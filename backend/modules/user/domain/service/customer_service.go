@@ -101,18 +101,26 @@ func MapToGetCustomerDTO(usr model.Customer) dto.GetCustomer {
 	}
 }
 
-func SendForCreateCustomer(usr dto.PostUser) *gorm.DB {
-	return repo.CreateCustomer(MapToCustomer(usr))
+func SendForCreateCustomer(postCustDto dto.PostCustomer) *gorm.DB {
+	return repo.CreateCustomer(MapToCustomer(postCustDto))
 }
 
-func MapToCustomer(usr dto.PostUser) model.Customer {
+func MapToCustomer(postCustDto dto.PostCustomer) model.Customer {
+
+	usr := dto.PostUser{
+		Name:     postCustDto.Name,
+		Username: postCustDto.Username,
+		Email:    postCustDto.Email,
+		Password: postCustDto.Password,
+	}
 
 	// Parse from JSON DTO -> Database Model
 	user := MapToUser(usr, 1)
 
 	cust := model.Customer{
-		UserID: user.ID,
-		User:   user,
+		UserID:  user.ID,
+		User:    user,
+		Address: postCustDto.Address,
 	}
 
 	return cust

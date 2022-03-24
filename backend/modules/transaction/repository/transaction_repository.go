@@ -48,7 +48,7 @@ func DeleteTransactionById(transactionId string) *gorm.DB {
 	return result
 }
 
-func CreateTransaction(transaction model.Transaction) *gorm.DB {
+func CreateTransaction(transaction *model.Transaction) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 

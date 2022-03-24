@@ -19,6 +19,7 @@ type PostUser struct {
 }
 
 type LoginUser struct {
+	ID       int    `form:"id" json:"id"`
 	Email    string `form:"email" json:"email"`
 	Password string `form:"password" json:"password"`
 }

@@ -34,7 +34,7 @@ func DeleteById(userId string) *gorm.DB {
 	return deleteFeedback
 }
 
-func CheckUserLogin(email string, password string) *gorm.DB {
+func CheckUserLogin(email string, password string) (model.User, *gorm.DB) {
 	encryptedPassword := GetMD5Hash(password)
 	return repo.CheckUserEmailPassword(email, encryptedPassword)
 }

@@ -29,6 +29,25 @@ func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+func GetAllOrders(writer http.ResponseWriter, req *http.Request) {
+
+	sellerId := req.URL.Query()["sellerId"]
+
+	var orders []dto.OrderDetail = srvc.SendSellerIdForReadOrder(sellerId)
+
+	// Set response
+	var response rspn.Response
+	if len(orders) > 0 {
+		response.Response_200(orders)
+
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
 func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
@@ -40,14 +59,14 @@ func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 	}
 
 	// Send DTO to service
-	result := srvc.InsertTransaction(postTransactionDto)
+	isError := srvc.InsertTransactionAvailabilityCheck(postTransactionDto)
 
 	// Set response
 	var response rspn.Response
-	if result.Error == nil {
+	if isError == nil {
 		response.Response_201()
 	} else {
-		response.Response_400(result.Error)
+		response.Response_400(isError.Error())
 	}
 
 	writer.Header().Set("Content-Type", "application/json")

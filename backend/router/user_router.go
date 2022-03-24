@@ -10,7 +10,7 @@ func UserRouter(router *mux.Router) {
 	//  USER
 	//
 	//- Get All User
-	router.HandleFunc("/users", usrController.GetAllUsers).Methods("GET")
+	router.HandleFunc("/users", usrController.Authenticate(usrController.GetAllUsers, 3)).Methods("GET")
 
 	//- Get All Seller
 	router.HandleFunc("/sellers", usrController.GetAllSeller).Methods("GET")
@@ -40,7 +40,7 @@ func UserRouter(router *mux.Router) {
 	// router.HandleFunc("/users/{user_id}", usrController.UpdateUser).Methods("PUT")
 
 	//- Delete User
-	router.HandleFunc("/users/{id}", usrController.DeleteUser).Methods("DELETE")
+	router.HandleFunc("/users/{id}", usrController.Authenticate(usrController.DeleteUser, 3)).Methods("DELETE")
 
 	//- Login User
 	router.HandleFunc("/loginUser", usrController.LoginUser).Methods("POST")

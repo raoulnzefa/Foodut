@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"net/http"
 	"time"
 
@@ -8,20 +9,21 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-// var jwtKey = []byte("7233345")
-var jwtKey = []byte("bebasapasaja")
+var jwtKey = []byte("foodutKey")
 var tokenName = "token"
 
 type Claims struct {
+	ID       int    `json:"id"`
 	Email    string `json:"email"`
 	UserType int    `json:"user_type"`
 	jwt.StandardClaims
 }
 
-func generateToken(w http.ResponseWriter, email string, userType int) {
-	tokenExpiryTime := time.Now().Add(20 * time.Minute)
+func generateToken(w http.ResponseWriter, id int, email string, userType int) {
+	tokenExpiryTime := time.Now().Add(24 * time.Hour)
 
 	claims := &Claims{
+		ID:       id,
 		Email:    email,
 		UserType: userType,
 		StandardClaims: jwt.StandardClaims{
@@ -59,7 +61,8 @@ func Authenticate(next http.HandlerFunc, accessType int) http.HandlerFunc {
 		if !isValidToken {
 			var response rspn.Response
 			response.Response_401()
-
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
 		} else {
 			next.ServeHTTP(w, r)
 		}

@@ -1,8 +1,8 @@
 package service
 
 import (
+	"errors"
 	"fmt"
-	"strconv"
 	"time"
 
 	prModel "github.com/Foodut/backend/modules/product/domain/model"
@@ -11,13 +11,12 @@ import (
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	repo "github.com/Foodut/backend/modules/transaction/repository"
 	dto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
+	usrRepo "github.com/Foodut/backend/modules/user/repository"
 	"gorm.io/gorm"
 )
 
 func SearchById(transactionId []string) []dto.Transaction {
 	transactions := repo.FindAllTransaction(transactionId)
-
-	transId, _ := strconv.ParseInt(transactionId[0], 6, 12)
 
 	var getTransactionDTO []dto.Transaction
 
@@ -33,7 +32,7 @@ func SearchById(transactionId []string) []dto.Transaction {
 				getTransactionDTO = append(getTransactionDTO, MapToTransactionDTO(transactions[i]))
 
 				// Get from customer
-				historyDetail := prSrvc.ProductDetailAssociationWithTransaction(int(transId))
+				historyDetail := prSrvc.ProductDetailAssociationWithTransaction(getTransactionDTO[i].ID)
 
 				// Set it to customer collapse
 				getTransactionDTO[i].ProductDetail = historyDetail
@@ -44,29 +43,59 @@ func SearchById(transactionId []string) []dto.Transaction {
 	return getTransactionDTO
 }
 
-func InsertTransaction(trans dto.PostTransaction) *gorm.DB {
+func InsertTransactionAvailabilityCheck(trans dto.PostTransaction) error {
 
-	sub := GenerateTotalPayment(trans.CustomerId)
-	carts := repo.GetCartByCustId(trans.CustomerId)
+	// Get customer cart, list only that available in stock
+	carts := repo.GetCartByCustIdWithAvailablityCheck(trans.CustomerId)
+
+	// If empty cart,
+	// perhaps sold out product,
+	// do not checkout
+	if len(carts) < 1 {
+		err := errors.New("empty cart list. make sure that stock is still available")
+		return err
+	}
+
 	var products []prModel.Product
 
+	// then read customer cart 🛒from filtered cart list
 	for i := 0; i < len(carts); i++ {
 		products = append(products, prRepo.ReadProductById(carts[i].ProductID))
 	}
 
-	transaction := model.Transaction{
-		CustomerID:      trans.CustomerId,
-		PaymentOption:   trans.PaymentOption,
-		SubTotal:        sub,
-		TransactionDate: GetServerTime(),
-		ProductDetail:   products,
+	// Generate sub total of cart
+	sub := GenerateTotalPaymentDirect(carts, products)
+
+	// Map JSON -> Database Model
+	transaction := MapToTransactionModel(trans, sub, products)
+
+	// Insert the transaction to database
+	check := repo.CreateTransaction(&transaction)
+
+	// If success
+	if check.Error == nil {
+		// Update transaction detail quantity
+		// Quantity & current price
+		if updateTD := SendTDForUpdateAfterTransaction(
+			transaction.ID,
+			carts,
+			products); updateTD.Error != nil {
+
+			// If error, return the error
+			return updateTD.Error
+		}
+
+		// Update Product Stock due to transaction
+		if updatePR := prSrvc.SendForUpdateProductStockAfterTransaction(
+			carts,
+			products); updatePR.Error == nil {
+
+			// Remove payed product from customer cart
+			return repo.DeleteCarts(carts).Error
+		}
 	}
 
-	check := repo.CreateTransaction(transaction)
-	if check.Error == nil {
-		return repo.DeleteCartByCustId(trans.CustomerId)
-	}
-	return check
+	return check.Error
 }
 
 func DeleteById(transId string) *gorm.DB {
@@ -75,22 +104,46 @@ func DeleteById(transId string) *gorm.DB {
 	return deleteFeedback
 }
 
+func MapToTransactionModel(trans dto.PostTransaction, sub float64, products []prModel.Product) model.Transaction {
+	if trans.ExtraAddress == "" {
+		trans.ExtraAddress = usrRepo.ReadCustomerAddress(trans.CustomerId)
+	}
+	transaction := model.Transaction{
+		CustomerID:      trans.CustomerId,
+		Address:         trans.ExtraAddress,
+		PaymentOption:   trans.PaymentOption,
+		SubTotal:        sub,
+		TransactionDate: GetServerTime(),
+		ProductDetail:   products,
+	}
+	return transaction
+}
+
 func MapToTransactionDTO(t model.Transaction) dto.Transaction {
 	return dto.Transaction{
 		ID:              t.ID,
 		CustomerId:      t.CustomerID,
+		Address:         t.Address,
 		PaymentOption:   t.PaymentOption,
 		SubTotal:        t.SubTotal,
 		TransactionDate: t.TransactionDate,
 	}
 }
 
-func GenerateTotalPayment(customerId int) float64 {
+func GenerateTotalPaymentByCustId(customerId int) float64 {
 	cart := repo.GetCartByCustId(customerId)
 	var subTotal float64
 	for i := 0; i < len(cart); i++ {
 		product := prRepo.ReadProductById(cart[i].ProductID)
 		subTotal = subTotal + (float64(cart[i].Quantity) * product.ProductPrice)
+	}
+	return subTotal
+}
+
+func GenerateTotalPaymentDirect(carts []model.Cart, products []prModel.Product) float64 {
+	var subTotal float64
+	for i := 0; i < len(carts); i++ {
+		subTotal = subTotal + (float64(carts[i].Quantity) * products[i].ProductPrice)
 	}
 	return subTotal
 }
