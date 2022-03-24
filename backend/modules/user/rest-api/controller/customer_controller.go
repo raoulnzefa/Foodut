@@ -53,15 +53,15 @@ func GetAllCustomerWithAssociationComplete(writer http.ResponseWriter, req *http
 func PostCustomer(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
-	var postUserDto dto.PostUser
-	err := json.NewDecoder(req.Body).Decode(&postUserDto)
+	var postCustDto dto.PostCustomer
+	err := json.NewDecoder(req.Body).Decode(&postCustDto)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	// Send DTO to service
-	result := srvc.SendForCreateCustomer(postUserDto)
+	result := srvc.SendForCreateCustomer(postCustDto)
 
 	// Set response
 	var response rspn.Response

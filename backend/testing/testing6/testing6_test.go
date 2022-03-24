@@ -20,6 +20,7 @@ const N = "test Full Name"
 const U = "test User Name"
 const E = "test Email12"
 const P = "test Password"
+const A = "test Address"
 
 func TestDuplicateEmailAdmin(t *testing.T) {
 	usrDto := dto.PostUser{
@@ -53,11 +54,12 @@ func TestDuplicateEmailSeller(t *testing.T) {
 }
 
 func TestDuplicateEmailCustomer(t *testing.T) {
-	usrDto := dto.PostUser{
+	usrDto := dto.PostCustomer{
 		Name:     N,
 		Username: U,
 		Email:    E,
 		Password: P,
+		Address:  A,
 	}
 
 	result := srvc.SendForCreateCustomer(usrDto)
