@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	dbController "github.com/Foodut/backend/database"
 	srvc "github.com/Foodut/backend/modules/transaction/domain/service"
 	dto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
@@ -20,6 +21,42 @@ func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 	var response rspn.Response
 	if len(transactions) > 0 {
 		response.Response_200(transactions)
+
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+func GetAllOrders(writer http.ResponseWriter, req *http.Request) {
+
+	sellerId := req.URL.Query()["sellerId"]
+
+	// var transactions []dto.Transaction = srvc.SearchById(transactionId)
+
+	con := dbController.GetConnection()
+
+	var OrderDetail []dto.OrderDetail
+
+	con.Raw(
+		"SELECT transaction_details.*, products.product_name, transactions.customer_id, "+
+			"transactions.payment_option, transactions.transaction_date, "+
+			"users.name, transactions.address "+
+			"FROM `transactions`, `transaction_details` , `products`, `users` "+
+			"WHERE users.id = transactions.customer_id "+
+			"AND transactions.id = transaction_details.transaction_id "+
+			"AND transaction_details.product_id = products.id "+
+			"AND status = 'ORDER' "+
+			"AND transaction_details.seller_id = ?",
+		sellerId[0]).
+		Scan(&OrderDetail)
+
+	// Set response
+	var response rspn.Response
+	if len(OrderDetail) > 0 {
+		response.Response_200(OrderDetail)
 
 	} else {
 		response.Response_204()
