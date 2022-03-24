@@ -4,6 +4,7 @@ import (
 	prModel "github.com/Foodut/backend/modules/product/domain/model"
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	repo "github.com/Foodut/backend/modules/transaction/repository"
+	"github.com/Foodut/backend/modules/transaction/rest-api/dto"
 	"gorm.io/gorm"
 )
 
@@ -28,4 +29,8 @@ func SendTDForUpdateAfterTransaction(tid int, carts []model.Cart, products []prM
 	result = repo.UpdateTDAfterTransaction(transactionDetails)
 
 	return result
+}
+
+func SendSellerIdForReadOrder(sellerId []string) []dto.OrderDetail {
+	return repo.ReadTDOrderBySeller(sellerId)
 }

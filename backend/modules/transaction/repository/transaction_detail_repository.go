@@ -3,6 +3,7 @@ package repository
 import (
 	dbController "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
+	"github.com/Foodut/backend/modules/transaction/rest-api/dto"
 	"gorm.io/gorm"
 )
 
@@ -25,17 +26,40 @@ func ReadStaticPrice(tid int, pid int) float64 {
 	return staticPrice
 }
 
-// func ReadTDOrderBySeller()  {
-// 	// Check connection
-// 	con := dbController.GetConnection()
+func ReadTDOrderBySeller(sellerId []string) []dto.OrderDetail {
+	// Check connection
+	con := dbController.GetConnection()
 
-// 	// var
+	var OrderDetail []dto.OrderDetail
 
-// 	// Update object in database
-// 	// result := con.Raw().Scan()
+	if sellerId != nil {
+		con.Raw(
+			"SELECT transaction_details.*, products.product_name, transactions.customer_id, "+
+				"transactions.payment_option, transactions.transaction_date, "+
+				"users.name, transactions.address "+
+				"FROM `transactions`, `transaction_details` , `products`, `users` "+
+				"WHERE users.id = transactions.customer_id "+
+				"AND transactions.id = transaction_details.transaction_id "+
+				"AND transaction_details.product_id = products.id "+
+				"AND status = 'ORDER' "+
+				"AND transaction_details.seller_id = ?",
+			sellerId[0]).
+			Scan(&OrderDetail)
+	} else {
+		con.Raw(
+			"SELECT transaction_details.*, products.product_name, transactions.customer_id, " +
+				"transactions.payment_option, transactions.transaction_date, " +
+				"users.name, transactions.address " +
+				"FROM `transactions`, `transaction_details` , `products`, `users` " +
+				"WHERE users.id = transactions.customer_id " +
+				"AND transactions.id = transaction_details.transaction_id " +
+				"AND transaction_details.product_id = products.id " +
+				"AND status = 'ORDER' ").
+			Scan(&OrderDetail)
+	}
 
-// 	return result
-// }
+	return OrderDetail
+}
 
 func UpdateTDAfterTransaction(transactionDetails []model.TransactionDetail) *gorm.DB {
 	// Check connection
