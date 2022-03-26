@@ -29,9 +29,23 @@ func MapToUser(usr dto.PostUser, lv int) model.User {
 }
 
 func DeleteById(userId string) *gorm.DB {
-	deleteFeedback := repo.DeleteUserById(userId)
-
-	return deleteFeedback
+	deleteCust := repo.DeleteCustomerByCustId(userId)
+	if deleteCust.Error == nil {
+		deleteAdmn := repo.DeleteAdminByCustId(userId)
+		if deleteAdmn.Error == nil {
+			deleteSell := repo.DeleteSellerByCustId(userId)
+			if deleteSell.Error == nil {
+				deleteUser := repo.DeleteUserById(userId)
+				return deleteUser
+			} else {
+				return deleteSell
+			}
+		} else {
+			return deleteAdmn
+		}
+	} else {
+		return deleteCust
+	}
 }
 
 func CheckUserLogin(email string, password string) (model.User, *gorm.DB) {

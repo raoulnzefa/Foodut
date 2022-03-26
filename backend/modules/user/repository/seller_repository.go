@@ -62,3 +62,13 @@ func CreateSeller(seller model.Seller) *gorm.DB {
 
 	return result
 }
+
+func DeleteSellerByCustId(userId string) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	//delete Customer on db by id
+	var sell model.Seller
+	result := con.Where("user_id = ?", userId).Delete(&sell)
+	return result
+}
