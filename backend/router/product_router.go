@@ -7,6 +7,13 @@ import (
 )
 
 func ProductRouter(router *mux.Router) {
+	// CATEGORIES
+	//
+	//- Insert Categories
+	router.HandleFunc("/categories", prController.PostCategory).Methods("POST")
+
+	//- Update Categories
+	router.HandleFunc("/categories/{prodcat}", prController.UpdateCategories).Methods("PUT")
 
 	//  PRODUCT
 	//

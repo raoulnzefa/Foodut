@@ -66,3 +66,13 @@ func CreateCustomer(customer model.Customer) *gorm.DB {
 
 	return result
 }
+
+func DeleteCustomerByCustId(customerId string) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	//delete Customer on db by id
+	var cust model.Customer
+	result := con.Where("user_id = ?", customerId).Delete(&cust)
+	return result
+}
