@@ -1,49 +1,37 @@
-import axios from 'axios'
+import transport from './transport'
 
 export default{
-  async Login () {
-    axios
-      .post('http://localhost:1234/loginUser', {
-        email: 'fedlysell@gmail.com',
-        password: 'fedly'
+  async Login (email, password) {
+    const response = await transport
+      .post('/loginUser', {
+        email: email,
+        password: password
       })
-      .then(response => {
-        console.log('Succes login')
-        console.log(response)
-        console.log('---')
-      })
-      .catch(error => {
-        console.log('Error login')
-        console.log(error)
-        console.log('---')
-      })
+    console.log(response.data);
+    if(response.data.statusCode == 200){
+      localStorage.setItem('userId', response.data.data)
+      console.log(localStorage.getItem('userId'))
+      return true
+    }else{
+      return false
+    }
   },
   async Logout () {
-    axios
-      .get('http://localhost:1234/logout')
-      .then(response => {
-        console.log('Succes logout')
-        console.log(response)
-        console.log('---')
-      })
-      .catch(error => {
-        console.log('Error logout')
-        console.log(error)
-        console.log('---')
-      })
+    const response = await transport
+      .get('/logout')
+      console.log(response.data)
+      if(response.data.statusCode == 200){
+        return true
+      }else{
+        return false
+      }
   },
   async GetAllUser () {
-    axios
-      .get('http://localhost:1234/users')
-      .then(response => {
-        console.log('Succes get all users')
-        console.log(response)
-        console.log('---')
-      })
-      .catch(error => {
-        console.log('Error get all users')
-        console.log(error)
-        console.log('---')
-      })
+    const response = await transport.get('/users')
+    return response.data.data
+  },
+  async GetUserById (userId) {
+    const response = await transport.get(`/users?user_id=${userId}`)
+    return response.data.data
   }
 }

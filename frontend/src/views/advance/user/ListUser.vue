@@ -9,30 +9,63 @@
 
 <template>
   <div id="page-user-list">
-
-    <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
+    <vx-card
+      ref="filterCard"
+      title="Filters"
+      class="user-list-filters mb-8"
+      actionButtons
+      @refresh="resetColFilters"
+      @remove="resetColFilters"
+    >
       <div class="vx-row">
         <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
           <label class="text-sm opacity-75">Role</label>
-          <v-select :options="roleOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="roleFilter" class="mb-4 md:mb-0" />
+          <v-select
+            :options="roleOptions"
+            :clearable="false"
+            :dir="$vs.rtl ? 'rtl' : 'ltr'"
+            v-model="roleFilter"
+            class="mb-4 md:mb-0"
+          />
         </div>
       </div>
     </vx-card>
 
     <div class="vx-card p-6">
-
       <div class="flex flex-wrap items-center">
-
         <!-- ITEMS PER PAGE -->
         <div class="flex-grow">
           <vs-dropdown vs-trigger-click class="cursor-pointer">
-            <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-              <span class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ usersData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : usersData.length }} of {{ usersData.length }}</span>
+            <div
+              class="
+                p-4
+                border border-solid
+                d-theme-border-grey-light
+                rounded-full
+                d-theme-dark-bg
+                cursor-pointer
+                flex
+                items-center
+                justify-between
+                font-medium
+              "
+            >
+              <span class="mr-2"
+                >{{
+                  currentPage * paginationPageSize - (paginationPageSize - 1)
+                }}
+                -
+                {{
+                  usersData.length - currentPage * paginationPageSize > 0
+                    ? currentPage * paginationPageSize
+                    : usersData.length
+                }}
+                of {{ usersData.length }}</span
+              >
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
             <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
             <vs-dropdown-menu>
-
               <vs-dropdown-item @click="gridApi.paginationSetPageSize(10)">
                 <span>10</span>
               </vs-dropdown-item>
@@ -44,27 +77,58 @@
         </div>
 
         <!-- TABLE ACTION COL-2: SEARCH & EXPORT AS CSV -->
-          <vs-input class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4" v-model="searchQuery" @input="updateSearchQuery" placeholder="Search..." />
-          <!-- <vs-button class="mb-4 md:mb-0" @click="gridApi.exportDataAsCsv()">Export as CSV</vs-button> -->
+        <vs-input
+          class="
+            sm:mr-4
+            mr-0
+            sm:w-auto
+            w-full
+            sm:order-normal
+            order-3
+            sm:mt-0
+            mt-4
+          "
+          v-model="searchQuery"
+          @input="updateSearchQuery"
+          placeholder="Search..."
+        />
+        <!-- <vs-button class="mb-4 md:mb-0" @click="gridApi.exportDataAsCsv()">Export as CSV</vs-button> -->
 
-          <!-- ACTION - DROPDOWN -->
-          <vs-dropdown vs-trigger-click class="cursor-pointer">
-            <div class="p-3 shadow-drop rounded-lg d-theme-dark-light-bg cursor-pointer flex items-end justify-center text-lg font-medium w-32">
-              <span class="mr-2 leading-none">Actions</span>
-              <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-            </div>
+        <!-- ACTION - DROPDOWN -->
+        <vs-dropdown vs-trigger-click class="cursor-pointer">
+          <div
+            class="
+              p-3
+              shadow-drop
+              rounded-lg
+              d-theme-dark-light-bg
+              cursor-pointer
+              flex
+              items-end
+              justify-center
+              text-lg
+              font-medium
+              w-32
+            "
+          >
+            <span class="mr-2 leading-none">Actions</span>
+            <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
+          </div>
 
-            <vs-dropdown-menu>
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Delete</span>
-                </span>
-              </vs-dropdown-item>
-            </vs-dropdown-menu>
-          </vs-dropdown>
+          <vs-dropdown-menu>
+            <vs-dropdown-item>
+              <span class="flex items-center">
+                <feather-icon
+                  icon="TrashIcon"
+                  svgClasses="h-4 w-4"
+                  class="mr-2"
+                />
+                <span>Delete</span>
+              </span>
+            </vs-dropdown-item>
+          </vs-dropdown-menu>
+        </vs-dropdown>
       </div>
-
 
       <!-- AgGrid Table -->
       <ag-grid-vue
@@ -82,17 +146,13 @@
         :pagination="true"
         :paginationPageSize="paginationPageSize"
         :suppressPaginationPanel="true"
-        :enableRtl="$vs.rtl">
+        :enableRtl="$vs.rtl"
+      >
       </ag-grid-vue>
 
-      <vs-pagination
-        :total="totalPages"
-        :max="7"
-        v-model="currentPage" />
-
+      <vs-pagination :total="totalPages" :max="7" v-model="currentPage" />
     </div>
   </div>
-
 </template>
 
 <script>
@@ -108,6 +168,8 @@ import CellRendererStatus from './cell-renderer/CellRendererStatus.vue'
 import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
 import CellRendererActions from './cell-renderer/CellRendererActions.vue'
 
+// Api User
+import apiUser from '../../../api/user'
 
 export default {
   components: {
@@ -170,18 +232,15 @@ export default {
           width: 250
         },
         {
-          headerName: 'Role',
-          field: 'role',
+          headerName: 'Level',
+          field: 'level',
           filter: true,
           width: 150
-        },
-        {
-          headerName: 'Actions',
-          field: 'transactions',
-          width: 130,
-          cellRendererFramework: 'CellRendererActions'
         }
       ],
+
+      // Data User
+      rowUsers: [],
 
       // Cell Renderer Components
       components: {
@@ -198,7 +257,7 @@ export default {
   },
   computed: {
     usersData () {
-      return this.$store.state.userManagement.users
+      return this.rowUsers
     },
     paginationPageSize () {
       if (this.gridApi) return this.gridApi.paginationGetPageSize()
@@ -245,17 +304,10 @@ export default {
     }
   },
   mounted () {
-    this.gridApi = this.gridOptions.api
-
-    /* =================================================================
-      NOTE:
-      Header is not aligned properly in RTL version of agGrid table.
-      However, we given fix to this issue. If you want more robust solution please contact them at gitHub
-    ================================================================= */
-    if (this.$vs.rtl) {
-      const header = this.$refs.agGridTable.$el.querySelector('.ag-header-container')
-      header.style.left = `-${  String(Number(header.style.transform.slice(11, -3)) + 9)  }px`
-    }
+    apiUser
+      .GetAllUser()
+      .then((response) => { this.rowUsers = response })
+      .catch((error) => { console.log('Error get all data user!', error) })
   },
   created () {
     if (!moduleUserManagement.isRegistered) {

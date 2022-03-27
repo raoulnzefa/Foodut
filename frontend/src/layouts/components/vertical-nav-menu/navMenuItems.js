@@ -45,7 +45,7 @@ export default [
   {
     header: 'Apps',
     icon: 'PackageIcon',
-    i18n: 'Apps & Pages',
+    i18n: 'AppsPages',
     items: [
       {
         url: null,
@@ -63,7 +63,7 @@ export default [
             url: '/apps/store/item/',
             name: 'Item Details',
             slug: 'store-item-detail-view',
-            i18n: 'Item Details'
+            i18n: 'ItemDetails'
           },
           {
             url: '/apps/store/cart',
@@ -102,19 +102,19 @@ export default [
             url: '/advance/store/product/add',
             name: 'Add Product',
             slug: 'store-add-product',
-            i18n: 'Add Product'
+            i18n: 'AddProduct'
           },
           {
             url: '/advance/store/product/edit',
             name: 'Edit Product',
             slug: 'store-edit-product',
-            i18n: 'Edit Product'
+            i18n: 'EditProduct'
           },
           {
             url: '/advance/store/view',
             name: 'View',
             slug: 'store-view',
-            i18n: 'View Store'
+            i18n: 'ViewStore'
           }
         ]
       },
@@ -128,13 +128,13 @@ export default [
             url: '/advance/user/user-list/268',
             name: 'List User',
             slug: 'advance-user-list',
-            i18n: 'List User'
+            i18n: 'ListUser'
           },
           {
             url: '/advance/store/store-list',
             name: 'List Store',
             slug: 'advance-store-list',
-            i18n: 'List Store'
+            i18n: 'ListStore'
           }
         ]
       }

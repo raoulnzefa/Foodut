@@ -12,7 +12,7 @@
     </ul>
 
     <!-- STARRED PAGES MORE -->
-    <div class="vx-navbar__starred-pages--more-dropdown" v-if="starredPagesMore.length">
+    <!-- <div class="vx-navbar__starred-pages--more-dropdown" v-if="starredPagesMore.length">
       <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
         <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" class="cursor-pointer p-2"></feather-icon>
         <vs-dropdown-menu>
@@ -26,12 +26,12 @@
           </ul>
         </vs-dropdown-menu>
       </vs-dropdown>
-    </div>
+    </div> -->
 
-    <div class="bookmark-container">
-      <feather-icon icon="StarIcon" :svgClasses="['stoke-current text-warning', textColor]" class="cursor-pointer p-2" @click.stop="showBookmarkPagesDropdown = !showBookmarkPagesDropdown" />
-      <div v-click-outside="outside" class="absolute bookmark-list w-1/3 xl:w-1/4 mt-4" v-if="showBookmarkPagesDropdown">
-        <vx-auto-suggest
+    <!-- <div class="bookmark-container"> -->
+      <!-- <feather-icon icon="StarIcon" :svgClasses="['stoke-current text-warning', textColor]" class="cursor-pointer p-2" @click.stop="showBookmarkPagesDropdown = !showBookmarkPagesDropdown" />
+      <div v-click-outside="outside" class="absolute bookmark-list w-1/3 xl:w-1/4 mt-4" v-if="showBookmarkPagesDropdown"> -->
+        <!-- <vx-auto-suggest
           ref="bookmarkAutoSuggest"
           :autoFocus="true"
           :data="navbarSearchAndPinList"
@@ -44,10 +44,10 @@
           hideGroupTitle
           background-overlay
           @input="hnd_search_query_update"
-          @selected="selected">
+          @selected="selected"> -->
 
           <!-- Pages Suggestion -->
-          <template v-slot:pages="{ suggestion }">
+          <!-- <template v-slot:pages="{ suggestion }">
             <div class="flex items-center justify-between">
               <div class="flex items-end leading-none py-1">
                 <feather-icon :icon="suggestion.icon" svgClasses="h-5 w-5" class="mr-4" />
@@ -58,11 +58,11 @@
                 :svgClasses="[{'text-warning': suggestion.is_bookmarked}, 'h-5 w-5 stroke-current mt-1']"
                 @click.stop="actionClicked(suggestion)" />
             </div>
-          </template>
+          </template> -->
 
-        </vx-auto-suggest>
-      </div>
-    </div>
+        <!-- </vx-auto-suggest> -->
+      <!-- </div> -->
+    <!-- </div> -->
   </div>
 </template>
 
