@@ -2,7 +2,10 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 
 	dbController "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/user/domain/model"
@@ -40,29 +43,43 @@ func EditCustomer(w http.ResponseWriter, r *http.Request) {
 	// Check connection
 	con := dbController.GetConnection()
 
-	// Get email from logged member
-	email := GetEmailFromToken(r)
+	err := r.ParseForm()
+	if err != nil {
+		return
+	}
+
+	// Get id from path
+	vars := mux.Vars(r)
+	custID := vars["user_id"]
 
 	var customer model.Customer
-	con.Where("email=?", email).First(&customer)
+	// Get customer from database by id
+	err = con.First(&customer, custID).Error
 
-	if name := r.Form.Get("name"); name != "" {
+	// Get customer data
+	// Belum bisa ambil nama customer nya soalnya beda table ada di parent
+	name := r.Form.Get("name")
+	fmt.Println("NAME : " + name)
+	address := r.Form.Get("address")
+
+	// Set inputted data to object
+	if name != "" {
 		customer.User.Name = name
 	}
-	if address := r.Form.Get("address"); address != "" {
+	if address != "" {
 		customer.Address = address
 	}
-	if password := r.Form.Get("password"); password != "" {
-		customer.User.Password = password
-	}
-
-	result := con.Save(&customer)
 
 	var response rspn.Response
-	if result.Error == nil {
-		response.Response_200("data has been updated")
+	if err == nil {
+		result := con.Save(&customer)
+		if result.Error == nil {
+			response.Response_200(customer)
+		} else {
+			response.Response_400("Edit Customer Data Failed " + result.Error.Error())
+		}
 	} else {
-		response.Response_400(result)
+		response.Response_400("Edit Customer Data Failed, ID Not Valid" + err.Error())
 	}
 
 	w.Header().Set("Content-Type", "application/json")
