@@ -8,7 +8,7 @@ import (
 )
 
 func EmptySellerMinimal() []dto.SellerMinimal {
-	sellers := repo.FindAllSeller()
+	sellers := repo.ReadAllSeller()
 
 	var sellerDto []dto.SellerMinimal
 
@@ -25,7 +25,7 @@ func EmptySellerMinimal() []dto.SellerMinimal {
 }
 
 func SearchByStoreName(storeName []string) model.Seller {
-	seller := repo.FindSellerByStoreName(storeName)
+	seller := repo.ReadSellerByStoreName(storeName)
 
 	// Association
 	if seller.UserID > 0 {
@@ -35,7 +35,11 @@ func SearchByStoreName(storeName []string) model.Seller {
 	return seller
 }
 
-func MapToSeller(u dto.PostSeller) *gorm.DB {
+func SendForCreateSeller(u dto.PostSeller) *gorm.DB {
+	return repo.CreateSeller(MapToSeller(u))
+}
+
+func MapToSeller(u dto.PostSeller) model.Seller {
 
 	// Parse from JSON DTO -> Database Model
 	usr := dto.PostUser{
@@ -54,5 +58,5 @@ func MapToSeller(u dto.PostSeller) *gorm.DB {
 		City:      u.City,
 	}
 
-	return repo.CreateSeller(sell)
+	return sell
 }

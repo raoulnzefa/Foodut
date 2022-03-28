@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	srvc "github.com/Foodut/backend/modules/transaction/domain/service"
 	dto "github.com/Foodut/backend/modules/transaction/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
@@ -15,7 +14,7 @@ func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 
 	transactionId := req.URL.Query()["id"]
 
-	var transactions []model.Transaction = srvc.SearchById(transactionId)
+	var transactions []dto.Transaction = srvc.SearchById(transactionId)
 
 	// Set response
 	var response rspn.Response
@@ -30,10 +29,29 @@ func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+func GetAllOrders(writer http.ResponseWriter, req *http.Request) {
+
+	sellerId := req.URL.Query()["sellerId"]
+
+	var orders []dto.OrderDetail = srvc.SendSellerIdForReadOrder(sellerId)
+
+	// Set response
+	var response rspn.Response
+	if len(orders) > 0 {
+		response.Response_200(orders)
+
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
 func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
-	var postTransactionDto dto.Transaction
+	var postTransactionDto dto.PostTransaction
 	err := json.NewDecoder(req.Body).Decode(&postTransactionDto)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusBadRequest)
@@ -41,14 +59,14 @@ func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 	}
 
 	// Send DTO to service
-	result := srvc.InsertTransaction(postTransactionDto)
+	isError := srvc.InsertTransactionAvailabilityCheck(postTransactionDto)
 
 	// Set response
 	var response rspn.Response
-	if result.Error == nil {
+	if isError == nil {
 		response.Response_201()
 	} else {
-		response.Response_400(result.Error)
+		response.Response_400(isError.Error())
 	}
 
 	writer.Header().Set("Content-Type", "application/json")

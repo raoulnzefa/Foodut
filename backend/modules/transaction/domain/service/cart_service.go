@@ -29,10 +29,22 @@ func MapToCart(cr dto.PostCart) []model.Cart {
 	return carts
 }
 
+func SendCartForReadCartAvailability(customerId int) []model.Cart {
+	return repo.GetCartByCustIdWithAvailablityCheck(customerId)
+}
+
 func SendCartForCreate(cr dto.PostCart) *gorm.DB {
 	return repo.CreateCart(MapToCart(cr))
 }
 
 func SendCartForUpdate(cr dto.PostCart) *gorm.DB {
 	return repo.UpdateCarts(MapToCart(cr))
+}
+
+func SendCartForDelSpesific(cr dto.DeleteSpecificCart) *gorm.DB {
+	return repo.DeleteCartByCustIdAndProductId(cr.UserId, cr.ProductId)
+}
+
+func SendCartForDelete(carts []model.Cart) *gorm.DB {
+	return repo.DeleteCarts(carts)
 }

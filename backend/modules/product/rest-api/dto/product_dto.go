@@ -2,7 +2,7 @@ package dto
 
 type Product struct {
 	ProductId       int      `form:"productId" json:"productId"`
-	SellerName      string   `form:"sellerName" json:"sellerName"`
+	StoreName       string   `form:"storeName" json:"storeName"`
 	ProductName     string   `form:"productName" json:"productName"`
 	ProductCategory string   `form:"productCategory" json:"productCategory"`
 	ProductStock    int      `form:"productStock" json:"productStock"`
@@ -31,11 +31,11 @@ func (p *Product) SetProductId(productId int) {
 }
 
 func (p *Product) GetSellerName() string {
-	return p.SellerName
+	return p.StoreName
 }
 
 func (p *Product) SetSellerName(sellerName string) {
-	p.SellerName = sellerName
+	p.StoreName = sellerName
 }
 
 func (p *Product) GetProductName() string {

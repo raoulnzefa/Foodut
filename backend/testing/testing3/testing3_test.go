@@ -38,7 +38,7 @@ func TestPostAdmin(t *testing.T) {
 		Password: p,
 	}
 
-	result := srvc.MapToAdmin(dto)
+	result := srvc.SendForCreateAdmin(dto)
 
 	con.Raw("SELECT COUNT('id') FROM admins").Scan(&afterLength)
 

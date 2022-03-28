@@ -7,7 +7,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func MapToAdmin(usr dto.PostUser) *gorm.DB {
+func SendForCreateAdmin(usr dto.PostUser) *gorm.DB {
+	return repo.CreateAdmin(MapToAdmin(usr))
+}
+
+func MapToAdmin(usr dto.PostUser) model.Admin {
 
 	// Parse from JSON DTO -> Database Model
 	user := MapToUser(usr, 3)
@@ -17,5 +21,5 @@ func MapToAdmin(usr dto.PostUser) *gorm.DB {
 		User:   user,
 	}
 
-	return repo.CreateAdmin(adm)
+	return adm
 }

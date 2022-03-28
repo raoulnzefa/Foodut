@@ -8,8 +8,29 @@ import (
 type Customer struct {
 	User        User                  `form:"user" json:"user"`
 	Address     string                `form:"address" json:"address"`
-	ListHistory []trDto.Transaction   `form:"transaction" json:"transaction"`
 	Cart        []prDto.ProductDetail `form:"cart" json:"cart"`
+	ListHistory []trDto.Transaction   `form:"transaction" json:"transaction"`
+}
+
+type PostCustomer struct {
+	Name     string `form:"name" json:"name"`
+	Username string `form:"username" json:"username"`
+	Email    string `form:"email" json:"email"`
+	Password string `form:"password" json:"password"`
+	Address  string `form:"address" json:"address"`
+}
+
+type GetCustomer struct {
+	ID           int                      `form:"id" json:"id" gorm:"primaryKey"`
+	Username     string                   `form:"username" json:"username"`
+	Email        string                   `form:"email" json:"email" gorm:"uniqueIndex:idx_email"`
+	Name         string                   `form:"name" json:"name"`
+	Password     string                   `form:"password" json:"password"`
+	ProfilePhoto string                   `form:"profilePhoto" json:"profilePhoto"`
+	Level        int                      `form:"level" json:"level"`
+	Address      string                   `form:"address" json:"address"`
+	Cart         []prDto.GetProductDetail `form:"cart" json:"cart"`
+	ListHistory  []trDto.Transaction      `form:"transaction" json:"transaction"`
 }
 
 // Getter Setter
