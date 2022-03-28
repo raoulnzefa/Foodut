@@ -20,6 +20,7 @@ const N = "test Full Name"
 const U = "test User Name"
 const E = "test Email12"
 const P = "test Password"
+const A = "test Address"
 
 func TestDuplicateEmailAdmin(t *testing.T) {
 	usrDto := dto.PostUser{
@@ -29,7 +30,7 @@ func TestDuplicateEmailAdmin(t *testing.T) {
 		Password: P,
 	}
 
-	result := srvc.MapToAdmin(usrDto)
+	result := srvc.SendForCreateAdmin(usrDto)
 
 	assert.ErrorContains(t, result.Error, "fk_admins_user")
 }
@@ -47,20 +48,21 @@ func TestDuplicateEmailSeller(t *testing.T) {
 		City:      C,
 	}
 
-	result := srvc.MapToSeller(dto)
+	result := srvc.SendForCreateSeller(dto)
 
 	assert.ErrorContains(t, result.Error, "fk_sellers_user")
 }
 
 func TestDuplicateEmailCustomer(t *testing.T) {
-	usrDto := dto.PostUser{
+	usrDto := dto.PostCustomer{
 		Name:     N,
 		Username: U,
 		Email:    E,
 		Password: P,
+		Address:  A,
 	}
 
-	result := srvc.MapToCustomer(usrDto)
+	result := srvc.SendForCreateCustomer(usrDto)
 
 	assert.ErrorContains(t, result.Error, "fk_customers_user")
 }

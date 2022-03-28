@@ -25,7 +25,7 @@ func TestGetStore(t *testing.T) {
 	var expected model.Seller
 	con.Where("store_name = ?", storeName).First(&expected)
 
-	actual := repo.FindSellerByStoreName([]string{storeName})
+	actual := repo.ReadSellerByStoreName([]string{storeName})
 
 	assert.True(t, actual.UserID != 0)
 

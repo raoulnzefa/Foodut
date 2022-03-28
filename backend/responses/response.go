@@ -125,6 +125,16 @@ func (r *Response) Response_405() {
 }
 
 /**
+  This response is sent when the web server, after performing server-driven content negotiation,
+  doesn't find any content that conforms to the criteria given by the user agent.
+*/
+func (r *Response) Response_406(data interface{}) {
+	r.StatusCode = 406
+	r.Message = "Not Acceptable"
+	r.Data = data
+}
+
+/**
   The server has encountered a situation it does not know how to handle.
 
   Status Code: "500"

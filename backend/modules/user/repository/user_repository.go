@@ -6,14 +6,19 @@ import (
 	"gorm.io/gorm"
 )
 
-func FindAllUsers() []model.User {
+func ReadAllUsers(userId []string) []model.User {
 	// Check connection
 	con := dbController.GetConnection()
 
 	// Get users from database, filter by store_name
 	var users []model.User
 
-	con.Find(&users)
+	// Extra query by id
+	if userId != nil {
+		con.Find(&users, userId[0])
+	} else {
+		con.Find(&users)
+	}
 
 	return users
 }
@@ -36,4 +41,11 @@ func DeleteUserById(userId string) *gorm.DB {
 	var user model.User
 	result := con.Delete(&user, userId)
 	return result
+}
+
+func CheckUserEmailPassword(email string, password string) (model.User, *gorm.DB) {
+	con := dbController.GetConnection()
+	var user model.User
+	result := con.Where("email = ? AND password = ?", email, password).First(&user)
+	return user, result
 }

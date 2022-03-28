@@ -28,7 +28,7 @@ func GetOneSellerAssociation(seller *model.Seller) {
 	prRepo.GetProductsAssociation(seller.ListProduct)
 }
 
-func FindAllSeller() []model.Seller {
+func ReadAllSeller() []model.Seller {
 	// Check connection
 	con := dbController.GetConnection()
 
@@ -40,7 +40,7 @@ func FindAllSeller() []model.Seller {
 	return sellers
 }
 
-func FindSellerByStoreName(storeName []string) model.Seller {
+func ReadSellerByStoreName(storeName []string) model.Seller {
 	// Check connection
 	con := dbController.GetConnection()
 
@@ -60,5 +60,15 @@ func CreateSeller(seller model.Seller) *gorm.DB {
 	// Insert object to database
 	result := con.Create(&seller)
 
+	return result
+}
+
+func DeleteSellerByCustId(userId string) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	//delete Customer on db by id
+	var sell model.Seller
+	result := con.Where("user_id = ?", userId).Delete(&sell)
 	return result
 }
