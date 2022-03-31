@@ -24,6 +24,16 @@ type LoginUser struct {
 	Password string `form:"password" json:"password"`
 }
 
+type EditUser struct {
+	Name         string `form:"name" json:"name"`
+	Username     string `form:"username" json:"username"`
+	Password     string `form:"password" json:"password"`
+	ProfilePhoto string `form:"profilePhoto" json:"profilePhoto"`
+	Address      string `form:"address" json:"address"`
+	City         string `form:"city" json:"city"`
+	StoreName    string `form:"storeName" json:"storeName"`
+}
+
 // data, _ := json.Marshal(user)
 func (u User) MarshalJSON() ([]byte, error) {
 	j, err := json.Marshal(struct {
