@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -30,7 +29,6 @@ func PostCategory(writer http.ResponseWriter, req *http.Request) {
 	if result.Error == nil {
 		response.Response_201()
 	} else {
-		fmt.Println(result.Error)
 		response.Response_400("")
 	}
 
