@@ -2,12 +2,15 @@ package controller
 
 import (
 	"encoding/json"
+	//"fmt"
 	"net/http"
 
+	//dbController "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/user/domain/model"
 	srvc "github.com/Foodut/backend/modules/user/domain/service"
 	dto "github.com/Foodut/backend/modules/user/rest-api/dto"
 	rspn "github.com/Foodut/backend/responses"
+	//"github.com/gorilla/mux"
 )
 
 func GetAllCustomerWithAssociation(writer http.ResponseWriter, req *http.Request) {

@@ -2,7 +2,8 @@ package repository
 
 import (
 	dbController "github.com/Foodut/backend/database"
-	"github.com/Foodut/backend/modules/product/domain/model"
+	model "github.com/Foodut/backend/modules/product/domain/model"
+	"gorm.io/gorm"
 )
 
 func GetCategoryByName(categoryName []string) model.Category {
@@ -17,4 +18,23 @@ func GetCategoryByName(categoryName []string) model.Category {
 
 	return category
 
+}
+
+func CreateCategory(cat model.Category) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Insert object to database
+	result := con.Create(&cat)
+
+	return result
+}
+
+func UpdateCategories(cat model.Category, lastName string) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+	//var cats model.Category
+	result := con.Model(&cat).Where("product_category = ?", lastName).Update("product_category", cat.ProductCategory)
+
+	return result
 }

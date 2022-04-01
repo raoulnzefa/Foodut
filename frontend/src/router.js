@@ -17,7 +17,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 //import auth from '@/auth/authService'
 
-import firebase from 'firebase/app'
 import 'firebase/auth'
 
 Vue.use(Router)
@@ -188,7 +187,22 @@ const router = new Router({
               { title: 'Store'},
               { title: 'View', active: true }
             ],
-            pageTitle: 'View',
+            pageTitle: 'ViewStore',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/advance/store/product/view',
+          name: 'store-product-view',
+          component: () => import('./views/advance/store/ViewSoldProduct.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Product'},
+              { title: 'View', active: true }
+            ],
+            pageTitle: 'ViewProduct',
             rule: 'editor'
           }
         },

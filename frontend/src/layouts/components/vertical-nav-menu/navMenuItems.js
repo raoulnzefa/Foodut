@@ -112,9 +112,15 @@ export default [
           },
           {
             url: '/advance/store/view',
-            name: 'View',
+            name: 'View Store',
             slug: 'store-view',
             i18n: 'ViewStore'
+          },
+          {
+            url: '/advance/store/product/view',
+            name: 'View Product',
+            slug: 'store-product-view',
+            i18n: 'ViewSoldProduct'
           }
         ]
       },

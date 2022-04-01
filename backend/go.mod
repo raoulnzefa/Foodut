@@ -13,10 +13,16 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
+<<<<<<< HEAD
 	github.com/gorilla/handlers v1.5.1
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rs/cors v1.8.2
+=======
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+>>>>>>> fa1e878e65f5fcc1f82d4547fe3caa8ae75ed085
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )

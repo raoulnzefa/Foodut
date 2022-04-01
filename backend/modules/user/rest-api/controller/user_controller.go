@@ -7,6 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	dbController "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/user/domain/model"
 	srvc "github.com/Foodut/backend/modules/user/domain/service"
 	"github.com/Foodut/backend/modules/user/rest-api/dto"
@@ -113,4 +114,96 @@ func DeleteUser(writer http.ResponseWriter, req *http.Request) {
 
 	writer.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(writer).Encode(response)
+}
+
+func EditUser(w http.ResponseWriter, r *http.Request) {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Decode JSON
+	var editUserDto dto.EditUser
+	err := json.NewDecoder(r.Body).Decode(&editUserDto)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Get id from path
+	vars := mux.Vars(r)
+	userID := vars["user_id"]
+
+	var user model.User
+	// Get user from database by id
+	err = con.First(&user, userID).Error
+
+	// Get User data
+	levelUser := user.Level // buat dipake saat cek level user apakah cust atau seller
+	username := editUserDto.Username
+	name := editUserDto.Name
+	password := editUserDto.Password
+	profilePhoto := editUserDto.ProfilePhoto
+	addressCust := editUserDto.Address
+	citySeller := editUserDto.City
+	storeNameSeller := editUserDto.StoreName
+
+	// Set inputted data to object
+	if username != "" {
+		user.Username = username
+	}
+	if name != "" {
+		user.Name = name
+	}
+	if password != "" {
+		encryptedPassword := srvc.GetMD5Hash(password)
+		user.Password = encryptedPassword
+	}
+	if profilePhoto != "" {
+		user.ProfilePhoto = profilePhoto
+	}
+
+	var response rspn.Response
+	// Customer = 1 dan Seller = 2
+	if levelUser == 1 {
+		var cust model.Customer
+		err = con.First(&cust, userID).Error
+		if addressCust != "" {
+			cust.Address = addressCust
+		}
+
+		if err == nil {
+			result1 := con.Save(&user)
+			result2 := con.Save(&cust)
+			if result1.Error == nil && result2.Error == nil {
+				response.Response_200("Edit Customer Data Success")
+			} else {
+				response.Response_400("Edit Customer Data Failed " + result1.Error.Error() + " " + result2.Error.Error())
+			}
+		} else {
+			response.Response_400("Edit Customer Data Failed, ID Not Valid" + err.Error())
+		}
+	} else if levelUser == 2 {
+		var seller model.Seller
+		err = con.First(&seller, userID).Error
+		if citySeller != "" {
+			seller.City = citySeller
+		}
+		if storeNameSeller != "" {
+			seller.StoreName = storeNameSeller
+		}
+
+		if err == nil {
+			result1 := con.Save(&user)
+			result2 := con.Save(&seller)
+			if result1.Error == nil && result2.Error == nil {
+				response.Response_200("Edit Seller Data Success")
+			} else {
+				response.Response_400("Edit Seller Data Failed " + result1.Error.Error() + " " + result2.Error.Error())
+			}
+		} else {
+			response.Response_400("Edit Seller Data Failed, ID Not Valid" + err.Error())
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }

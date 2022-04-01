@@ -15,3 +15,13 @@ func CreateAdmin(admin model.Admin) *gorm.DB {
 
 	return result
 }
+
+func DeleteAdminByCustId(userId string) *gorm.DB {
+	// Check connection
+	con := dbController.GetConnection()
+
+	//delete Customer on db by id
+	var adm model.Admin
+	result := con.Where("user_id = ?", userId).Delete(&adm)
+	return result
+}
