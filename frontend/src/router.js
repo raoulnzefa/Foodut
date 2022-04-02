@@ -15,9 +15,8 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import auth from '@/auth/authService'
+//import auth from '@/auth/authService'
 
-import firebase from 'firebase/app'
 import 'firebase/auth'
 
 Vue.use(Router)
@@ -75,7 +74,7 @@ const router = new Router({
           component: () => import('./views/apps/store/Browse.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Browse', active: true }
             ],
@@ -84,7 +83,7 @@ const router = new Router({
           }
         },
         {
-          path: '/apps/eCommerce/item/',
+          path: '/apps/store/item/',
           redirect: '/apps/eCommerce/item/5546604'
         },
         {
@@ -93,12 +92,12 @@ const router = new Router({
           component: () => import('./views/apps/store/ItemDetailView.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
-              { title: 'eCommerce'},
-              { title: 'Shop', url: {name: 'ecommerce-shop'} },
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Shop', url: {name: 'store-shop'} },
               { title: 'Item Details', active: true }
             ],
-            parent: 'ecommerce-item-detail-view',
+            parent: 'store-item-detail-view',
             pageTitle: 'Item Details',
             rule: 'editor'
           }
@@ -109,7 +108,7 @@ const router = new Router({
           component: () => import('./views/apps/store/Cart.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Cart', active: true }
             ],
@@ -123,7 +122,7 @@ const router = new Router({
           component: () => import('./views/apps/store/Checkout.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Checkout', active: true }
             ],
@@ -137,7 +136,7 @@ const router = new Router({
           component: () => import('./views/apps/store/History.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'History', active: true }
             ],
@@ -154,7 +153,7 @@ const router = new Router({
           component: () => import('./views/advance/store/AddProduct.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Product'},
               { title: 'Add', active: true }
@@ -169,7 +168,7 @@ const router = new Router({
           component: () => import('./views/advance/store/EditProduct.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'Product'},
               { title: 'Edit', active: true }
@@ -184,25 +183,40 @@ const router = new Router({
           component: () => import('./views/advance/store/ViewStore.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store'},
               { title: 'View', active: true }
             ],
-            pageTitle: 'View',
+            pageTitle: 'ViewStore',
             rule: 'editor'
           }
         },
         {
-          path: '/advance/user/user-list',
+          path: '/advance/store/product/view',
+          name: 'store-product-view',
+          component: () => import('./views/advance/store/ViewSoldProduct.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Product'},
+              { title: 'View', active: true }
+            ],
+            pageTitle: 'ViewProduct',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/advance/user/user-list/:userId',
           name: 'advance-user-list',
           component: () => import('@/views/advance/user/ListUser.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'User' },
               { title: 'List', active: true }
             ],
-            pageTitle: 'User List',
+            pageTitle: 'List User',
             rule: 'editor'
           }
         },
@@ -212,14 +226,25 @@ const router = new Router({
           component: () => import('@/views/advance/user/ListStore.vue'),
           meta: {
             breadcrumb: [
-              { title: 'Home', url: '/' },
+              { title: 'Home'},
               { title: 'Store' },
               { title: 'List', active: true }
             ],
-            pageTitle: 'Store List',
+            pageTitle: 'List Store',
             rule: 'editor'
           }
-        }        
+        },
+        // =============================================================================
+        // Profile Routes
+        // =============================================================================
+        {
+          path: '/profile',
+          name: 'profile',
+          component: () => import('@/views/profile/EditProfile.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        }
       ]
     },
 
@@ -239,39 +264,39 @@ router.afterEach(() => {
   }
 })
 
-router.beforeEach((to, from, next) => {
-  firebase.auth().onAuthStateChanged(() => {
+// router.beforeEach((to, from, next) => {
+//   firebase.auth().onAuthStateChanged(() => {
 
-    // get firebase current user
-    const firebaseCurrentUser = firebase.auth().currentUser
+//     // get firebase current user
+//     const firebaseCurrentUser = firebase.auth().currentUser
 
-    // if (
-    //     to.path === "/pages/login" ||
-    //     to.path === "/pages/forgot-password" ||
-    //     to.path === "/pages/error-404" ||
-    //     to.path === "/pages/error-500" ||
-    //     to.path === "/pages/register" ||
-    //     to.path === "/callback" ||
-    //     to.path === "/pages/comingsoon" ||
-    //     (auth.isAuthenticated() || firebaseCurrentUser)
-    // ) {
-    //     return next();
-    // }
+//     // if (
+//     //     to.path === "/pages/login" ||
+//     //     to.path === "/pages/forgot-password" ||
+//     //     to.path === "/pages/error-404" ||
+//     //     to.path === "/pages/error-500" ||
+//     //     to.path === "/pages/register" ||
+//     //     to.path === "/callback" ||
+//     //     to.path === "/pages/comingsoon" ||
+//     //     (auth.isAuthenticated() || firebaseCurrentUser)
+//     // ) {
+//     //     return next();
+//     // }
 
-    // If auth required, check login. If login fails redirect to login page
-    if (to.meta.authRequired) {
-      if (!(auth.isAuthenticated() || firebaseCurrentUser)) {
-        router.push({ path: '/pages/login', query: { to: to.path } })
-      }
-    }
+//     // If auth required, check login. If login fails redirect to login page
+//     if (to.meta.authRequired) {
+//       if (!(auth.isAuthenticated() || firebaseCurrentUser)) {
+//         router.push({ path: '/pages/login', query: { to: to.path } })
+//       }
+//     }
 
-    return next()
-    // Specify the current path as the customState parameter, meaning it
-    // will be returned to the application after auth
-    // auth.login({ target: to.path });
+//     return next()
+//     // Specify the current path as the customState parameter, meaning it
+//     // will be returned to the application after auth
+//     // auth.login({ target: to.path });
 
-  })
+//   })
 
-})
+// })
 
 export default router

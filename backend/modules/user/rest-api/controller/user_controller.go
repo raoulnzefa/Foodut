@@ -29,8 +29,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		err := result.Error
 		if err == nil {
 			generateToken(w, user.ID, loginUserDto.Email, user.Level)
-
-			response.Response_200("Success Login")
+			response.Response_200(user.ID)
 		} else {
 			response.Response_404()
 		}
