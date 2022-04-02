@@ -8,9 +8,11 @@ import (
 func UserRouter(router *mux.Router) {
 
 	//  USER
-	//
 	//- Get All User
 	router.HandleFunc("/users", usrController.Authenticate(usrController.GetAllUsers, 3)).Methods("GET")
+
+	//Get User By Id
+	router.HandleFunc("/users/{user_id}", usrController.AuthenticateMinimumLevel(usrController.GetUserById, 1)).Methods("GET")
 
 	//- Get All Seller
 	router.HandleFunc("/sellers", usrController.GetAllSeller).Methods("GET")

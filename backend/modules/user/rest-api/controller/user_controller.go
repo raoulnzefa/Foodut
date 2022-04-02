@@ -71,6 +71,26 @@ func GetAllUsers(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+func GetUserById(writer http.ResponseWriter, req *http.Request) {
+	// Check id query
+	vars := mux.Vars(req)
+	userIds := [1]string{vars["user_id"]}
+
+	// Get list of user object
+	var users []model.User = srvc.SearchUserById(userIds[:])
+
+	// Set response
+	var response rspn.Response
+	if len(users) > 0 {
+		response.Response_200(users)
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
 // TODO?
 // func GetUsersByUsernameLike(writer http.ResponseWriter, req *http.Request) {
 
