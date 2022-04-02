@@ -34,7 +34,7 @@ func DeleteById(userId string) *gorm.DB {
 	if deleteCust.Error == nil {
 		deleteAdmn := repo.DeleteAdminByCustId(userId)
 		if deleteAdmn.Error == nil {
-			deleteSell := repo.DeleteSellerByCustId(userId)
+			deleteSell := repo.DeleteSellerBySellerId(userId)
 			if deleteSell.Error == nil {
 				deleteUser := repo.DeleteUserById(userId)
 				return deleteUser

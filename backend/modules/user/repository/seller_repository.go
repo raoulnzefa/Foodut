@@ -63,7 +63,7 @@ func CreateSeller(seller model.Seller) *gorm.DB {
 	return result
 }
 
-func DeleteSellerByCustId(userId string) *gorm.DB {
+func DeleteSellerBySellerId(userId string) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 
