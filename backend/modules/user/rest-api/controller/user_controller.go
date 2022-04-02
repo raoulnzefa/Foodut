@@ -135,17 +135,17 @@ func DeleteUser(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
-func EditUser(w http.ResponseWriter, r *http.Request) {
+func EditUser(writer http.ResponseWriter, req *http.Request) {
 	// Decode JSON
 	var editUserDto dto.EditUser
-	err := json.NewDecoder(r.Body).Decode(&editUserDto)
+	err := json.NewDecoder(req.Body).Decode(&editUserDto)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(writer, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	// Get id from path
-	vars := mux.Vars(r)
+	vars := mux.Vars(req)
 	userID := vars["user_id"]
 
 	var id []string
@@ -178,6 +178,6 @@ func EditUser(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
 }
