@@ -65,8 +65,6 @@ export default {
         this.activeUserInfo.username = response[0].username
         this.activeUserInfo.level = response[0].level
         // userData.profilePhoto = response[0].profilePhoto
-        console.log('Response Api Get User By ID')
-        console.log(response)
       })
       .catch((error) => { console.log(error) })
   },

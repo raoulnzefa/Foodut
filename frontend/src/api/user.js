@@ -10,7 +10,6 @@ export default{
     console.log(response.data);
     if(response.data.statusCode == 200){
       localStorage.setItem('userId', response.data.data)
-      console.log(localStorage.getItem('userId'))
       return true
     }else{
       return false

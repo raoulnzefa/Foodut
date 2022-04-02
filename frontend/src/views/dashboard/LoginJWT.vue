@@ -14,7 +14,6 @@
     <span class="text-danger text-sm">{{ errors.first("email") }}</span>
 
     <vs-input
-<<<<<<< HEAD
       data-vv-validate-on="blur"
       v-validate="'required|min:6|max:10'"
       type="password"
@@ -27,20 +26,6 @@
       class="w-full mt-6"
     />
     <span class="text-danger text-sm">{{ errors.first("password") }}</span>
-=======
-        data-vv-validate-on="blur"
-        v-validate="'required|min:5|max:20'"
-        type="password"
-        name="password"
-        icon-no-border
-        icon="icon icon-lock"
-        icon-pack="feather"
-        label-placeholder="Password"
-        v-model="password"
-        class="w-full mt-6" />
-    <span class="text-danger text-sm">{{ errors.first('password') }}</span>
->>>>>>> fa1e878e65f5fcc1f82d4547fe3caa8ae75ed085
-
     <div class="flex flex-wrap justify-between my-5">
       <vs-checkbox v-model="checkbox_remember_me" class="mb-3"
         >Remember Me</vs-checkbox

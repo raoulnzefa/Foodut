@@ -235,7 +235,7 @@ export default {
           headerName: 'Level',
           field: 'level',
           filter: true,
-          width: 150
+          width: 100
         }
       ],
 
