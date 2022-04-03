@@ -149,3 +149,9 @@ func UpdateProductStock(productId int, newStock int) *gorm.DB {
 
 	return result
 }
+
+func SaveProduct(product model.Product) *gorm.DB {
+	con := dbController.GetConnection()
+	result := con.Save(&product)
+	return result
+}

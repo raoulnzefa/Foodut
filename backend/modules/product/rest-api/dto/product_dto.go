@@ -13,11 +13,18 @@ type Product struct {
 }
 
 type PostProduct struct {
-	SellerId           int      `form:"sellerId" json:"sellerId"`
+  SellerId           int      `form:"sellerId" json:"sellerId"`
 	ProductName        string   `form:"productName" json:"productName"`
 	ProductCategory    int      `form:"productCategory" json:"productCategory"`
 	ProductStock       int      `form:"productStock" json:"productStock"`
 	ProductPrice       float64  `form:"productPrice" json:"productPrice"`
 	ProductDescription string   `form:"productDescription" json:"productDescription"`
 	ProductPicture     []string `form:"productPicture" json:"productPicture"`
+}
+
+type EditProduct struct {
+	ProductName     string  `form:"productName" json:"productName"`
+	ProductPrice    float64 `form:"productPrice" json:"productPrice"`
+	ProductStock    int     `form:"productStock" json:"productStock"`
+	ProductCategory int     `form:"productCategory" json:"productCategory"`
 }
