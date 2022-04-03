@@ -150,3 +150,36 @@ func PostProduct(writer http.ResponseWriter, req *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(writer).Encode(response)
 }
+
+func EditProduct(w http.ResponseWriter, r *http.Request) {
+	// Decode JSON
+	var editProductDto dto.EditProduct
+	err := json.NewDecoder(r.Body).Decode(&editProductDto)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Get id from path
+	vars := mux.Vars(r)
+	productID := vars["product_id"]
+
+	var id []string
+	id = append(id, productID)
+	products := srvc.SearchById(id)
+
+	result := srvc.EditProduct(products[0], editProductDto)
+	var response rspn.Response
+	if err == nil {
+		if result.Error == nil {
+			response.Response_200("Edit Product Data Success")
+		} else {
+			response.Response_400("Edit Product Data Failed " + result.Error.Error())
+		}
+	} else {
+		response.Response_400("Edit Product Data Failed, ID Not Valid" + err.Error())
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
