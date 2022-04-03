@@ -65,8 +65,8 @@
         <vs-th>Image</vs-th>
         <vs-th sort-key="name">Name</vs-th>
         <vs-th sort-key="category">Category</vs-th>
-        <vs-th sort-key="popularity">Popularity</vs-th>
-        <vs-th sort-key="order_status">Order Status</vs-th>
+        <vs-th sort-key="popularity">Rate</vs-th>
+        <vs-th sort-key="stock">Stock</vs-th>
         <vs-th sort-key="price">Price</vs-th>
         <vs-th>Action</vs-th>
       </template>
@@ -80,30 +80,32 @@
             </vs-td>
 
             <vs-td>
-              <p class="product-name font-medium truncate">{{ tr.name }}</p>
+              <p class="product-name font-medium truncate">{{ tr.productName }}</p>
             </vs-td>
 
             <vs-td>
-              <p class="product-category">{{ tr.category }}</p>
+              <p class="product-category">{{ tr.categoryId }}</p>
             </vs-td>
 
             <vs-td>
-              <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" />
+              <p class="product-rate">
+                <img :src="require('../../../assets/images/raty/star-on-2.png')"/> 
+                {{ tr.productRate }}
+              </p>
             </vs-td>
 
             <vs-td>
-              <vs-chip :color="getOrderStatusColor(tr.order_status)" class="product-order-status">{{ tr.order_status | title }}</vs-chip>
+              <p class="product-stock">{{ tr.productStock }}</p>
             </vs-td>
 
             <vs-td>
-              <p class="product-price">${{ tr.price }}</p>
+              <p class="product-price">${{ tr.productPrice }}</p>
             </vs-td>
 
             <vs-td class="whitespace-no-wrap">
               <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
               <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
             </vs-td>
-
           </vs-tr>
         </tbody>
       </template>
@@ -114,6 +116,7 @@
 <script>
 import DataViewSidebar from './DataViewSidebar.vue'
 import moduleDataList from '@/store/data-list/moduleDataList.js'
+import apiProduct from '../../../api/product'
 
 export default {
   components: {
@@ -122,7 +125,7 @@ export default {
   data () {
     return {
       selected: [],
-      // products: [],
+      products: [], // Data Product
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -130,6 +133,9 @@ export default {
     }
   },
   computed: {
+    productData() {
+      return this.products
+    },
     currentPage () {
       if (this.isMounted) {
         return this.$refs.table.currentx
@@ -181,7 +187,17 @@ export default {
     this.$store.dispatch('dataList/fetchDataListItems')
   },
   mounted () {
-    this.isMounted = true
+    console.log(this.data)
+    console.log("test: ", this.products)
+    apiProduct
+      .GetAllProduct()
+      .then((response) => { 
+        this.products = response 
+        console.log('---')
+        console.log(response)
+      })
+      .catch((error) => { console.log('Error get all data product!', error) })
+    // this.isMounted = true
   }
 }
 </script>

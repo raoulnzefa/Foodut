@@ -111,6 +111,15 @@
           </div>
         </div>
       </form>
+      <!-- Save & Reset Button -->
+      <div class="vx-row">
+        <div class="vx-col w-full">
+          <div class="mt-8 flex flex-wrap items-center justify-end">
+            <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Save</vs-button>
+            <vs-button class="ml-4 mt-2" type="border" color="warning" @click="reset_data">Cancel</vs-button>
+          </div>
+        </div>
+      </div>
       <template slot="codeContainer">
         &lt;template&gt; &lt;vx-tooltip text=&quot;Tooltip Default&quot;&gt;
         &lt;vs-input-number v-model=&quot;picture_items:1&quot; /&gt;

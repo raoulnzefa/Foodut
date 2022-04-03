@@ -1,7 +1,7 @@
 import transport from './transport'
 
 export default{
-  async Login (email, password) {
+  async Login(email, password) {
     const response = await transport
       .post('/loginUser', {
         email: email,
@@ -15,7 +15,7 @@ export default{
       return false
     }
   },
-  async Logout () {
+  async Logout() {
     const response = await transport
       .get('/logout')
       console.log(response.data)
@@ -25,12 +25,12 @@ export default{
         return false
       }
   },
-  async GetAllUser () {
+  async GetAllUser() {
     const response = await transport.get('/users')
     return response.data.data
   },
-  async GetUserById (userId) {
-    const response = await transport.get(`/users?user_id=${userId}`)
+  async GetUserById(userId) {
+    const response = await transport.get(`/users/${userId}`)
     return response.data.data
   }
 }
