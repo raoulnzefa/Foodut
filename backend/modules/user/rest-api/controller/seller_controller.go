@@ -13,7 +13,7 @@ import (
 func GetAllSeller(writer http.ResponseWriter, req *http.Request) {
 
 	// Get list of seller object
-	var sellers []dto.SellerMinimal = srvc.EmptySellerMinimal()
+	var sellers []dto.GetSeller = srvc.SendForGetSeller()
 
 	// Set response
 	var response rspn.Response
@@ -27,13 +27,13 @@ func GetAllSeller(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
-func GetSellerByStoreWithProducts(writer http.ResponseWriter, req *http.Request) {
+func GetSellerByIdWithProducts(writer http.ResponseWriter, req *http.Request) {
 
 	// Check store_name query
-	storeName := req.URL.Query()["store_name"]
+	id := req.URL.Query()["userId"]
 
 	// Get list of seller object
-	var seller model.Seller = srvc.SearchByStoreName(storeName)
+	var seller model.Seller = srvc.SendForGetById(id)
 
 	// Set response
 	var response rspn.Response

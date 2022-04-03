@@ -7,21 +7,41 @@ import (
 	"gorm.io/gorm"
 )
 
-func EmptySellerMinimal() []dto.SellerMinimal {
+func SendForGetSeller() []dto.GetSeller {
 	sellers := repo.ReadAllSeller()
 
-	var sellerDto []dto.SellerMinimal
+	// Association
+	if len(sellers) > 0 {
+		repo.GetSellersAssociation(sellers)
+	}
+
+	var sellerDto []dto.GetSeller
 
 	// Move from database model to JSON DTO
 	for _, s := range sellers {
-		var tempSeller dto.SellerMinimal
-		tempSeller.SetUserId(s.UserID)
-		tempSeller.SetStoreName(s.StoreName)
-		tempSeller.SetCity(s.City)
+		tempSeller := dto.GetSeller{
+			UserID:    s.UserID,
+			StoreName: s.StoreName,
+			Username:  s.User.Username,
+			Email:     s.User.Email,
+			Name:      s.User.Name,
+			City:      s.City,
+		}
 		sellerDto = append(sellerDto, tempSeller)
 	}
 
 	return sellerDto
+}
+
+func SendForGetById(id []string) model.Seller {
+	seller := repo.ReadSellerById(id)
+
+	// Association
+	if seller.UserID > 0 {
+		repo.GetOneSellerAssociation(&seller)
+	}
+
+	return seller
 }
 
 func SearchByStoreName(storeName []string) model.Seller {

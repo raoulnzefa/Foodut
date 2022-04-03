@@ -63,7 +63,7 @@ func CreateSeller(seller model.Seller) *gorm.DB {
 	return result
 }
 
-func DeleteSellerByCustId(userId string) *gorm.DB {
+func DeleteSellerBySellerId(userId string) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 
@@ -73,11 +73,18 @@ func DeleteSellerByCustId(userId string) *gorm.DB {
 	return result
 }
 
-func ReadSellerById(userid string) *gorm.DB {
+func ReadSellerById(userid []string) model.Seller {
+	// Check connection
 	con := dbController.GetConnection()
-	var seller model.Seller
-	return con.Find(&seller, userid)
 
+	// Get from database
+	var seller model.Seller
+
+	if userid != nil {
+		con.Find(&seller, userid[0])
+	}
+
+	return seller
 }
 
 func ReadAllSellers(sellerId []string) []model.Seller {
