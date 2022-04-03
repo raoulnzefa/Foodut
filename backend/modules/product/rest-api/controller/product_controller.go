@@ -161,11 +161,7 @@ func EditProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	productID := vars["product_id"]
 
-	var id []string
-	id = append(id, productID)
-	products := srvc.SearchById(id)
-
-	result := srvc.EditProduct(products[0], editProductDto)
+	result := srvc.EditProduct(productID, editProductDto)
 	var response rspn.Response
 	if err == nil {
 		if result.Error == nil {

@@ -23,20 +23,3 @@ type PostProductDetail struct {
 	ProductId int `form:"productId" json:"productId"`
 	Quantity  int `form:"quantity" json:"quantity"`
 }
-
-// Getter Setter
-func (d *ProductDetail) GetProduct() model.Product {
-	return d.Product
-}
-
-func (d *ProductDetail) SetProduct(product model.Product) {
-	d.Product = product
-}
-
-func (d *ProductDetail) GetQuantity() int {
-	return d.Quantity
-}
-
-func (d *ProductDetail) SetQuantity(quantity int) {
-	d.Quantity = quantity
-}
