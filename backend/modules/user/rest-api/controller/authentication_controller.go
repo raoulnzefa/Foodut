@@ -55,9 +55,10 @@ func resetUserToken(w http.ResponseWriter) {
 	})
 }
 
+// Untuk access menu oleh 1 user
 func Authenticate(next http.HandlerFunc, accessType int) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		isValidToken := validateUserToken(w, r, accessType)
+		isValidToken := validateUserTokenStrict(w, r, accessType)
 		if !isValidToken {
 			var response rspn.Response
 			response.Response_401()
@@ -69,11 +70,38 @@ func Authenticate(next http.HandlerFunc, accessType int) http.HandlerFunc {
 	})
 }
 
-func validateUserToken(w http.ResponseWriter, r *http.Request, accessType int) bool {
+// Untuk access menu oleh beberapa user
+func AuthenticateMinimumLevel(next http.HandlerFunc, accessType int) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		isValidToken := validateUserTokenMinimumLevel(w, r, accessType)
+		if !isValidToken {
+			var response rspn.Response
+			response.Response_401()
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+		} else {
+			next.ServeHTTP(w, r)
+		}
+	})
+}
+
+func validateUserTokenStrict(w http.ResponseWriter, r *http.Request, accessType int) bool {
 	isAccessTokenValid, _, userType := validateTokenFromCookies(r)
 
 	if isAccessTokenValid {
 		isUserValid := userType == accessType
+		if isUserValid {
+			return true
+		}
+	}
+	return false
+}
+
+func validateUserTokenMinimumLevel(w http.ResponseWriter, r *http.Request, accessType int) bool {
+	isAccessTokenValid, _, userType := validateTokenFromCookies(r)
+
+	if isAccessTokenValid {
+		isUserValid := userType >= accessType
 		if isUserValid {
 			return true
 		}

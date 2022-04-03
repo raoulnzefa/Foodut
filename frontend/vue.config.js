@@ -20,11 +20,14 @@ module.exports = {
         chunks: 'all'
       }
     }
-  }
+  },
   // devServer: {
-  //   overlay: {
-  //     warnings: true,
-  //     errors: true
+  //   proxy:{
+  //     '^/api' :{
+  //       target: 'http://localhost:1234',
+  //       changeOrigin:true,
+  //       pathRewrite: { '^/api': '/'}
+  //     }
   //   }
   // }
 }

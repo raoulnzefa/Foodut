@@ -17,7 +17,6 @@ import 'material-icons/iconfont/material-icons.css' //Material Icons
 import 'vuesax/dist/vuesax.css' // Vuesax
 Vue.use(Vuesax)
 
-
 // axios
 import axios from './axios.js'
 Vue.prototype.$http = axios
@@ -36,9 +35,9 @@ import '../themeConfig.js'
 import '@/firebase/firebaseConfig'
 
 
-// Auth0 Plugin
-import AuthPlugin from './plugins/auth'
-Vue.use(AuthPlugin)
+// // Auth0 Plugin
+// import AuthPlugin from './plugins/auth'
+// Vue.use(AuthPlugin)
 
 
 // ACL

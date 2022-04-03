@@ -49,3 +49,9 @@ func CheckUserEmailPassword(email string, password string) (model.User, *gorm.DB
 	result := con.Where("email = ? AND password = ?", email, password).First(&user)
 	return user, result
 }
+
+func SaveUser(user model.User) *gorm.DB {
+	con := dbController.GetConnection()
+	result := con.Save(&user)
+	return result
+}

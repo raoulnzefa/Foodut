@@ -11,7 +11,7 @@ func TransactionRouter(router *mux.Router) {
 	//  TRANSACTION
 	//
 	//- Get All Transaction
-	router.HandleFunc("/transactions", usrController.Authenticate(trController.GetAllTransactions, 3)).Methods("GET")
+	router.HandleFunc("/transactions", usrController.AuthenticateMinimumLevel(trController.GetAllTransactions, 3)).Methods("GET")
 
 	//- Get All Order From Seller
 	router.HandleFunc("/orders", trController.GetAllOrders).Methods("GET")
@@ -23,7 +23,7 @@ func TransactionRouter(router *mux.Router) {
 	router.HandleFunc("/cart", usrController.Authenticate(trController.PostToCart, 1)).Methods("POST")
 
 	//- Insert Transaction
-	router.HandleFunc("/transactions", usrController.Authenticate(trController.PostTransaction, 1)).Methods("POST")
+	router.HandleFunc("/transactions", usrController.AuthenticateMinimumLevel(trController.PostTransaction, 1)).Methods("POST")
 
 	//- Update Cart
 	router.HandleFunc("/cart", usrController.Authenticate(trController.UpdateCart, 1)).Methods("PUT")
@@ -38,5 +38,5 @@ func TransactionRouter(router *mux.Router) {
 	// router.HandleFunc("/transactions/{transaction_id}", trController.UpdateTransaction).Methods("PUT")
 
 	//- Delete Transaction
-	router.HandleFunc("/transactions/{id}", usrController.Authenticate(trController.DeleteTransaction, 3)).Methods("DELETE")
+	router.HandleFunc("/transactions/{id}", usrController.AuthenticateMinimumLevel(trController.DeleteTransaction, 3)).Methods("DELETE")
 }

@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -108,7 +107,6 @@ func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
 	productId := vars["id"]
 
 	deleteErr := srvc.DeleteById(productId)
-	fmt.Println(deleteErr)
 	var response rspn.Response
 	//response.Response_200("masuk delete prod ctrl")
 	if deleteErr.Error == nil {
@@ -143,7 +141,6 @@ func PostProduct(writer http.ResponseWriter, req *http.Request) {
 	if result.Error == nil {
 		response.Response_201()
 	} else {
-		fmt.Println(result.Error)
 		response.Response_400("")
 	}
 

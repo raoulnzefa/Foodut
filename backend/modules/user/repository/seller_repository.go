@@ -63,12 +63,49 @@ func CreateSeller(seller model.Seller) *gorm.DB {
 	return result
 }
 
-func DeleteSellerByCustId(userId string) *gorm.DB {
+func DeleteSellerBySellerId(userId string) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 
 	//delete Customer on db by id
 	var sell model.Seller
 	result := con.Where("user_id = ?", userId).Delete(&sell)
+	return result
+}
+
+func ReadSellerById(userid []string) model.Seller {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Get from database
+	var seller model.Seller
+
+	if userid != nil {
+		con.Find(&seller, userid[0])
+	}
+
+	return seller
+}
+
+func ReadAllSellers(sellerId []string) []model.Seller {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Get customers from database
+	var sellers []model.Seller
+
+	// Extra query by id
+	if sellerId != nil {
+		con.Find(&sellers, sellerId[0])
+	} else {
+		con.Find(&sellers)
+	}
+
+	return sellers
+}
+
+func SaveSeller(seller model.Seller) *gorm.DB {
+	con := dbController.GetConnection()
+	result := con.Save(&seller)
 	return result
 }

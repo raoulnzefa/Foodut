@@ -61,6 +61,7 @@ export default {
       return !!((this.to === this.$route.path || this.$route.meta.parent === this.slug) && this.to)
     }
   }
+  
 }
 
 </script>

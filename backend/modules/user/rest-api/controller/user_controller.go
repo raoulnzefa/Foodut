@@ -7,7 +7,6 @@ import (
 
 	"github.com/gorilla/mux"
 
-	dbController "github.com/Foodut/backend/database"
 	model "github.com/Foodut/backend/modules/user/domain/model"
 	srvc "github.com/Foodut/backend/modules/user/domain/service"
 	"github.com/Foodut/backend/modules/user/rest-api/dto"
@@ -30,8 +29,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		err := result.Error
 		if err == nil {
 			generateToken(w, user.ID, loginUserDto.Email, user.Level)
-
-			response.Response_200("Success Login")
+			response.Response_200(user.ID)
 		} else {
 			response.Response_404()
 		}
@@ -60,6 +58,26 @@ func GetAllUsers(writer http.ResponseWriter, req *http.Request) {
 
 	// Get list of user object
 	var users []model.User = srvc.SearchUserById(userId)
+
+	// Set response
+	var response rspn.Response
+	if len(users) > 0 {
+		response.Response_200(users)
+	} else {
+		response.Response_204()
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+func GetUserById(writer http.ResponseWriter, req *http.Request) {
+	// Check id query
+	vars := mux.Vars(req)
+	userIds := [1]string{vars["user_id"]}
+
+	// Get list of user object
+	var users []model.User = srvc.SearchUserById(userIds[:])
 
 	// Set response
 	var response rspn.Response
@@ -117,63 +135,28 @@ func DeleteUser(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
-func EditUser(w http.ResponseWriter, r *http.Request) {
-	// Check connection
-	con := dbController.GetConnection()
-
+func EditUser(writer http.ResponseWriter, req *http.Request) {
 	// Decode JSON
 	var editUserDto dto.EditUser
-	err := json.NewDecoder(r.Body).Decode(&editUserDto)
+	err := json.NewDecoder(req.Body).Decode(&editUserDto)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(writer, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	// Get id from path
-	vars := mux.Vars(r)
+	vars := mux.Vars(req)
 	userID := vars["user_id"]
 
-	var user model.User
-	// Get user from database by id
-	err = con.First(&user, userID).Error
+	var id []string
+	id = append(id, userID)
+	users := srvc.SearchUserById(id)
 
-	// Get User data
-	levelUser := user.Level // buat dipake saat cek level user apakah cust atau seller
-	username := editUserDto.Username
-	name := editUserDto.Name
-	password := editUserDto.Password
-	profilePhoto := editUserDto.ProfilePhoto
-	addressCust := editUserDto.Address
-	citySeller := editUserDto.City
-	storeNameSeller := editUserDto.StoreName
-
-	// Set inputted data to object
-	if username != "" {
-		user.Username = username
-	}
-	if name != "" {
-		user.Name = name
-	}
-	if password != "" {
-		encryptedPassword := srvc.GetMD5Hash(password)
-		user.Password = encryptedPassword
-	}
-	if profilePhoto != "" {
-		user.ProfilePhoto = profilePhoto
-	}
-
+	result1, result2, level := srvc.EditUser(users[0], editUserDto)
 	var response rspn.Response
-	// Customer = 1 dan Seller = 2
-	if levelUser == 1 {
-		var cust model.Customer
-		err = con.First(&cust, userID).Error
-		if addressCust != "" {
-			cust.Address = addressCust
-		}
-
+	// Custsomer = 1 dan Seller = 2
+	if level == 1 {
 		if err == nil {
-			result1 := con.Save(&user)
-			result2 := con.Save(&cust)
 			if result1.Error == nil && result2.Error == nil {
 				response.Response_200("Edit Customer Data Success")
 			} else {
@@ -182,19 +165,9 @@ func EditUser(w http.ResponseWriter, r *http.Request) {
 		} else {
 			response.Response_400("Edit Customer Data Failed, ID Not Valid" + err.Error())
 		}
-	} else if levelUser == 2 {
-		var seller model.Seller
-		err = con.First(&seller, userID).Error
-		if citySeller != "" {
-			seller.City = citySeller
-		}
-		if storeNameSeller != "" {
-			seller.StoreName = storeNameSeller
-		}
+	} else if level == 2 {
 
 		if err == nil {
-			result1 := con.Save(&user)
-			result2 := con.Save(&seller)
 			if result1.Error == nil && result2.Error == nil {
 				response.Response_200("Edit Seller Data Success")
 			} else {
@@ -205,6 +178,6 @@ func EditUser(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
 }

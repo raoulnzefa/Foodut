@@ -8,9 +8,11 @@ import (
 func UserRouter(router *mux.Router) {
 
 	//  USER
-	//
 	//- Get All User
 	router.HandleFunc("/users", usrController.Authenticate(usrController.GetAllUsers, 3)).Methods("GET")
+
+	//Get User By Id
+	router.HandleFunc("/users/{user_id}", usrController.AuthenticateMinimumLevel(usrController.GetUserById, 1)).Methods("GET")
 
 	//- Get All Seller
 	router.HandleFunc("/sellers", usrController.GetAllSeller).Methods("GET")
@@ -22,7 +24,7 @@ func UserRouter(router *mux.Router) {
 	router.HandleFunc("/customers-complete", usrController.GetAllCustomerWithAssociationComplete).Methods("GET")
 
 	//- Get Seller with Products
-	router.HandleFunc("/store", usrController.GetSellerByStoreWithProducts).Methods("GET")
+	router.HandleFunc("/store", usrController.GetSellerByIdWithProducts).Methods("GET")
 
 	//- Post User
 	// router.HandleFunc("/user", usrController.PostUser).Methods("POST")

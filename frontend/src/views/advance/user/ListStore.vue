@@ -1,6 +1,6 @@
 <!-- =========================================================================================
-  File Name: UserList.vue
-  Description: User List page
+  File Name: ListStore.vue
+  Description: List Store page
   ----------------------------------------------------------------------------------------
   Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
   Author: Pixinvent
@@ -9,20 +9,16 @@
 
 <template>
   <div id="page-user-list">
-
     <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
       <div class="vx-row">
         <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Status</label>
-          <v-select :options="statusOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="statusFilter" class="mb-4 md:mb-0" />
+          <label class="text-sm opacity-75">City</label>
+          <v-select :options="roleOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="roleFilter" class="mb-4 md:mb-0" />
         </div>
       </div>
     </vx-card>
-
     <div class="vx-card p-6">
-
       <div class="flex flex-wrap items-center">
-
         <!-- ITEMS PER PAGE -->
         <div class="flex-grow">
           <vs-dropdown vs-trigger-click class="cursor-pointer">
@@ -39,12 +35,6 @@
               <vs-dropdown-item @click="gridApi.paginationSetPageSize(20)">
                 <span>20</span>
               </vs-dropdown-item>
-              <vs-dropdown-item @click="gridApi.paginationSetPageSize(25)">
-                <span>25</span>
-              </vs-dropdown-item>
-              <vs-dropdown-item @click="gridApi.paginationSetPageSize(30)">
-                <span>30</span>
-              </vs-dropdown-item>
             </vs-dropdown-menu>
           </vs-dropdown>
         </div>
@@ -55,46 +45,21 @@
 
           <!-- ACTION - DROPDOWN -->
           <vs-dropdown vs-trigger-click class="cursor-pointer">
-
             <div class="p-3 shadow-drop rounded-lg d-theme-dark-light-bg cursor-pointer flex items-end justify-center text-lg font-medium w-32">
               <span class="mr-2 leading-none">Actions</span>
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
 
             <vs-dropdown-menu>
-
               <vs-dropdown-item>
                 <span class="flex items-center">
                   <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
                   <span>Delete</span>
                 </span>
               </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="ArchiveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Archive</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="FileIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Print</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="SaveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>CSV</span>
-                </span>
-              </vs-dropdown-item>
-
             </vs-dropdown-menu>
           </vs-dropdown>
       </div>
-
 
       <!-- AgGrid Table -->
       <ag-grid-vue
@@ -119,10 +84,8 @@
         :total="totalPages"
         :max="7"
         v-model="currentPage" />
-
     </div>
   </div>
-
 </template>
 
 <script>
@@ -134,8 +97,6 @@ import vSelect from 'vue-select'
 import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
 
 // Cell Renderer
-import CellRendererLink from './cell-renderer/CellRendererLink.vue'
-import CellRendererStatus from './cell-renderer/CellRendererStatus.vue'
 import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
 import CellRendererActions from './cell-renderer/CellRendererActions.vue'
 
@@ -146,23 +107,11 @@ export default {
     vSelect,
 
     // Cell Renderer
-    CellRendererLink,
-    CellRendererStatus,
     CellRendererVerified,
     CellRendererActions
   },
   data () {
     return {
-
-      // Filter Options
-      statusFilter: { label: 'All', value: 'all' },
-      statusOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Active', value: 'active' },
-        { label: 'Deactivated', value: 'deactivated' },
-        { label: 'Blocked', value: 'blocked' }
-      ],
-
       searchQuery: '',
 
       // AgGrid
@@ -184,17 +133,22 @@ export default {
           headerCheckboxSelection: true
         },
         {
+          headerName: 'Store',
+          field: 'storename',
+          filter: true,
+          width: 230
+        },
+        {
           headerName: 'Username',
           field: 'username',
           filter: true,
-          width: 210,
-          cellRendererFramework: 'CellRendererLink'
+          width: 230
         },
         {
           headerName: 'Email',
           field: 'email',
           filter: true,
-          width: 225
+          width: 280
         },
         {
           headerName: 'Name',
@@ -203,17 +157,10 @@ export default {
           width: 200
         },
         {
-          headerName: 'Country',
-          field: 'country',
+          headerName: 'City',
+          field: 'city',
           filter: true,
-          width: 150
-        },
-        {
-          headerName: 'Status',
-          field: 'status',
-          filter: true,
-          width: 150,
-          cellRendererFramework: 'CellRendererStatus'
+          width: 170
         },
         {
           headerName: 'Actions',
@@ -225,14 +172,15 @@ export default {
 
       // Cell Renderer Components
       components: {
-        CellRendererLink,
-        CellRendererStatus,
         CellRendererVerified,
         CellRendererActions
       }
     }
   },
   watch: {
+    roleFilter (obj) {
+      this.setColumnFilter('role', obj.value)
+    },
     statusFilter (obj) {
       this.setColumnFilter('status', obj.value)
     }

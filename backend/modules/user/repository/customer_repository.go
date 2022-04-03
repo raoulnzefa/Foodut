@@ -76,3 +76,9 @@ func DeleteCustomerByCustId(customerId string) *gorm.DB {
 	result := con.Where("user_id = ?", customerId).Delete(&cust)
 	return result
 }
+
+func SaveCustomer(cust model.Customer) *gorm.DB {
+	con := dbController.GetConnection()
+	result := con.Save(&cust)
+	return result
+}

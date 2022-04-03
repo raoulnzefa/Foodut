@@ -104,6 +104,7 @@ func MapToProduct(pr dto.PostProduct) model.Product {
 		ProductName:  pr.ProductName,
 		ProductPrice: pr.ProductPrice,
 		ProductStock: pr.ProductStock,
+		Description:  pr.ProductDescription,
 		SellerID:     pr.SellerId,
 		CategoryID:   pr.ProductCategory,
 		Picture:      pics,
