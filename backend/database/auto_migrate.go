@@ -10,7 +10,7 @@ import (
 func Migrate(con *gorm.DB) {
 
 	// Many 2 Many Customer - Product -> Cart
-	con.SetupJoinTable(&usrModel.Customer{}, "TempCart", &trModel.Cart{})
+	con.SetupJoinTable(&usrModel.Customer{}, "Cart", &trModel.Cart{})
 
 	// Many 2 Many Transaction - Product -> Cart
 	con.SetupJoinTable(&trModel.Transaction{}, "ProductDetail", &trModel.TransactionDetail{})
