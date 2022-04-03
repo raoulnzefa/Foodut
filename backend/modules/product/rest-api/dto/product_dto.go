@@ -20,6 +20,13 @@ type PostProduct struct {
 	ProductPicture  []string `form:"productPicture" json:"productPicture"`
 }
 
+type EditProduct struct {
+	ProductName     string  `form:"productName" json:"productName"`
+	ProductPrice    float64 `form:"productPrice" json:"productPrice"`
+	ProductStock    int     `form:"productStock" json:"productStock"`
+	ProductCategory int     `form:"productCategory" json:"productCategory"`
+}
+
 //-----------------------------------------------------
 // Getter Setter Product
 func (p *Product) GetProductId() int {
