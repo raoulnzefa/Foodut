@@ -118,6 +118,7 @@ func EditProduct(product model.Product, editProductDto dto.EditProduct) *gorm.DB
 	productPrice := editProductDto.ProductPrice
 	productStock := editProductDto.ProductStock
 	productCategory := editProductDto.ProductCategory
+	productDescription := editProductDto.ProductDescription
 
 	if productName != "" {
 		product.ProductName = productName
@@ -130,6 +131,9 @@ func EditProduct(product model.Product, editProductDto dto.EditProduct) *gorm.DB
 	}
 	if productCategory > 0 {
 		product.CategoryID = productCategory
+	}
+	if productDescription != "" {
+		product.Description = productDescription
 	}
 
 	if product.ID > 0 {
