@@ -10,6 +10,11 @@ import (
 func SendForGetSeller() []dto.GetSeller {
 	sellers := repo.ReadAllSeller()
 
+	// Association
+	if len(sellers) > 0 {
+		repo.GetSellersAssociation(sellers)
+	}
+
 	var sellerDto []dto.GetSeller
 
 	// Move from database model to JSON DTO
