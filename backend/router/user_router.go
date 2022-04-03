@@ -24,7 +24,7 @@ func UserRouter(router *mux.Router) {
 	router.HandleFunc("/customers-complete", usrController.GetAllCustomerWithAssociationComplete).Methods("GET")
 
 	//- Get Seller with Products
-	router.HandleFunc("/store", usrController.GetSellerByStoreWithProducts).Methods("GET")
+	router.HandleFunc("/store", usrController.GetSellerByIdWithProducts).Methods("GET")
 
 	//- Post User
 	// router.HandleFunc("/user", usrController.PostUser).Methods("POST")
