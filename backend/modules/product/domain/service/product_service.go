@@ -111,3 +111,30 @@ func MapToProduct(pr dto.PostProduct) model.Product {
 
 	return product
 }
+
+func EditProduct(product model.Product, editProductDto dto.EditProduct) *gorm.DB {
+	productName := editProductDto.ProductName
+	productPrice := editProductDto.ProductPrice
+	productStock := editProductDto.ProductStock
+	productCategory := editProductDto.ProductCategory
+
+	if productName != "" {
+		product.ProductName = productName
+	}
+	if productPrice > -1 {
+		product.ProductPrice = productPrice
+	}
+	if productStock > -1 {
+		product.ProductStock = productStock
+	}
+	if productCategory > 0 {
+		product.CategoryID = productCategory
+	}
+
+	if product.ID > 0 {
+		result := repo.SaveProduct(product)
+		return result
+	} else {
+		return nil
+	}
+}
