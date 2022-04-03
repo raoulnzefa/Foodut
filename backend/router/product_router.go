@@ -33,7 +33,7 @@ func ProductRouter(router *mux.Router) {
 	router.HandleFunc("/products", usrController.Authenticate(prController.PostProduct, 2)).Methods("POST")
 
 	//- Update Product
-	// router.HandleFunc("/products/{product_id}", prController.UpdateProduct).Methods("PUT")
+	router.HandleFunc("/products/{product_id}", prController.EditProduct).Methods("PUT")
 
 	//- Delete Product
 	router.HandleFunc("/products/{id}", usrController.Authenticate(prController.DeleteProductById, 2)).Methods("DELETE")
