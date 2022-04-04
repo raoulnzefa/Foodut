@@ -10,6 +10,10 @@ import (
 	rspn "github.com/Foodut/backend/responses"
 )
 
+/**
+  User can browse all seller that registered
+  in foodut database
+*/
 func GetAllSeller(writer http.ResponseWriter, req *http.Request) {
 
 	// Get list of seller object
@@ -27,6 +31,11 @@ func GetAllSeller(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  Get seller by extra query param
+  using userId and provide its
+  related products
+*/
 func GetSellerByIdWithProducts(writer http.ResponseWriter, req *http.Request) {
 
 	// Check store_name query
@@ -47,6 +56,9 @@ func GetSellerByIdWithProducts(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  Method that used for register as a seller
+*/
 func PostSeller(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON

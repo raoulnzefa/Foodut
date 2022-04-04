@@ -131,6 +131,8 @@ func DeleteUser(writer http.ResponseWriter, req *http.Request) {
 
 /**
   User can edit its profile anytime
+  Custsomer = 1
+  Seller = 2
 */
 func EditUser(writer http.ResponseWriter, req *http.Request) {
 	// Decode JSON
@@ -151,27 +153,28 @@ func EditUser(writer http.ResponseWriter, req *http.Request) {
 
 	result1, result2, level := srvc.EditUser(users[0], editUserDto)
 	var response rspn.Response
+
 	// Custsomer = 1 dan Seller = 2
 	if level == 1 {
 		if err == nil {
 			if result1.Error == nil && result2.Error == nil {
-				response.Response_200("Edit Customer Data Success")
+				response.Response_200("Edit customer data success")
 			} else {
-				response.Response_400("Edit Customer Data Failed " + result1.Error.Error() + " " + result2.Error.Error())
+				response.Response_400("Edit customer data fail || " + result1.Error.Error() + " || " + result2.Error.Error())
 			}
 		} else {
-			response.Response_400("Edit Customer Data Failed, ID Not Valid" + err.Error())
+			response.Response_400("Edit customer data failed, ID not valid || " + err.Error())
 		}
 	} else if level == 2 {
 
 		if err == nil {
 			if result1.Error == nil && result2.Error == nil {
-				response.Response_200("Edit Seller Data Success")
+				response.Response_200("Edit seller data success")
 			} else {
-				response.Response_400("Edit Seller Data Failed " + result1.Error.Error() + " " + result2.Error.Error())
+				response.Response_400("Edit seller fata failed || " + result1.Error.Error() + " || " + result2.Error.Error())
 			}
 		} else {
-			response.Response_400("Edit Seller Data Failed, ID Not Valid" + err.Error())
+			response.Response_400("Edit seller data failed, ID not valid || " + err.Error())
 		}
 	}
 

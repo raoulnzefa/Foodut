@@ -9,6 +9,9 @@ import (
 	rspn "github.com/Foodut/backend/responses"
 )
 
+/**
+  Method that used for register as a admin
+*/
 func PostAdmin(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
