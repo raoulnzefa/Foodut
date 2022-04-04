@@ -20,7 +20,7 @@ func GetAllSeller(writer http.ResponseWriter, req *http.Request) {
 	if len(sellers) > 0 {
 		response.Response_200(sellers)
 	} else {
-		response.Response_204()
+		response.Response_204("Get seller fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -40,7 +40,7 @@ func GetSellerByIdWithProducts(writer http.ResponseWriter, req *http.Request) {
 	if seller.UserID > 0 {
 		response.Response_200(seller)
 	} else {
-		response.Response_204()
+		response.Response_204("Get seller fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -63,7 +63,7 @@ func PostSeller(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if result.Error == nil {
-		response.Response_201()
+		response.Response_201("Success post seller")
 	} else {
 		response.Response_400(result.Error)
 	}
