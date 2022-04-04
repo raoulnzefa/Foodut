@@ -44,7 +44,7 @@ func (r *Response) Response_200(data interface{}) {
 */
 func (r *Response) Response_201() {
 	r.StatusCode = 201
-	r.Message = "Created | Updated"
+	r.Message = "Created | Updated | Deleted"
 }
 
 /**
