@@ -22,7 +22,7 @@ func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 		response.Response_200(transactions)
 
 	} else {
-		response.Response_204()
+		response.Response_204("Get transaction fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -41,7 +41,7 @@ func GetAllOrders(writer http.ResponseWriter, req *http.Request) {
 		response.Response_200(orders)
 
 	} else {
-		response.Response_204()
+		response.Response_204("Get seller orders fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -64,7 +64,7 @@ func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if isError == nil {
-		response.Response_201()
+		response.Response_201("Success post transaction")
 	} else {
 		response.Response_400(isError.Error())
 	}
@@ -80,9 +80,9 @@ func DeleteTransaction(writer http.ResponseWriter, req *http.Request) {
 
 	deleteErr := srvc.DeleteById(transId)
 	var response rspn.Response
-	//response.Response_200("masuk delete prod ctrl")
+
 	if deleteErr.Error == nil {
-		response.Response_200("data has been deleted")
+		response.Response_200("Success delete transaction")
 	} else {
 		response.Response_400(deleteErr)
 	}

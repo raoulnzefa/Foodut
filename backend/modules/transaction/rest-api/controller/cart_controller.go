@@ -28,7 +28,7 @@ func GetCartWithAvailability(writer http.ResponseWriter, req *http.Request) {
 	if len(result) > 0 {
 		response.Response_200(result)
 	} else {
-		response.Response_204("Get cart failed || Empty cart")
+		response.Response_204("Get cart fail || Empty cart")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
