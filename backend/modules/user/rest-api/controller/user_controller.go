@@ -13,6 +13,9 @@ import (
 	rspn "github.com/Foodut/backend/responses"
 )
 
+/**
+  User can login using email and password
+*/
 func LoginUser(w http.ResponseWriter, r *http.Request) {
 	// Decode JSON
 	var loginUserDto dto.LoginUser
@@ -31,7 +34,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 			generateToken(w, user.ID, loginUserDto.Email, user.Level)
 			response.Response_200(user.ID)
 		} else {
-			response.Response_404()
+			response.Response_404("Login fail || " + err.Error())
 		}
 	} else {
 		res := "Already logged in as " + cekEmail
@@ -41,6 +44,10 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+/**
+  Logging out user by reset
+  its token
+*/
 func Logout(w http.ResponseWriter, r *http.Request) {
 	resetUserToken(w)
 
@@ -51,6 +58,11 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+/**
+  Admin can use this method to get all user
+  or add user_id as query param to filter it
+  by user_id
+*/
 func GetAllUsers(writer http.ResponseWriter, req *http.Request) {
 
 	// Check user_id query
@@ -64,13 +76,16 @@ func GetAllUsers(writer http.ResponseWriter, req *http.Request) {
 	if len(users) > 0 {
 		response.Response_200(users)
 	} else {
-		response.Response_204()
+		response.Response_204("Get user fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  User can use this method to get its profile
+*/
 func GetUserById(writer http.ResponseWriter, req *http.Request) {
 	// Check id query
 	vars := mux.Vars(req)
@@ -84,38 +99,17 @@ func GetUserById(writer http.ResponseWriter, req *http.Request) {
 	if len(users) > 0 {
 		response.Response_200(users)
 	} else {
-		response.Response_204()
+		response.Response_204("Get user by id fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(writer).Encode(response)
 }
 
-// TODO?
-// func GetUsersByUsernameLike(writer http.ResponseWriter, req *http.Request) {
-
-// 	// Get list of user object
-// 	var users []model.User = srvc.EmptySearchBy()
-
-// 	name := req.URL.Query()["name"]
-// 	if name != nil {
-// 		db.Where("name = ?", name[0]).First(&users)
-// 	} else {
-// 		db.Find(&users)
-// 	}
-
-// 	// Set response
-// 	var response rspn.Response
-// 	if len(users) > 0 {
-// 		response.Response_200(users)
-// 	} else {
-// 		response.Response_204()
-// 	}
-
-// 	writer.Header().Set("Content-Type", "application/json")
-// 	json.NewEncoder(writer).Encode(response)
-// }
-
+/**
+  Admin can use this method to delete a user
+  Search user by id and delete it
+*/
 func DeleteUser(writer http.ResponseWriter, req *http.Request) {
 	// Check id query
 	vars := mux.Vars(req)
@@ -135,6 +129,9 @@ func DeleteUser(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  User can edit its profile anytime
+*/
 func EditUser(writer http.ResponseWriter, req *http.Request) {
 	// Decode JSON
 	var editUserDto dto.EditUser
