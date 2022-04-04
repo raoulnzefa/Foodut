@@ -26,7 +26,7 @@ func GetAllCustomerWithAssociation(writer http.ResponseWriter, req *http.Request
 	if len(customer) > 0 {
 		response.Response_200(customer)
 	} else {
-		response.Response_204()
+		response.Response_204("Get customer fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -46,7 +46,7 @@ func GetAllCustomerWithAssociationComplete(writer http.ResponseWriter, req *http
 	if len(users) > 0 {
 		response.Response_200(users)
 	} else {
-		response.Response_204()
+		response.Response_204("Get customer fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -69,7 +69,7 @@ func PostCustomer(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if result.Error == nil {
-		response.Response_201()
+		response.Response_201("Success post customer")
 	} else {
 		response.Response_400(result.Error)
 	}
