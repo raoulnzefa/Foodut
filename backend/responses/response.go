@@ -42,9 +42,10 @@ func (r *Response) Response_200(data interface{}) {
   Status Code: "201"
   Message: "Created | Updated"
 */
-func (r *Response) Response_201() {
+func (r *Response) Response_201(data interface{}) {
 	r.StatusCode = 201
 	r.Message = "Created | Updated | Deleted"
+	r.Data = data
 }
 
 /**
@@ -55,9 +56,10 @@ func (r *Response) Response_201() {
   Status Code: "204"
   Message: "No Content"
 */
-func (r *Response) Response_204() {
+func (r *Response) Response_204(data interface{}) {
 	r.StatusCode = 204
 	r.Message = "No Content"
+	r.Data = data
 }
 
 /**
@@ -80,9 +82,10 @@ func (r *Response) Response_400(data interface{}) {
   Status Code: "401"
   Message: "Unauthorized"
 */
-func (r *Response) Response_401() {
+func (r *Response) Response_401(data interface{}) {
 	r.StatusCode = 401
 	r.Message = "Unauthorized"
+	r.Data = data
 }
 
 /**
@@ -93,9 +96,10 @@ func (r *Response) Response_401() {
   Status Code: "403"
   Message: "Forbidden"
 */
-func (r *Response) Response_403() {
+func (r *Response) Response_403(data interface{}) {
 	r.StatusCode = 403
 	r.Message = "Forbidden"
+	r.Data = data
 }
 
 /**
@@ -107,9 +111,10 @@ func (r *Response) Response_403() {
   Status Code: "404"
   Message: "Not Found"
 */
-func (r *Response) Response_404() {
+func (r *Response) Response_404(data interface{}) {
 	r.StatusCode = 404
 	r.Message = "Not Found"
+	r.Data = data
 }
 
 /**
@@ -119,9 +124,10 @@ func (r *Response) Response_404() {
   Status Code: "405"
   Message: "Method Not Allowed"
 */
-func (r *Response) Response_405() {
+func (r *Response) Response_405(data interface{}) {
 	r.StatusCode = 405
 	r.Message = "Method Not Allowed"
+	r.Data = data
 }
 
 /**
@@ -140,9 +146,10 @@ func (r *Response) Response_406(data interface{}) {
   Status Code: "500"
   Message: "Internal Server Error"
 */
-func (r *Response) Response_500() {
+func (r *Response) Response_500(data interface{}) {
 	r.StatusCode = 500
 	r.Message = "Internal Server Error"
+	r.Data = data
 }
 
 /**
@@ -153,7 +160,8 @@ func (r *Response) Response_500() {
   Status Code: "501"
   Message: "Not Implemented"
 */
-func (r *Response) Response_501() {
+func (r *Response) Response_501(data interface{}) {
 	r.StatusCode = 501
 	r.Message = "Not Implemented"
+	r.Data = data
 }
