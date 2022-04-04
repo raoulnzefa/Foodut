@@ -15,8 +15,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func SearchById(transactionId []string) []dto.Transaction {
-	transactions := repo.FindAllTransaction(transactionId)
+func SearchAllOrById(custId []string) []dto.Transaction {
+	transactions := repo.ReadAllTransaction(custId)
 
 	var getTransactionDTO []dto.Transaction
 
@@ -34,7 +34,35 @@ func SearchById(transactionId []string) []dto.Transaction {
 				// Get from customer
 				historyDetail := prSrvc.ProductDetailAssociationWithTransaction(getTransactionDTO[i].ID)
 
-				// Set it to customer collapse
+				// Set it to customer
+				getTransactionDTO[i].ProductDetail = historyDetail
+			}
+		}
+	}
+
+	return getTransactionDTO
+}
+
+func SearchByCustId(customerId []string) []dto.Transaction {
+	transactions := repo.ReadTransactionsByCustId(customerId)
+
+	var getTransactionDTO []dto.Transaction
+
+	// Association
+	if len(transactions) > 0 {
+		repo.GetTransactionsAssociation(transactions)
+
+		// Child Association
+		for i := 0; i < len(transactions); i++ {
+			if len(transactions[i].ProductDetail) > 0 {
+
+				// Map from model to dto
+				getTransactionDTO = append(getTransactionDTO, MapToTransactionDTO(transactions[i]))
+
+				// Get from customer
+				historyDetail := prSrvc.ProductDetailAssociationWithTransaction(getTransactionDTO[i].ID)
+
+				// Set it to customer
 				getTransactionDTO[i].ProductDetail = historyDetail
 			}
 		}

@@ -26,9 +26,6 @@ func UserRouter(router *mux.Router) {
 	//- Get Seller with Products
 	router.HandleFunc("/store", usrController.GetSellerByIdWithProducts).Methods("GET")
 
-	//- Post User
-	// router.HandleFunc("/user", usrController.PostUser).Methods("POST")
-
 	//- Post Customer
 	router.HandleFunc("/customer", usrController.PostCustomer).Methods("POST")
 
@@ -39,7 +36,7 @@ func UserRouter(router *mux.Router) {
 	router.HandleFunc("/admin", usrController.PostAdmin).Methods("POST")
 
 	//- Update User
-	//Customer or Seller
+	//  Customer or Seller
 	router.HandleFunc("/users/{user_id}", usrController.EditUser).Methods("PUT")
 
 	//- Delete User

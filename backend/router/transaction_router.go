@@ -13,6 +13,9 @@ func TransactionRouter(router *mux.Router) {
 	//- Get All Transaction
 	router.HandleFunc("/transactions", usrController.AuthenticateMinimumLevel(trController.GetAllTransactions, 3)).Methods("GET")
 
+	//- Get Spesific Transaction for Customer
+	router.HandleFunc("/transactions-c", usrController.Authenticate(trController.GetCustomerTransactions, 1)).Methods("GET")
+
 	//- Get All Order From Seller
 	router.HandleFunc("/orders", trController.GetAllOrders).Methods("GET")
 

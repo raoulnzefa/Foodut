@@ -10,17 +10,21 @@ import (
 	"github.com/gorilla/mux"
 )
 
+/**
+  Admin can get all transaction of customer
+  or can filter it by customer id
+  to get a spesific transction
+*/
 func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 
 	transactionId := req.URL.Query()["id"]
 
-	var transactions []dto.Transaction = srvc.SearchById(transactionId)
+	var transactions []dto.Transaction = srvc.SearchAllOrById(transactionId)
 
 	// Set response
 	var response rspn.Response
 	if len(transactions) > 0 {
 		response.Response_200(transactions)
-
 	} else {
 		response.Response_204("Get transaction fail")
 	}
@@ -29,6 +33,33 @@ func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  Customer can get his/her transaction
+*/
+func GetCustomerTransactions(writer http.ResponseWriter, req *http.Request) {
+
+	customerId := req.URL.Query()["customerId"]
+
+	var transactions []dto.Transaction = srvc.SearchByCustId(customerId)
+
+	// Set response
+	var response rspn.Response
+	if len(transactions) > 0 {
+		response.Response_200(transactions)
+	} else {
+		response.Response_204("Get transaction fail")
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+/**
+  Seller can view all ordered
+  product related to his/her.
+  Filtered by 'ORDER' status
+  in transaction_details schema
+*/
 func GetAllOrders(writer http.ResponseWriter, req *http.Request) {
 
 	sellerId := req.URL.Query()["sellerId"]
@@ -48,6 +79,9 @@ func GetAllOrders(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  This method purpose is for customer payment
+*/
 func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
@@ -73,6 +107,10 @@ func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  'Rarely happen in any enterprise/company'
+  Delete transaction by its id
+*/
 func DeleteTransaction(writer http.ResponseWriter, req *http.Request) {
 	// Check id query
 	vars := mux.Vars(req)
