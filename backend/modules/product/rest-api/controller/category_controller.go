@@ -29,7 +29,7 @@ func PostCategory(writer http.ResponseWriter, req *http.Request) {
 	if result.Error == nil {
 		response.Response_201("Success post category")
 	} else {
-		response.Response_400("Failed post category")
+		response.Response_400("Post category failed")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
