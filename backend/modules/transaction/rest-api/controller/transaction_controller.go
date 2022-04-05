@@ -34,6 +34,29 @@ func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 }
 
 /**
+  Admin can get all transaction of customer
+  or can filter it by customer id
+  to get a spesific transction
+  'DECENTRALIZED JSON'
+*/
+func GetAllTransactionsDecentralize(writer http.ResponseWriter, req *http.Request) {
+
+	var orders []dto.TransactionDecentralize = srvc.SendForGetTransactionDetail()
+
+	// Set response
+	var response rspn.Response
+	if len(orders) > 0 {
+		response.Response_200(orders)
+
+	} else {
+		response.Response_204("Get seller orders fail")
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+/**
   Customer can get his/her transaction
 */
 func GetCustomerTransactions(writer http.ResponseWriter, req *http.Request) {
@@ -70,7 +93,6 @@ func GetAllOrders(writer http.ResponseWriter, req *http.Request) {
 	var response rspn.Response
 	if len(orders) > 0 {
 		response.Response_200(orders)
-
 	} else {
 		response.Response_204("Get seller orders fail")
 	}

@@ -31,6 +31,21 @@ func SendTDForUpdateAfterTransaction(tid int, carts []model.Cart, products []prM
 	return result
 }
 
+func SendForGetTransactionDetail() []dto.TransactionDecentralize {
+	td := repo.ReadAllTransactionDetail()
+
+	// Calculate each product sub total
+	for i := 0; i < len(td); i++ {
+		td[i].SubTotal = td[i].Price * float64(td[i].Quantity)
+	}
+
+	return td
+}
+
 func SendSellerIdForReadOrder(sellerId []string) []dto.OrderDetail {
 	return repo.ReadTDOrderBySeller(sellerId)
+}
+
+func SendCustomerIdForReadOrder(customerId []string) []dto.OrderDetail {
+	return repo.ReadTDOrderBySeller(customerId)
 }
