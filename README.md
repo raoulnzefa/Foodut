@@ -76,7 +76,7 @@
 cd backend
 ```
 
-### Dapatkan depedency golang
+### Dapatkan dependency golang
 
 ```
 go mod tidy
