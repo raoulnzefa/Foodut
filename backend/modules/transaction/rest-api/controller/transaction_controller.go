@@ -49,7 +49,7 @@ func GetAllTransactionsDecentralize(writer http.ResponseWriter, req *http.Reques
 		response.Response_200(orders)
 
 	} else {
-		response.Response_204("Get seller orders fail")
+		response.Response_204("Get transaction fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -69,6 +69,29 @@ func GetCustomerTransactions(writer http.ResponseWriter, req *http.Request) {
 	var response rspn.Response
 	if len(transactions) > 0 {
 		response.Response_200(transactions)
+	} else {
+		response.Response_204("Get transaction fail")
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+/**
+  Customer can get his/her all transaction
+  'DECENTRALIZED JSON'
+*/
+func GetCustomerTransactionsDecentralize(writer http.ResponseWriter, req *http.Request) {
+
+	customerId := req.URL.Query()["customerId"]
+
+	var orders []dto.TransactionDecentralize = srvc.SendCustomerIdForGetTransactionDetail(customerId)
+
+	// Set response
+	var response rspn.Response
+	if len(orders) > 0 {
+		response.Response_200(orders)
+
 	} else {
 		response.Response_204("Get transaction fail")
 	}

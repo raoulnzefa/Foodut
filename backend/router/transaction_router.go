@@ -16,8 +16,11 @@ func TransactionRouter(router *mux.Router) {
 	//- Get All Transaction Detail
 	router.HandleFunc("/transactions-d", trController.GetAllTransactionsDecentralize).Methods("GET")
 
-	//- Get Spesific Transaction for Customer
+	//- Get Customer Transaction
 	router.HandleFunc("/transactions-c", usrController.Authenticate(trController.GetCustomerTransactions, 1)).Methods("GET")
+
+	//- Get Customer Transaction Detail
+	router.HandleFunc("/transactions-cd", trController.GetCustomerTransactionsDecentralize).Methods("GET")
 
 	//- Get All Order From Seller
 	router.HandleFunc("/orders", trController.GetAllOrders).Methods("GET")
