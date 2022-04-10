@@ -157,7 +157,10 @@ export default {
   methods: {
     Createproduct() {
       apiProduct
-        .InsertProduct(this.productName, this.productPrice, this.productStock, this.sellerId, this.productCategory, this.productPicture)
+        .AddProduct(
+          // this.productName, this.productPrice, this.productStock, this.sellerId, this.productCategory, this.productPicture
+          
+          )
         .then((response) => {
           if(!response){
             this.$vs.notify({

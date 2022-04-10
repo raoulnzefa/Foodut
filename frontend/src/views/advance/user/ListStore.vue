@@ -100,6 +100,9 @@ import moduleUserManagement from '@/store/user-management/moduleUserManagement.j
 import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
 import CellRendererActions from './cell-renderer/CellRendererActions.vue'
 
+//Api User
+import apiUser from '../../../api/user'
+
 
 export default {
   components: {
@@ -134,7 +137,7 @@ export default {
         },
         {
           headerName: 'Store',
-          field: 'storename',
+          field: 'storeName',
           filter: true,
           width: 230
         },
@@ -148,7 +151,7 @@ export default {
           headerName: 'Email',
           field: 'email',
           filter: true,
-          width: 280
+          width: 250
         },
         {
           headerName: 'Name',
@@ -161,14 +164,11 @@ export default {
           field: 'city',
           filter: true,
           width: 170
-        },
-        {
-          headerName: 'Actions',
-          field: 'transactions',
-          width: 150,
-          cellRendererFramework: 'CellRendererActions'
         }
       ],
+
+      //Data Seller
+      rowStores: [],
 
       // Cell Renderer Components
       components: {
@@ -187,7 +187,7 @@ export default {
   },
   computed: {
     usersData () {
-      return this.$store.state.userManagement.users
+      return this.rowStores
     },
     paginationPageSize () {
       if (this.gridApi) return this.gridApi.paginationGetPageSize()
@@ -234,17 +234,10 @@ export default {
     }
   },
   mounted () {
-    this.gridApi = this.gridOptions.api
-
-    /* =================================================================
-      NOTE:
-      Header is not aligned properly in RTL version of agGrid table.
-      However, we given fix to this issue. If you want more robust solution please contact them at gitHub
-    ================================================================= */
-    if (this.$vs.rtl) {
-      const header = this.$refs.agGridTable.$el.querySelector('.ag-header-container')
-      header.style.left = `-${  String(Number(header.style.transform.slice(11, -3)) + 9)  }px`
-    }
+    apiUser
+      .GetAllStore()
+      .then((response) => { this.rowStores = response })
+      .catch((error) => { console.log('Error get all data store!', error)})
   },
   created () {
     if (!moduleUserManagement.isRegistered) {

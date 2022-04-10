@@ -34,28 +34,6 @@
                   <span>Delete</span>
                 </span>
               </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="ArchiveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Archive</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="FileIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Print</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="SaveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Another Action</span>
-                </span>
-              </vs-dropdown-item>
-
             </vs-dropdown-menu>
           </vs-dropdown>
 
@@ -94,12 +72,12 @@
 
       <template slot="thead">
         <vs-th>Image</vs-th>
-        <vs-th sort-key="name">Name</vs-th>
-        <vs-th sort-key="category">Category</vs-th>
-        <vs-th sort-key="popularity">Popularity</vs-th>
-        <vs-th sort-key="order_status">Order Status</vs-th>
+        <vs-th sort-key="name">Product</vs-th>
         <vs-th sort-key="price">Price</vs-th>
-        <vs-th>Action</vs-th>
+        <vs-th sort-key="quantity">Quantity</vs-th>
+        <vs-th sort-key="address">Address</vs-th>
+        <vs-th sort-key="payment">Payment</vs-th>
+        <vs-th sort-key="total">Total</vs-th>
       </template>
 
       <template slot-scope="{data}">
@@ -111,28 +89,27 @@
             </vs-td>
 
             <vs-td>
-              <p class="product-name font-medium truncate">{{ tr.name }}</p>
+              <p class="product-name font-medium truncate">{{ tr.productDetail }}</p>
             </vs-td>
 
             <vs-td>
-              <p class="product-category">{{ tr.category }}</p>
+              <p class="product-price">{{ tr.productDetail }}</p>
             </vs-td>
 
             <vs-td>
-              <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" />
+              <p class="product-quantity">{{ tr.productDetail }}</p>
             </vs-td>
 
             <vs-td>
-              <vs-chip :color="getOrderStatusColor(tr.order_status)" class="product-order-status">{{ tr.order_status | title }}</vs-chip>
+              <p class="product-address">{{ tr.address }}</p>
             </vs-td>
 
             <vs-td>
-              <p class="product-price">${{ tr.price }}</p>
+              <p class="product-payment">{{ tr.paymentOption }}</p>
             </vs-td>
 
-            <vs-td class="whitespace-no-wrap">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
-              <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <vs-td>
+              <p class="product-subtotal">{{ tr.subTotal }}</p>
             </vs-td>
 
           </vs-tr>
@@ -145,6 +122,7 @@
 <script>
 import DataViewSidebar from './DataViewSidebar.vue'
 import moduleDataList from '@/store/data-list/moduleDataList.js'
+import apiTransaction from '../../../api/transaction';
 
 export default {
   components: {
@@ -153,7 +131,7 @@ export default {
   data () {
     return {
       selected: [],
-      // products: [],
+      transactions: [],
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -161,6 +139,9 @@ export default {
     }
   },
   computed: {
+    transactionData() {
+      return this.transactions
+    },
     currentPage () {
       if (this.isMounted) {
         return this.$refs.table.currentx
@@ -212,7 +193,14 @@ export default {
     this.$store.dispatch('dataList/fetchDataListItems')
   },
   mounted () {
-    this.isMounted = true
+    apiTransaction
+      .GetAllTransaction()
+      .then((response) => { 
+        this.transactions = response 
+        console.log('transaction')
+        console.log(response)
+      })
+      .catch((error) => { console.log('Error get all data transaction!', error) })
   }
 }
 </script>

@@ -65,7 +65,7 @@
         <vs-th>Image</vs-th>
         <vs-th sort-key="name">Name</vs-th>
         <vs-th sort-key="category">Category</vs-th>
-        <vs-th sort-key="popularity">Rate</vs-th>
+        <vs-th sort-key="rate">Rate</vs-th>
         <vs-th sort-key="stock">Stock</vs-th>
         <vs-th sort-key="price">Price</vs-th>
         <vs-th>Action</vs-th>
@@ -142,9 +142,9 @@ export default {
       }
       return 0
     },
-    products () {
-      return this.$store.state.dataList.products
-    },
+    // products () {
+    //   return this.$store.state.dataList.products
+    // },
     queriedItems () {
       return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
     }
@@ -187,17 +187,10 @@ export default {
     this.$store.dispatch('dataList/fetchDataListItems')
   },
   mounted () {
-    console.log(this.data)
-    console.log("test: ", this.products)
     apiProduct
       .GetAllProduct()
-      .then((response) => { 
-        this.products = response 
-        console.log('---')
-        console.log(response)
-      })
+      .then((response) => { this.products = response })
       .catch((error) => { console.log('Error get all data product!', error) })
-    // this.isMounted = true
   }
 }
 </script>

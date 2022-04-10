@@ -217,13 +217,13 @@ export default {
           headerName: 'Username',
           field: 'username',
           filter: true,
-          width: 250
+          width: 300
         },
         {
           headerName: 'Email',
           field: 'email',
           filter: true,
-          width: 250
+          width: 300
         },
         {
           headerName: 'Name',
@@ -235,7 +235,7 @@ export default {
           headerName: 'Level',
           field: 'level',
           filter: true,
-          width: 100
+          width: 200
         }
       ],
 
