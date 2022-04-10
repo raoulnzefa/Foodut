@@ -145,6 +145,19 @@ export default [
         ]
       }
     ]
+  },
+  {
+    header: 'Test Api',
+    icon: 'PackageIcon',
+    i18n: 'Test Api',
+    items: [
+      {
+        url: '/test',
+        name: 'Test Api',
+        icon: 'ShoppingCartIcon',
+        i18n: 'Test Api',
+      }
+    ]
   }
 ]
 
