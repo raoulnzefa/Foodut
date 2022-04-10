@@ -61,7 +61,7 @@ func Authenticate(next http.HandlerFunc, accessType int) http.HandlerFunc {
 		isValidToken := validateUserTokenStrict(w, r, accessType)
 		if !isValidToken {
 			var response rspn.Response
-			response.Response_401()
+			response.Response_401("Token invalid")
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(response)
 		} else {
@@ -76,7 +76,7 @@ func AuthenticateMinimumLevel(next http.HandlerFunc, accessType int) http.Handle
 		isValidToken := validateUserTokenMinimumLevel(w, r, accessType)
 		if !isValidToken {
 			var response rspn.Response
-			response.Response_401()
+			response.Response_401("Token invalid")
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(response)
 		} else {

@@ -22,7 +22,7 @@ func GetOneTransactionAssociation(transaction *model.Transaction) {
 
 }
 
-func FindAllTransaction(transactionId []string) []model.Transaction {
+func ReadAllTransaction(transactionId []string) []model.Transaction {
 	// Check connection
 	con := dbController.GetConnection()
 
@@ -33,6 +33,20 @@ func FindAllTransaction(transactionId []string) []model.Transaction {
 		con.Find(&transactions, transactionId[0])
 	} else {
 		con.Find(&transactions)
+	}
+
+	return transactions
+}
+
+func ReadTransactionsByCustId(custId []string) []model.Transaction {
+	// Check connection
+	con := dbController.GetConnection()
+
+	var transactions []model.Transaction
+
+	// Extra query by id
+	if custId != nil {
+		con.Where("customer_id = ?", custId[0]).Find(&transactions)
 	}
 
 	return transactions

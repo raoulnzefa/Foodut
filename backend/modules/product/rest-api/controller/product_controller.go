@@ -29,7 +29,7 @@ func GetAllProducts(writer http.ResponseWriter, req *http.Request) {
 	if len(products) > 0 {
 		response.Response_200(products)
 	} else {
-		response.Response_204()
+		response.Response_204("Get product fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -54,7 +54,7 @@ func GetProductByName(writer http.ResponseWriter, req *http.Request) {
 	if len(products) > 0 {
 		response.Response_200(products)
 	} else {
-		response.Response_204()
+		response.Response_204("Get product by name fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -74,7 +74,7 @@ func GetProductByCategoryId(writer http.ResponseWriter, req *http.Request) {
 	if len(products) > 0 {
 		response.Response_200(products)
 	} else {
-		response.Response_204()
+		response.Response_204("Get product by category id fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -94,7 +94,7 @@ func GetProductByCategoryName(writer http.ResponseWriter, req *http.Request) {
 	if len(products) > 0 {
 		response.Response_200(products)
 	} else {
-		response.Response_204()
+		response.Response_204("Get product by category name fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -108,9 +108,9 @@ func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
 
 	deleteErr := srvc.DeleteById(productId)
 	var response rspn.Response
-	//response.Response_200("masuk delete prod ctrl")
+
 	if deleteErr.Error == nil {
-		response.Response_200("data has been deleted")
+		response.Response_200("Success delete product")
 	} else {
 		response.Response_400(deleteErr)
 	}
@@ -139,9 +139,9 @@ func PostProduct(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if result.Error == nil {
-		response.Response_201()
+		response.Response_201("Success post product")
 	} else {
-		response.Response_400("")
+		response.Response_400("Post product fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -161,20 +161,16 @@ func EditProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	productID := vars["product_id"]
 
-	var id []string
-	id = append(id, productID)
-	products := srvc.SearchById(id)
-
-	result := srvc.EditProduct(products[0], editProductDto)
+	result := srvc.EditProduct(productID, editProductDto)
 	var response rspn.Response
 	if err == nil {
 		if result.Error == nil {
-			response.Response_200("Edit Product Data Success")
+			response.Response_200("Edit product data success")
 		} else {
-			response.Response_400("Edit Product Data Failed " + result.Error.Error())
+			response.Response_400("Edit product data failed " + result.Error.Error())
 		}
 	} else {
-		response.Response_400("Edit Product Data Failed, ID Not Valid" + err.Error())
+		response.Response_400("Edit product data failed, ID not valid" + err.Error())
 	}
 
 	w.Header().Set("Content-Type", "application/json")

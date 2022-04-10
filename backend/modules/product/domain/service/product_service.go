@@ -113,32 +113,36 @@ func MapToProduct(pr dto.PostProduct) model.Product {
 	return product
 }
 
-func EditProduct(product model.Product, editProductDto dto.EditProduct) *gorm.DB {
-	productName := editProductDto.ProductName
-	productPrice := editProductDto.ProductPrice
-	productStock := editProductDto.ProductStock
-	productCategory := editProductDto.ProductCategory
-	productDescription := editProductDto.ProductDescription
+func EditProduct(productId string, editProductDto dto.EditProduct) *gorm.DB {
 
-	if productName != "" {
-		product.ProductName = productName
-	}
-	if productPrice > -1 {
-		product.ProductPrice = productPrice
-	}
-	if productStock > -1 {
-		product.ProductStock = productStock
-	}
-	if productCategory > 0 {
-		product.CategoryID = productCategory
-	}
-	if productDescription != "" {
-		product.Description = productDescription
-	}
+	products := SearchById([]string{productId})
 
-	if product.ID > 0 {
-		result := repo.SaveProduct(product)
-		return result
+	if len(products) == 1 {
+		product := products[0]
+
+		productName := editProductDto.ProductName
+		productPrice := editProductDto.ProductPrice
+		productStock := editProductDto.ProductStock
+		productCategory := editProductDto.ProductCategory
+		productDescription := editProductDto.ProductDescription
+
+		if productName != "" {
+			product.ProductName = productName
+		}
+		if productPrice > -1 {
+			product.ProductPrice = productPrice
+		}
+		if productStock > -1 {
+			product.ProductStock = productStock
+		}
+		if productCategory > 0 {
+			product.CategoryID = productCategory
+		}
+		if productDescription != "" {
+			product.Description = productDescription
+		}
+
+		return repo.UpdateProduct(product)
 	} else {
 		return nil
 	}

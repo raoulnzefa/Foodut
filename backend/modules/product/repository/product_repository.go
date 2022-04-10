@@ -94,17 +94,12 @@ func DeleteProductById(productId string) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 
-	//delete Product on db by id
+	// Delete Product on database by its id
 	var product model.Product
-	result := con.Delete(&product, productId)
-	return result
-	//if con.Error != nil {
-	//	return con.Error
-	//} else if con.RowsAffected < 1 {
-	//	return fmt.Errorf("row with id=%d cannot be deleted because it doesn't exist", productId)
-	//}
 
-	//return nil
+	result := con.Delete(&product, productId)
+
+	return result
 }
 
 func CreateProduct(product model.Product) *gorm.DB {
@@ -122,7 +117,9 @@ func ReadProductById(productId int) model.Product {
 	con := dbController.GetConnection()
 
 	var product model.Product
+
 	con.Find(&product, productId)
+
 	return product
 }
 
@@ -140,6 +137,7 @@ func UpdateProductStock(productId int, newStock int) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 
+	// Update product stock using raw SQL
 	result := con.Exec(
 		"UPDATE `products` "+
 			"SET `product_stock`= ? "+
@@ -150,8 +148,12 @@ func UpdateProductStock(productId int, newStock int) *gorm.DB {
 	return result
 }
 
-func SaveProduct(product model.Product) *gorm.DB {
+func UpdateProduct(product model.Product) *gorm.DB {
+	// Check connection
 	con := dbController.GetConnection()
+
+	// Save updated prdouct data
 	result := con.Save(&product)
+
 	return result
 }

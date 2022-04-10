@@ -22,7 +22,7 @@ func TestGetTransaction(t *testing.T) {
 	var expected []model.Transaction
 	con.Find(&expected)
 
-	actual := repo.FindAllTransaction(nil)
+	actual := repo.ReadAllTransaction(nil)
 
 	assert.Equal(t, len(expected), len(actual))
 }

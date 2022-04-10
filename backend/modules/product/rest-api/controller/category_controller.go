@@ -27,9 +27,9 @@ func PostCategory(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if result.Error == nil {
-		response.Response_201()
+		response.Response_201("Success post category")
 	} else {
-		response.Response_400("")
+		response.Response_400("Post category failed")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -55,7 +55,7 @@ func UpdateCategories(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if result.Error == nil {
-		response.Response_201()
+		response.Response_201("Success update category")
 	} else {
 		response.Response_400(result.Error)
 	}

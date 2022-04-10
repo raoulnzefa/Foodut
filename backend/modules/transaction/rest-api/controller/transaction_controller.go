@@ -10,25 +10,102 @@ import (
 	"github.com/gorilla/mux"
 )
 
+/**
+  Admin can get all transaction of customer
+  or can filter it by customer id
+  to get a spesific transction
+*/
 func GetAllTransactions(writer http.ResponseWriter, req *http.Request) {
 
 	transactionId := req.URL.Query()["id"]
 
-	var transactions []dto.Transaction = srvc.SearchById(transactionId)
+	var transactions []dto.Transaction = srvc.SearchAllOrById(transactionId)
 
 	// Set response
 	var response rspn.Response
 	if len(transactions) > 0 {
 		response.Response_200(transactions)
-
 	} else {
-		response.Response_204()
+		response.Response_204("Get transaction fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  Admin can get all transaction of customer
+  or can filter it by customer id
+  to get a spesific transction
+  'DECENTRALIZED JSON'
+*/
+func GetAllTransactionsDecentralize(writer http.ResponseWriter, req *http.Request) {
+
+	var orders []dto.TransactionDecentralize = srvc.SendForGetTransactionDetail()
+
+	// Set response
+	var response rspn.Response
+	if len(orders) > 0 {
+		response.Response_200(orders)
+
+	} else {
+		response.Response_204("Get transaction fail")
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+/**
+  Customer can get his/her transaction
+*/
+func GetCustomerTransactions(writer http.ResponseWriter, req *http.Request) {
+
+	customerId := req.URL.Query()["customerId"]
+
+	var transactions []dto.Transaction = srvc.SearchByCustId(customerId)
+
+	// Set response
+	var response rspn.Response
+	if len(transactions) > 0 {
+		response.Response_200(transactions)
+	} else {
+		response.Response_204("Get transaction fail")
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+/**
+  Customer can get his/her all transaction
+  'DECENTRALIZED JSON'
+*/
+func GetCustomerTransactionsDecentralize(writer http.ResponseWriter, req *http.Request) {
+
+	customerId := req.URL.Query()["customerId"]
+
+	var orders []dto.TransactionDecentralize = srvc.SendCustomerIdForGetTransactionDetail(customerId)
+
+	// Set response
+	var response rspn.Response
+	if len(orders) > 0 {
+		response.Response_200(orders)
+
+	} else {
+		response.Response_204("Get transaction fail")
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
+/**
+  Seller can view all ordered
+  product related to his/her.
+  Filtered by 'ORDER' status
+  in transaction_details schema
+*/
 func GetAllOrders(writer http.ResponseWriter, req *http.Request) {
 
 	sellerId := req.URL.Query()["sellerId"]
@@ -39,15 +116,17 @@ func GetAllOrders(writer http.ResponseWriter, req *http.Request) {
 	var response rspn.Response
 	if len(orders) > 0 {
 		response.Response_200(orders)
-
 	} else {
-		response.Response_204()
+		response.Response_204("Get seller orders fail")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  This method purpose is for customer payment
+*/
 func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON
@@ -64,7 +143,7 @@ func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if isError == nil {
-		response.Response_201()
+		response.Response_201("Success post transaction")
 	} else {
 		response.Response_400(isError.Error())
 	}
@@ -73,6 +152,10 @@ func PostTransaction(writer http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(writer).Encode(response)
 }
 
+/**
+  'Rarely happen in any enterprise/company'
+  Delete transaction by its id
+*/
 func DeleteTransaction(writer http.ResponseWriter, req *http.Request) {
 	// Check id query
 	vars := mux.Vars(req)
@@ -80,9 +163,9 @@ func DeleteTransaction(writer http.ResponseWriter, req *http.Request) {
 
 	deleteErr := srvc.DeleteById(transId)
 	var response rspn.Response
-	//response.Response_200("masuk delete prod ctrl")
+
 	if deleteErr.Error == nil {
-		response.Response_200("data has been deleted")
+		response.Response_200("Success delete transaction")
 	} else {
 		response.Response_400(deleteErr)
 	}

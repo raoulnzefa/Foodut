@@ -28,7 +28,7 @@ func GetCartWithAvailability(writer http.ResponseWriter, req *http.Request) {
 	if len(result) > 0 {
 		response.Response_200(result)
 	} else {
-		response.Response_204()
+		response.Response_204("Get cart fail || Empty cart")
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
@@ -51,7 +51,7 @@ func PostToCart(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if result.Error == nil {
-		response.Response_201()
+		response.Response_201("Success post cart")
 	} else {
 		response.Response_400(result.Error)
 	}
@@ -76,7 +76,7 @@ func UpdateCart(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if result.Error == nil {
-		response.Response_201()
+		response.Response_201("Success update cart")
 	} else {
 		response.Response_400(result.Error)
 	}
@@ -101,7 +101,7 @@ func DeleteSpesificProductFromCart(writer http.ResponseWriter, req *http.Request
 	// Set response
 	var response rspn.Response
 	if result.Error == nil {
-		response.Response_201()
+		response.Response_201("Delete spesific cart success")
 	} else {
 		response.Response_400(result.Error)
 	}
@@ -126,7 +126,7 @@ func DeleteCarts(writer http.ResponseWriter, req *http.Request) {
 	// Set response
 	var response rspn.Response
 	if result.Error == nil {
-		response.Response_201()
+		response.Response_201("Delete carts success")
 	} else {
 		response.Response_400(result.Error)
 	}

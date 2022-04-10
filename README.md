@@ -59,16 +59,30 @@
 
 ### Web Application Architecture
 
-- [Three-tier architecture](https://herbertograca.com/2017/08/03/layered-architecture/)
+- [Domain Driven Design](http://uniknow.github.io/AgileDev/site/0.1.8-SNAPSHOT/parent/ddd/core/layered_architecture.html)
   <br>
-  - User Interface (Presentation): The user interface, be it a web page, a CLI or a native desktop application;
-  - Business logic (Domain): The logic that is the reason why the application exists;
-  - Data source: The data persistence mechanism (DB), or communication with other applications.
-  **Still being discussed with the team.**
+  - Controller : handle REST API JSON
+  - Service    : business logic
+  - Repository : handle database CRUD
+  
 
 ## Start Application
 
 ### Backend
+
+### Pindah folder backend
+
+```
+cd backend
+```
+
+### Dapatkan dependency golang
+
+```
+go mod tidy
+```
+
+### Run main
 
 ```
 go run main.go
@@ -76,7 +90,7 @@ go run main.go
 
 ### Frontend
 
-### Pindah folder frondend windows
+### Pindah folder frondend
 
 ```
 cd frontend
