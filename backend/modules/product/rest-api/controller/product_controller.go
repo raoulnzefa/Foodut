@@ -112,7 +112,7 @@ func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
 	if deleteErr.Error == nil {
 		response.Response_200("Success delete product")
 	} else {
-		response.Response_400(deleteErr)
+		response.Response_400(deleteErr.Error)
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
