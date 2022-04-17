@@ -1,5 +1,7 @@
 <template>
   <div id="ecommerce-checkout-demo">
+    <add-categories /><br>
+    <list-categories /><br>
     <vx-card
       title="Add New Product"
       subtitle="Be sure to check Product Details when you have finished"
@@ -14,7 +16,7 @@
                   data-vv-as="field"
                   name="Name"
                   label="Name:"
-                  v-model="Name"
+                  v-model="name"
                   class="w-full mt-0"
                 />
                 <span
@@ -30,7 +32,7 @@
                   v-validate="'required'"
                   name="Price"
                   label="Price:"
-                  v-model="Price"
+                  v-model="price"
                   class="w-full mt-5"
                 />
                 <span
@@ -44,7 +46,7 @@
                   v-validate="'required'"
                   name="Category"
                   label="Category:"
-                  v-model="Category"
+                  v-model="category"
                   class="w-full mt-5"
                 />
                 <span
@@ -70,7 +72,7 @@
               rows="5"
               v-validate="'required|alpha_spaces'"
               name="Description"
-              v-model="Description"
+              v-model="description"
               class="w-full"
               placeholder="Type Your Description"
             />
@@ -82,32 +84,16 @@
           </div>
         </div>
         <div class="vx-row">
-          <div class="vx-col">
-            <p class="mt-4 text-sm">Picture Items:</p>
-            <vs-input-number style="width: 100px" v-model="picture_items" />
-            <span
-              v-show="errors.has('add-new-product.items')"
-              class="text-danger"
-              >{{ errors.first("add-new-product.items") }}</span
-            >
-          </div>
-          <div class="mt-10">
-            <vs-button
-              v-on:click="getPictureItems()"
-              radius
-              color="primary"
-              type="border"
-              icon-pack="feather"
-              icon="icon-archive"
-            ></vs-button>
-          </div>
-        </div>
-        <div class="vx-row">
-          <div class="vx-col w-full">
+          <div class="vx-col sm:w-1/5 w-full">
+            <p class="mt-4 text-sm">Picture:</p>
             <div class="upload-img mt-5" v-if="!dataImg">
-              <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
+              <input type="file" class="hidden" ref="uploadImgInput" @change="updateNameFilePicture" accept="image/*" multiple="multiple">
               <vs-button @click="$refs.uploadImgInput.click()">Upload Image</vs-button>
             </div>
+          </div>
+          <div class="vx-col sm:w-1/6 w-full">
+            <p class="mt-4 text-sm">Total Picture</p>
+            <vs-input style="padding-top:18px; width:50px" v-validate="'required'" name="totalPicture" v-model="total_picture" readonly="readonly"/>
           </div>
         </div>
       </form>
@@ -144,22 +130,48 @@
 <script>
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import AddCategories from './AddCategories.vue'
+import ListCategories from './ListCategories.vue'
 import apiProduct from '../../../api/product'
 
 export default {
+  components: {
+    FormWizard,
+    TabContent,
+    AddCategories,
+    ListCategories
+  },
   data () {
     return {
       switch1: true,
-      stock:10,
-      picture_items: 1
+      name: "",
+      price: 0,
+      category: "",
+      stock: 0,
+      description: "",
+      picture: [],
+      total_picture: 0
     }
   },
   methods: {
+    updateNameFilePicture(){
+      // Read selected files
+      const files = this.$refs.uploadImgInput.files;
+      const totalfiles = this.$refs.uploadImgInput.files.length;
+      console.log(files, totalfiles)
+      this.total_picture = totalfiles
+    },
     CreateProduct() {
       this.sellerId = localStorage.getItem('userId')
-      this.productPicture = ''
+      const totalPicture = this.$refs.uploadImgInput.files;
+      const pictureArray = []
+      for (let index = 0; index < totalPicture.length; index++) {
+        pictureArray.push(totalPicture[index].name)
+      }
+      console.log("Data Product Baru")
+      console.log(this.name, this.price, this.stock, this.sellerId,  this.category, this.description, pictureArray)
       apiProduct
-        .AddProduct(this.productName, this.productPrice, this.productStock, this.sellerId, this.productCategory, this.productDescription, this.productPicture)
+        .AddProduct(this.name, this.price, this.stock, this.sellerId,  this.category, this.description, pictureArray)
         .then((response) => {
           if(!response){
             this.$vs.notify({
@@ -188,14 +200,7 @@ export default {
             color: 'danger'
           })
         })
-    },
-    getPictureItems () {
-      alert(this.picture_items)
     }
-  },
-  components: {
-    FormWizard,
-    TabContent
   }
 }
 </script>

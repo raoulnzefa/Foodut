@@ -1,12 +1,12 @@
 <template>
     <div>
         Categories <br>
-        <vs-button class="ml-auto mt-2" @click="AddCategories">Add Categories</vs-button><br>
+        <vs-button class="ml-auto mt-2" @click="AddCategories">Add Categories</vs-button> ✔<br>
         <vs-button class="ml-auto mt-2" @click="UpdateCategories">Update Categories</vs-button><br>
         Product <br>
-        <vs-button class="ml-auto mt-2" @click="AddProduct">Add Product</vs-button><br>
-        <vs-button class="ml-auto mt-2" @click="UpdateProduct">Update Product</vs-button><br>
-        <vs-button class="ml-auto mt-2" @click="DeleteProduct">Delete Product</vs-button> belum<br>
+        <vs-button class="ml-auto mt-2" @click="AddProduct">Add Product</vs-button> ✔<br>
+        <vs-button class="ml-auto mt-2" @click="UpdateProduct">Update Product</vs-button> ✔<br>
+        <vs-button class="ml-auto mt-2" @click="DeleteProduct">Delete Product</vs-button> ✔<br>
         <vs-button class="ml-auto mt-2" @click="GetAllProduct">Get All Product</vs-button> ✔<br>
         <vs-button class="ml-auto mt-2" @click="GetProductByName">Get Product By Name</vs-button><br>
         <vs-button class="ml-auto mt-2" @click="GetProductByCategoryId">Get Product By Category Id</vs-button><br>

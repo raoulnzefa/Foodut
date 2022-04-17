@@ -34,7 +34,7 @@
                                 <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4" />
 
                                 <span class="text-sm font-semibold ml-2" v-if="isInCart(item.objectID)">VIEW IN CART</span>
-                                <span class="text-sm font-semibold ml-2" v-else>MOVE TO CART</span>
+                                <span class="text-sm font-semibold ml-2" v-else>CHECKOUT</span>
                             </div>
                         </div>
                     </template>
