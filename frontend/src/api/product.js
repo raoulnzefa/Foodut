@@ -5,10 +5,10 @@ export default{
     const response = await transport
       .post('/products', {
         productName: productName,
-        productPrice: productPrice,
-        productStock: productStock,
-        sellerId: sellerId,
-        productCategory: productCategory,
+        productPrice: parseInt(productPrice),
+        productStock: parseInt(productStock),
+        sellerId: parseInt(sellerId),
+        productCategory: parseInt(productCategory),
         productDescription: productDescription,
         productPicture: productPicture
       })
@@ -24,14 +24,14 @@ export default{
     const response = await transport
       .put(`/products/${productId}`, {
         productName: productName,
-        productPrice: productPrice,
-        productStock: productStock,
-        productCategory: productCategory,
+        productPrice: parseInt(productPrice),
+        productStock: parseInt(productStock),
+        productCategory: parseInt(productCategory),
         productDescription: productDescription
       })
       console.log('Update Product')
       console.log(response.data)
-      if(response.data.statusCode == 201){
+      if(response.data.statusCode == 200){
         return true
       }else{
         return false
@@ -64,9 +64,4 @@ export default{
     const response = await transport.get(`/products-by-category-name?category_name=${categoryName}`)
     return response.data.data
   }
-  //belum
-  // async GetAllProductByStore(){
-  //   const response = await transport.get(`/store/?userId=${id}`)
-  //   return response.data.data
-  // }
 }

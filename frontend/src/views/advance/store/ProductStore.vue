@@ -123,16 +123,46 @@ export default {
   },
   methods: {
     addNewData () {
-      this.sidebarData = {}
-      this.toggleDataSidebar(true)
+      this.$router.push({ name : 'store-add-product'}).catch(() => {})
     },
     deleteData (id) {
-      this.$store.dispatch('dataList/removeItem', id).catch(err => { console.error(err) })
+      console.log(id)
+      apiProduct
+        .DeleteProduct(id)
+        .then((response) => {
+          if(!response){
+            this.$vs.notify({
+              title: 'Error',
+              text: 'Failed to delete product',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          }else{
+            this.$vs.notify({
+              title: 'Success',
+              text: 'Succes to delete product',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check'
+            })
+          }
+          setTimeout(function(){
+            window.location.reload(1);
+          }, 1500);
+        })
+        .catch((error) => {          
+          this.$vs.notify({
+            title: 'Error',
+            text: error.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        })
     },
-    editData (data) {
-      // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
-      this.sidebarData = data
-      this.toggleDataSidebar(true)
+    editData () {
+      this.$router.push({ name : 'store-edit-product'}).catch(() => {})
     },
     getOrderStatusColor (status) {
       if (status === 'on_hold')   return 'warning'
