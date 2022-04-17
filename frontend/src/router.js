@@ -192,17 +192,17 @@ const router = new Router({
           }
         },
         {
-          path: '/advance/store/product/view',
-          name: 'store-product-view',
-          component: () => import('./views/advance/store/ViewSoldProduct.vue'),
+          path: '/advance/store/orders/view',
+          name: 'store-orders-view',
+          component: () => import('./views/advance/store/ViewOrders.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
               { title: 'Store'},
-              { title: 'Product'},
+              { title: 'Orders'},
               { title: 'View', active: true }
             ],
-            pageTitle: 'ViewProduct',
+            pageTitle: 'ViewOrders',
             rule: 'editor'
           }
         },

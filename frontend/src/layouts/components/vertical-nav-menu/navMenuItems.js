@@ -117,10 +117,10 @@ export default [
             i18n: 'ViewStore'
           },
           {
-            url: '/advance/store/product/view',
-            name: 'View Product',
-            slug: 'store-product-view',
-            i18n: 'ViewSoldProduct'
+            url: '/advance/store/orders/view',
+            name: 'View Orders',
+            slug: 'store-orders-view',
+            i18n: 'ViewOrders'
           }
         ]
       },

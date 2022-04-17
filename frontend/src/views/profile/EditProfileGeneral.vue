@@ -35,7 +35,7 @@ export default {
   data () {
     return {
       username: 'johny_01',
-      name: this.$store.state.AppActiveUser.displayName,
+      name: this.$store.state.AppActiveUser.name,
       email: 'john@admin.com',
       company: 'SnowMash Technologies Pvt Ltd'
     }

@@ -15,8 +15,16 @@
                 </div>
 
                 <vs-tabs>
-                  <vs-tab label="REGISTER">
-                    <register></register>
+                  <vs-tab label="ADMIN">
+                    <admin></admin>
+                  </vs-tab>
+
+                  <vs-tab label="CUSTOMER">
+                    <customer></customer>
+                  </vs-tab>
+
+                  <vs-tab label="SELLER">
+                    <seller></seller>
                   </vs-tab>
 
                   <vs-tab label="GUEST">
@@ -42,11 +50,15 @@
 
 
 <script>
-import Register from './RegisterJWT.vue'
+import Admin from './RegisterAdmin.vue'
+import Customer from './RegisterCustomer.vue'
+import Seller from './RegisterSeller.vue'
 
 export default {
   components: {
-    Register
+    Admin,
+    Customer,
+    Seller
   }
 }
 </script>
