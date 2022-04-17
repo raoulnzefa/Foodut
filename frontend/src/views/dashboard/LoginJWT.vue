@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import apiLogin from '../../api/user'
+import apiUser from '../../api/user'
 
 export default {
   data () {
@@ -72,7 +72,7 @@ export default {
     },
     loginJWT () {
       if (!this.checkLogin()) return
-      apiLogin
+      apiUser
         .Login(this.email,this.password)
         .then((response) => {
           if(!response){

@@ -18,9 +18,9 @@
                   class="w-full mt-0"
                 />
                 <span
-                  v-show="errors.has('add-new-product.Name')"
+                  v-show="errors.has('add-new-product.productName')"
                   class="text-danger"
-                  >{{ errors.first("add-new-product.Name") }}</span
+                  >{{ errors.first("add-new-product.productName") }}</span
                 >
               </div>
             </div>
@@ -34,9 +34,9 @@
                   class="w-full mt-5"
                 />
                 <span
-                  v-show="errors.has('add-new-product.price')"
+                  v-show="errors.has('add-new-product.productPrice')"
                   class="text-danger"
-                  >{{ errors.first("add-new-product.price") }}</span
+                  >{{ errors.first("add-new-product.productPrice") }}</span
                 >
               </div>
               <div class="vx-col sm:w-1/3 w-full">
@@ -48,18 +48,18 @@
                   class="w-full mt-5"
                 />
                 <span
-                  v-show="errors.has('add-new-product.category')"
+                  v-show="errors.has('add-new-product.productCategory')"
                   class="text-danger"
-                  >{{ errors.first("add-new-product.category") }}</span
+                  >{{ errors.first("add-new-product.productCategory") }}</span
                 >
               </div>
               <div class="vx-col sm:w-1/3 w-full">
                 <p class="mt-4 text-sm">Stock:</p>
                 <vs-input-number style="width: 100px" v-model="stock" />
                 <span
-                  v-show="errors.has('add-new-product.stock')"
+                  v-show="errors.has('add-new-product.productStock')"
                   class="text-danger"
-                  >{{ errors.first("add-new-product.stock") }}</span
+                  >{{ errors.first("add-new-product.productStock") }}</span
                 >
               </div>
             </div>
@@ -75,9 +75,9 @@
               placeholder="Type Your Description"
             />
             <span
-              v-show="errors.has('add-new-product.description')"
+              v-show="errors.has('add-new-product.productDescription')"
               class="text-danger"
-              >{{ errors.first("add-new-product.description") }}</span
+              >{{ errors.first("add-new-product.productDescription") }}</span
             >
           </div>
         </div>
@@ -155,12 +155,11 @@ export default {
     }
   },
   methods: {
-    Createproduct() {
+    CreateProduct() {
+      this.sellerId = localStorage.getItem('userId')
+      this.productPicture = ''
       apiProduct
-        .AddProduct(
-          // this.productName, this.productPrice, this.productStock, this.sellerId, this.productCategory, this.productPicture
-          
-          )
+        .AddProduct(this.productName, this.productPrice, this.productStock, this.sellerId, this.productCategory, this.productDescription, this.productPicture)
         .then((response) => {
           if(!response){
             this.$vs.notify({
@@ -170,7 +169,14 @@ export default {
               icon: 'icon-alert-circle',
               color: 'danger'
             })
-            return
+          }else{
+            this.$vs.notify({
+              title: 'Success',
+              text: 'Succes to create product',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check'
+            })
           }
         })
         .catch((error) => {          

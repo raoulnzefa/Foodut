@@ -1,11 +1,5 @@
 <template>
   <div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.name">
-<!-- id: '6',
-        email: 'admin@gmail.com',
-        name: 'admin',
-        username: 'admin',
-        level: '3',
-        profilePhoto: '' -->
     <div class="text-right leading-tight hidden sm:block">
       <p class="font-semibold">{{ activeUserInfo.name }}</p>
       <small>{{ activeUserInfo.level }}</small>
@@ -47,10 +41,10 @@ export default {
       activeUserInfo: {
         //Dummy
         id: '0',
-        email: 'test@gmail.com',
-        name: 'test',
-        username: 'test',
-        level: '0',
+        email: 'guess@gmail.com',
+        name: 'Guest',
+        username: 'Guest',
+        level: 'Guest',
         profilePhoto: require('@/assets/images/portrait/small/avatar-s-11.jpg')
       }
     }
@@ -59,6 +53,13 @@ export default {
     apiUser
       .GetUserById(localStorage.getItem('userId'))
       .then((response) => { 
+        if(response[0].level == 1){
+          response[0].level = 'Customer'
+        }else if(response[0].level == 2){
+          response[0].level = 'Seller'
+        }else if(response[0].level == 3){
+          response[0].level = 'Admin'
+        }
         this.activeUserInfo.id = response[0].id
         this.activeUserInfo.email = response[0].email
         this.activeUserInfo.name = response[0].name
@@ -67,28 +68,6 @@ export default {
         // userData.profilePhoto = response[0].profilePhoto
       })
       .catch((error) => { console.log(error) })
-  },
-  computed: {
-    // activeUserInfo () {
-      // const userId = localStorage.getItem('userId')
-      // await apiUser
-      //   .GetUserById(userId)
-      //   .then((response) => { 
-      //     userData.id = response[0].id
-      //     userData.email = response[0].email
-      //     userData.name = response[0].name
-      //     userData.username = response[0].username
-      //     userData.level = response[0].level
-      //     // userData.profilePhoto = response[0].profilePhoto
-      //     console.log('Response Get User By ID')
-      //     console.log(response)
-      //   })
-      //   .catch((error) => { console.log(error) })
-      // return userData
-      // console.log('App Active User')
-      // console.log(this.$store.state.AppActiveUser)
-    //   return this.$store.state.AppActiveUser
-    // }
   },
   methods: {
     logout () {

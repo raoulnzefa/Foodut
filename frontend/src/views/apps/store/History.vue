@@ -12,7 +12,7 @@
 
     <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
 
-    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="products">
+    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="transactions">
 
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
@@ -43,31 +43,6 @@
               <span class="ml-2 text-base text-primary">Add New</span>
           </div>
         </div>
-
-
-        <!-- ITEMS PER PAGE -->
-        <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
-          <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} of {{ queriedItems }}</span>
-            <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-          </div>
-          <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
-          <vs-dropdown-menu>
-
-            <vs-dropdown-item @click="itemsPerPage=4">
-              <span>4</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage=10">
-              <span>10</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage=15">
-              <span>15</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage=20">
-              <span>20</span>
-            </vs-dropdown-item>
-          </vs-dropdown-menu>
-        </vs-dropdown>
       </div>
 
       <template slot="thead">
@@ -85,19 +60,19 @@
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
             <vs-td class="img-container">
-              <img :src="tr.img" class="product-img" />
+              <img :src="tr.picturePath" class="product-img" />
             </vs-td>
 
             <vs-td>
-              <p class="product-name font-medium truncate">{{ tr.productDetail }}</p>
+              <p class="product-name font-medium truncate">{{ tr.productName }}</p>
             </vs-td>
 
             <vs-td>
-              <p class="product-price">{{ tr.productDetail }}</p>
+              <p class="product-price">{{ tr.price }}</p>
             </vs-td>
 
             <vs-td>
-              <p class="product-quantity">{{ tr.productDetail }}</p>
+              <p class="product-quantity">{{ tr.quantity }}</p>
             </vs-td>
 
             <vs-td>
@@ -131,7 +106,7 @@ export default {
   data () {
     return {
       selected: [],
-      transactions: [],
+      transactions: [], // Data Transaction
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -148,11 +123,8 @@ export default {
       }
       return 0
     },
-    products () {
-      return this.$store.state.dataList.products
-    },
     queriedItems () {
-      return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
+      return this.$refs.table ? this.$refs.table.queriedResults.length : this.transactions.length
     }
   },
   methods: {
@@ -194,13 +166,9 @@ export default {
   },
   mounted () {
     apiTransaction
-      .GetAllTransaction()
-      .then((response) => { 
-        this.transactions = response 
-        console.log('transaction')
-        console.log(response)
-      })
-      .catch((error) => { console.log('Error get all data transaction!', error) })
+      .GetCustomerTransactionDecentralized(localStorage.getItem('userId'))
+      .then((response) => { this.transactions = response })
+      .catch((error) => { console.log('Error get all customer transaction decentralized!', error) })
   }
 }
 </script>

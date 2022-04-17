@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	model "github.com/Foodut/backend/modules/transaction/domain/model"
 	srvc "github.com/Foodut/backend/modules/transaction/domain/service"
@@ -11,20 +12,28 @@ import (
 )
 
 func GetCartWithAvailability(writer http.ResponseWriter, req *http.Request) {
+	customerId := req.URL.Query()["customerId"]
 
-	// Decode JSON
-	var postTransactionDto dto.PostTransaction
-	err := json.NewDecoder(req.Body).Decode(&postTransactionDto)
+	var response rspn.Response
+	if len(customerId) == 0 {
+		response.Response_204("Get cart fail || Empty cart")
+		writer.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(writer).Encode(response)
+		return
+	}
+
+	id, err := strconv.Atoi(customerId[0])
+
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusBadRequest)
+		response.Response_204("Get cart fail || Empty cart")
+		writer.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(writer).Encode(response)
 		return
 	}
 
 	// Send DTO to service
-	result := srvc.SendCartForReadCartAvailability(postTransactionDto.CustomerId)
+	result := srvc.SendCartForReadCartAvailability(id)
 
-	// Set response
-	var response rspn.Response
 	if len(result) > 0 {
 		response.Response_200(result)
 	} else {

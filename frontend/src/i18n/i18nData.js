@@ -16,7 +16,7 @@ export default {
     AddProduct: 'Add Product',
     EditProduct: 'Edit Product',
     ViewStore: 'View Store',
-    ViewSoldProduct: 'View Sold Product',
+    ViewOrders: 'View Orders',
     User: 'User',
     ListUser: 'List User',
     ListStore: 'List Store'
@@ -37,7 +37,7 @@ export default {
     AddProduct: 'Ajouter un produit',
     EditProduct: 'Modifier le produit',
     ViewStore: 'Voir magasin',
-    ViewSoldProduct: 'Voir le produit vendu',
+    ViewOrders: 'Afficher les commandes',
     User: 'Utilisateur',
     ListUser: 'Liste des utilisateurs',
     ListStore: 'Magasin de liste'
@@ -58,7 +58,7 @@ export default {
     AddProduct: 'Produkt hinzufügen',
     EditProduct: 'Produkt bearbeiten',
     ViewStore: 'Shop ansehen',
-    ViewSoldProduct: 'Verkauftes Produkt anzeigen',
+    ViewOrders: 'Bestellungen anzeigen',
     User: 'Benutzer',
     ListUser: 'Benutzer auflisten',
     ListStore: 'Listenspeicher'
@@ -79,7 +79,7 @@ export default {
     AddProduct: 'Adicionar produto',
     EditProduct: 'Editar produto',
     ViewStore: 'Ver loja',
-    ViewSoldProduct: 'Ver Produto Vendido',
+    ViewOrders: 'Ver pedidos',
     User: 'Do utilizador',
     ListUser: 'Listar usuário',
     ListStore: 'Listar loja'

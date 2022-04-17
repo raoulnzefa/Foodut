@@ -33,7 +33,7 @@ export default{
     const response = await transport.get(`/users/${userId}`)
     return response.data.data
   },
-  async AddAdmin(username, email, name, password) {
+  async RegisterAdmin(username, email, name, password) {
     const response = await transport
       .post('/admin', {
         username: username,
@@ -49,7 +49,7 @@ export default{
         return false
       }
   },
-  async AddCustomer(username, email, name, password, address) {
+  async RegisterCustomer(username, email, name, password, address) {
     const response = await transport
       .post('/customer', {
         username: username,
@@ -74,7 +74,7 @@ export default{
     const response = await transport.get('/customers-complete')
     return response.data.data
   },
-  async AddSeller(username, email, name, password, address, storeName, city) {
+  async RegisterSeller(username, email, name, password, address, storeName, city) {
     const response = await transport
     .post('/seller', {
       username: username,

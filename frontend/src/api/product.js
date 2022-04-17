@@ -1,19 +1,6 @@
 import transport from './transport'
 
 export default{
-  async AddCategories(productCategory){
-    const response = await transport
-      .post('/categories', {
-        productCategory: productCategory
-      })
-      console.log('Categories')
-      console.log(response.data)
-      if(response.data.statusCode == 201){
-        return true
-      }else{
-        return false
-      }
-  },
   async AddProduct(productName, productPrice, productStock, sellerId, productCategory, productDescription, productPicture){
     const response = await transport
       .post('/products', {
@@ -25,7 +12,35 @@ export default{
         productDescription: productDescription,
         productPicture: productPicture
       })
-      console.log('Product')
+      console.log('Add Product')
+      console.log(response.data)
+      if(response.data.statusCode == 201){
+        return true
+      }else{
+        return false
+      }
+  },
+  async UpdateProduct(productId, productName, productPrice, productStock, productCategory, productDescription){
+    const response = await transport
+      .put(`/products/${productId}`, {
+        productName: productName,
+        productPrice: productPrice,
+        productStock: productStock,
+        productCategory: productCategory,
+        productDescription: productDescription
+      })
+      console.log('Update Product')
+      console.log(response.data)
+      if(response.data.statusCode == 201){
+        return true
+      }else{
+        return false
+      }
+  },
+  async DeleteProduct(productId){
+    const response = await transport
+      .delete(`/products/${productId}`)
+      console.log('Delete Product')
       console.log(response.data)
       if(response.data.statusCode == 201){
         return true
