@@ -110,7 +110,7 @@ func DeleteProductById(writer http.ResponseWriter, req *http.Request) {
 	var response rspn.Response
 
 	if deleteErr.Error == nil {
-		response.Response_200("Success delete product")
+		response.Response_201("Success delete product")
 	} else {
 		response.Response_400(deleteErr.Error)
 	}
