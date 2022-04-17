@@ -67,9 +67,14 @@ func SearchByCategoryName(categoryName []string) []model.Product {
 }
 
 func DeleteById(productId string) *gorm.DB {
-	deleteFeedback := repo.DeleteProductById(productId)
 
-	return deleteFeedback
+	deletePictureFeedback := repo.DeleteProductPictures(productId)
+
+	if deletePictureFeedback.Error == nil {
+		return repo.DeleteProductById(productId)
+	}
+
+	return deletePictureFeedback
 }
 
 func SendForUpdateProductStockAfterTransaction(carts []trModel.Cart, products []model.Product) *gorm.DB {
