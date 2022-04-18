@@ -83,7 +83,7 @@ func ReadProductsByCategoryName(categoryName []string) []model.Product {
 	// Get product from database, filter by name LIKE
 	var products []model.Product
 	if categoryName != nil {
-		category := GetCategoryByName(categoryName)
+		category := ReadCategoryByName(categoryName)
 		products = ReadProductsByCategoryId(category.ID)
 	}
 
