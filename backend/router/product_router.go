@@ -2,6 +2,7 @@ package router
 
 import (
 	prController "github.com/Foodut/backend/modules/product/rest-api/controller"
+	usrController "github.com/Foodut/backend/modules/user/rest-api/controller"
 	"github.com/gorilla/mux"
 )
 
@@ -32,12 +33,12 @@ func ProductRouter(router *mux.Router) {
 	router.HandleFunc("/products-by-category-name", prController.GetProductByCategoryName).Methods("GET")
 
 	//- Insert Product
-	router.HandleFunc("/products", prController.PostProduct).Methods("POST")
+	router.HandleFunc("/products", usrController.Authenticate(prController.PostProduct, 2)).Methods("POST")
 
 	//- Update Product
 	router.HandleFunc("/products/{product_id}", prController.EditProduct).Methods("PUT")
 
 	//- Delete Product
-	router.HandleFunc("/products/{id}", prController.DeleteProductById).Methods("DELETE")
+	router.HandleFunc("/products/{id}", usrController.Authenticate(prController.DeleteProductById, 2)).Methods("DELETE")
 
 }
