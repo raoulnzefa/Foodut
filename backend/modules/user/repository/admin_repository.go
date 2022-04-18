@@ -6,6 +6,23 @@ import (
 	"gorm.io/gorm"
 )
 
+func ReadAllAdmins(admId []string) []model.Admin {
+	// Check connection
+	con := dbController.GetConnection()
+
+	// Get admins from database
+	var admins []model.Admin
+
+	// Extra query by id
+	if admId != nil {
+		con.Find(&admins, admId[0])
+	} else {
+		con.Find(&admins)
+	}
+
+	return admins
+}
+
 func CreateAdmin(admin model.Admin) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
@@ -20,8 +37,9 @@ func DeleteAdminByCustId(userId string) *gorm.DB {
 	// Check connection
 	con := dbController.GetConnection()
 
-	//delete Customer on db by id
+	// Delete Admin on database
 	var adm model.Admin
 	result := con.Where("user_id = ?", userId).Delete(&adm)
+
 	return result
 }
