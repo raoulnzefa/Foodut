@@ -6,7 +6,18 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetCategoryByName(categoryName []string) model.Category {
+func ReadAllCategory() []model.Category {
+	// Check connection
+	con := dbController.GetConnection()
+
+	var category []model.Category
+
+	con.Find(&category)
+
+	return category
+}
+
+func ReadCategoryByName(categoryName []string) model.Category {
 	// Check connection
 	con := dbController.GetConnection()
 
