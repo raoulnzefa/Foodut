@@ -151,8 +151,16 @@ func EditUser(writer http.ResponseWriter, req *http.Request) {
 	id = append(id, userID)
 	users := srvc.SearchUserById(id)
 
-	result1, result2, level := srvc.EditUser(users[0], editUserDto)
 	var response rspn.Response
+	if users[0].Level == 3 {
+		response.Response_400("Can't edit admin profile")
+
+		writer.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(writer).Encode(response)
+		return
+	}
+
+	result1, result2, level := srvc.EditUser(users[0], editUserDto)
 
 	// Custsomer = 1 dan Seller = 2
 	if level == 1 {
