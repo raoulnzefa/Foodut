@@ -70,19 +70,19 @@
 
 ### Backend
 
-### Pindah folder backend
+#### Pindah folder backend
 
 ```
 cd backend
 ```
 
-### Dapatkan dependency golang
+#### Dapatkan dependency golang
 
 ```
 go mod tidy
 ```
 
-### Run main
+#### Run main
 
 ```
 go run main.go
@@ -90,7 +90,7 @@ go run main.go
 
 ### Frontend
 
-### Pindah folder frondend
+#### Pindah folder frondend
 
 ```
 cd frontend
