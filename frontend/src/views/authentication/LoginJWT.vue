@@ -56,22 +56,23 @@ export default {
     }
   },
   methods: {
+    redirectUser(){
+        this.$router.push({ name : 'store-browse'}).catch(() => {})
+    },
     checkLogin () {
-      // If user is already logged in notify
-      if (this.$store.state.auth.isUserLoggedIn()) {
+      const userID = localStorage.getItem('userId');
+      if(userID.length > 0){
         this.$vs.notify({
           title: 'Login Attempt',
-          text: 'You are already logged in!',
+          text: 'You are already logged in!, You will be redirect in 5 seconds',
           iconPack: 'feather',
           icon: 'icon-alert-circle',
           color: 'warning'
         })
-        return false
+        setTimeout(this.redirectUser, 5000);
       }
-      return true
     },
     loginJWT () {
-      if (!this.checkLogin()) return
       apiUser
         .Login(this.email,this.password)
         .then((response) => {
@@ -85,7 +86,7 @@ export default {
             })
             return
           }
-          this.$router.push({ name : 'store-browse'}).catch(() => {})
+          this.redirectUser()
         })
         .catch((error) => {          
           this.$vs.notify({
@@ -102,6 +103,9 @@ export default {
       if (!this.checkLogin()) return
       this.$router.push('/register').catch(() => {})
     }
+  },
+  created(){
+    this.checkLogin();
   }
 }
 </script>

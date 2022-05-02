@@ -9,6 +9,7 @@
     </vs-tab>
     <vs-tab icon-pack="feather" icon="icon-info" :label="!isSmallerScreen ? 'Info' : ''">
       <div class="tab-info md:ml-4 md:mt-0 mt-4 ml-0">
+        <component :is="infoUser"></component>
         <edit-profile-info />
       </div>
     </vs-tab>
@@ -24,6 +25,7 @@
 import EditProfileGeneral from './EditProfileGeneral.vue'
 import EditProfileInfo from './EditProfileInfo.vue'
 import EditProfileChangePassword from './EditProfileChangePassword.vue'
+import apiUser from '../../api/user'
 
 export default {
   components: {
@@ -33,12 +35,53 @@ export default {
   },
   data () {
     return {
+      
 
+    }
+  },
+  method:{
+    GetUserID(userId){
+        apiUser 
+        .GetUserById(userId)
+        .then((response) => {
+          if(!response){
+            this.$vs.notify({
+              title: 'Error',
+              text: 'Failed to get user',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          }else{
+            this.$vs.notify({
+              title: 'Success',
+              text: 'Succes to get user',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check'
+            })
+            console.log(response)
+          }
+        })
+        .catch((error) => {          
+          this.$vs.notify({
+            title: 'Error',
+            text: error.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        })
     }
   },
   computed: {
     isSmallerScreen () {
       return this.$store.state.windowWidth < 768
+    },
+    infoUser() {
+      const userId = localStorage.getItem('userId')
+      this.GetUserID(userId)
+      return "EditProfileInfo"
     }
   }
 }
