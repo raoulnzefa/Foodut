@@ -57,7 +57,55 @@ export default {
   },
   methods: {
     redirectUser(){
-        this.$router.push({ name : 'store-browse'}).catch(() => {})
+        //Get User ID from local storage that has been set from login api
+        const userID = localStorage.getItem('userId');
+        // Call API User Function Get User By ID to find what level user is { 1,2,3 }
+        apiUser.GetUserById(userID).then((response)=>{
+           //Get First data from data api
+           const fstData = response[0];
+           //Check if data from api is not match with currect localstorage state 
+           if(fstData["id"] != userID ){
+              this.$vs.notify({
+              title: 'Error',
+              text: 'Failed to Match API',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+             return;
+            }
+           // Get curret  level-type user
+           const lvl = fstData["level"];
+           switch (lvl) {
+             // Level Customer
+             case 1:
+               this.$router.push({ name : 'customer-browse'}).catch(() => {})
+               break;
+             case 2:
+               this.$router.push({ name : 'seller-browse'}).catch(() => {})
+               break;
+             case 3:
+               this.$router.push({ name : 'admin-browse'}).catch(() => {})
+               break; 
+             default:
+                this.$vs.notify({
+                title: 'Failed To Redirect',
+                text: 'User Level-Type Not Found',
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'warning'
+              })
+           }
+        }).catch((error) =>{
+          this.$vs.notify({
+            title: 'Error',
+            text: 'Failed To Redirect',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          });
+          alert(error);
+        });
     },
     checkLogin () {
       const userID = localStorage.getItem('userId');

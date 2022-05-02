@@ -66,7 +66,7 @@ const router = new Router({
     // =============================================================================
     {
       path: '',
-      component: () => import('./layouts/main/Main.vue'),
+      component: () => import('./views/customer/Main.vue'),
       children: [
         {
           path: '/customer/browse',
@@ -172,8 +172,22 @@ const router = new Router({
     // =============================================================================
     {
       path: '',
-      component: () => import('./layouts/main/Main.vue'),
+      component: () => import('./views/seller/Main.vue'),
       children: [
+        {
+          path: '/seller/browse',
+          name: 'seller-browse',
+          component: () => import('./views/apps/store/Browse.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Browse', active: true }
+            ],
+            pageTitle: 'Browse',
+            rule: 'editor'
+          }
+        },
         {
           path: '/seller/product/add',
           name: 'seller-add-product',
@@ -247,11 +261,11 @@ const router = new Router({
       ]
     },
     // =============================================================================
-    // Admin Application Routes
+    // Admin  Application Routes
     // =============================================================================
     {
       path: '',
-      component: () => import('./layouts/main/Main.vue'),
+      component: () => import('./views/admin/Main.vue'),
       children: [
         {
           path: '/admin/browse',
@@ -345,7 +359,7 @@ const router = new Router({
     // =============================================================================
     {
       path: '',
-      component: () => import('./layouts/main/Main.vue'),
+      component: () => import('./views/guest/Main.vue'),
       children: [
         {
           path: '/guest/browse',
@@ -393,13 +407,107 @@ const router = new Router({
         }
       ]
     },
+    // =============================================================================
+    // Sample API  Application Routes
+    // =============================================================================
+    {
+      path: '',
+      component: () => import('./layouts/main/Main.vue'),
+      children: [
+        {
+          path: '/demo/admin/browse',
+          name: 'admin-browse',
+          component: () => import('./views/apps/store/Browse.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Browse', active: true }
+            ],
+            pageTitle: 'Browse',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/demo/admin/product/:product_id',
+          name: 'admin-product-detail',
+          component: () => import('./views/apps/store/ItemDetailView.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Shop', url: {name: 'store-shop'} },
+              { title: 'Item Details', active: true }
+            ],
+            parent: 'store-item-detail-view',
+            pageTitle: 'Item Details',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/demo/admin/user/:userId',
+          name: 'admin-user',
+          component: () => import('@/views/advance/user/ListUser.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'User' },
+              { title: 'List', active: true }
+            ],
+            pageTitle: 'List User',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/demo/admin/store',
+          name: 'admin-store',
+          component: () => import('@/views/advance/user/ListStore.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store' },
+              { title: 'List', active: true }
+            ],
+            pageTitle: 'List Store',
+            rule: 'editor'
+          }
+        },
+        // =============================================================================
+        // Test Api
+        // =============================================================================
+        {
+          path: '/demo/admin/test',
+          name: 'admin-test-api',
+          component: () => import('@/views/TestApi.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Test Api', active: true }
+            ],
+            pageTitle: 'TestApi',
+            rule: 'editor'
+          }
+        },
+        // =============================================================================
+        // Profile Routes
+        // =============================================================================
+        {
+          path: '/demo/admin/profile',
+          name: 'admin-profile',
+          component: () => import('@/views/profile/EditProfile.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        }
+      ]
+    },
     // Redirect to 404 page, if no match found
     {
       path: '*',
       redirect: '/pages/error-404'
     }
-  ]
-})
+  ]}
+)
 
 router.afterEach(() => {
   // Remove initial loading

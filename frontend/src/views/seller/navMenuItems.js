@@ -22,9 +22,9 @@
 export default [
     {
       url: null,
-      name: 'Dashboard',
+      name: 'Dashboard Seller',
       icon: 'HomeIcon',
-      i18n: 'Dashboard',
+      i18n: 'Dashboard Seller',
       submenu: [
         {
           url: '/',
