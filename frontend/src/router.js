@@ -38,7 +38,7 @@ const router = new Router({
         {
           path: '/',
           name: 'login-page',
-          component: () => import('@/views/authentication/Login.vue'),
+          component: () => import('@/views/authentication/login/Login.vue'),
           meta: {
             rule: 'editor'
           }
@@ -46,7 +46,7 @@ const router = new Router({
         {
           path: '/register',
           name: 'register-page',
-          component: () => import('@/views/authentication/Register.vue'),
+          component: () => import('@/views/authentication/register/Register.vue'),
           meta: {
             rule: 'editor'
           }

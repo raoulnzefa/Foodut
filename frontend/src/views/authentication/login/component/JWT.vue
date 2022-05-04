@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import apiUser from '../../api/user'
+import apiUser from '../../../../api/user'
 
 export default {
   data () {

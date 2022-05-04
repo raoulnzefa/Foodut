@@ -53,14 +53,44 @@ Author URL: http://www.themeforest.net/user/pixinvent
       class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
 
+    <vs-input
+      v-validate="'required|min:3'"
+      data-vv-validate-on="blur"
+      label-placeholder="Address"
+      name="address"
+      placeholder="Address"
+      v-model="address"
+      class="w-full" />
+    <span class="text-danger text-sm">{{ errors.first('address') }}</span>
+
+    <vs-input
+      v-validate="'required|min:3'"
+      data-vv-validate-on="blur"
+      label-placeholder="Store Name"
+      name="storeName"
+      placeholder="Store Name"
+      v-model="storeName"
+      class="w-full" />
+    <span class="text-danger text-sm">{{ errors.first('storeName') }}</span>
+
+    <vs-input
+      v-validate="'required|min:3'"
+      data-vv-validate-on="blur"
+      label-placeholder="City"
+      name="city"
+      placeholder="City"
+      v-model="city"
+      class="w-full" />
+    <span class="text-danger text-sm">{{ errors.first('city') }}</span>
+
     <vs-checkbox v-model="isTermsConditionAccepted" class="mt-6">I accept the terms & conditions.</vs-checkbox>
     <vs-button  type="border" to="/" class="mt-6">Login</vs-button>
-    <vs-button class="float-right mt-6" @click="registerAdmin" :disabled="!validateForm">Register</vs-button>
+    <vs-button class="float-right mt-6" @click="registerSeller" :disabled="!validateForm">Register</vs-button>
   </div>
 </template>
 
 <script>
-import apiUser from '../../api/user'
+import apiUser from '../../../../api/user'
 
 export default {
   data () {
@@ -69,12 +99,15 @@ export default {
       name: '',
       email: '',
       password: '',
+      address: '',
+      storeName: '',
+      city: '',
       isTermsConditionAccepted: false
     }
   },
   computed: {
     validateForm () {
-      return !this.errors.any() && this.username !== ''  && this.name !== '' && this.email !== '' && this.password !== '' && this.isTermsConditionAccepted === true
+      return !this.errors.any() && this.username !== '' && this.name !== '' && this.email !== '' && this.password !== '' && this.address !== '' && this.storeName !== '' && this.city !== '' && this.isTermsConditionAccepted === true
     }
   },
   methods: {
@@ -92,10 +125,11 @@ export default {
       }
       return true
     },
-    registerAdmin () {
+    registerSeller () {
+      // If form is not validated or user is already login return
       if (!this.validateForm || !this.checkLogin()) return
       apiUser
-        .RegisterAdmin(this.username, this.email, this.name, this.password)
+        .RegisterSeller(this.username, this.email, this.name, this.password, this. address, this.storeName, this.city)
         .then((response) => {
           if(!response){
             this.$vs.notify({
@@ -109,7 +143,7 @@ export default {
           }else{
               this.$vs.notify({
               title: 'Success',
-              text: 'Succes to create admin account',
+              text: 'Succes to create seller account',
               color: 'success',
               iconPack: 'feather',
               icon: 'icon-check'
