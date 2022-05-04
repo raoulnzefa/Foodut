@@ -62,9 +62,9 @@ export default {
         // Call API User Function Get User By ID to find what level user is { 1,2,3 }
         apiUser.GetUserById(userID).then((response)=>{
            //Get First data from data api
-           const fstData = response[0];
+           const firstData = response[0];
            //Check if data from api is not match with currect localstorage state 
-           if(fstData["id"] != userID ){
+           if(firstData["id"] != userID ){
               this.$vs.notify({
               title: 'Error',
               text: 'Failed to Match API',
@@ -75,7 +75,7 @@ export default {
              return;
             }
            // Get curret  level-type user
-           const lvl = fstData["level"];
+           const lvl = firstData["level"];
            switch (lvl) {
              // Level Customer
              case 1:

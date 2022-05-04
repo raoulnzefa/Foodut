@@ -22,13 +22,13 @@
                                     <h4 class="mb-4">Reset Password</h4>
                                     <p>Please enter your new password.</p>
                                 </div>
-                                <vs-input type="email" label-placeholder="Email" v-model="value1" class="w-full mb-6" />
-                                <vs-input type="password" label-placeholder="Password" v-model="value2" class="w-full mb-6" />
-                                <vs-input type="password" label-placeholder="Confirm Password" v-model="value3" class="w-full mb-8" />
+                                <vs-input type="email" icon-no-border icon="icon icon-mail" icon-pack="feather" label-placeholder="Email" v-model="email" class="w-full mb-6" />
+                                <vs-input type="password" icon-no-border icon="icon icon-lock" icon-pack="feather" label-placeholder="New Password" v-model="new_password" class="w-full mb-6" />
+                                <vs-input type="password" icon-no-border icon="icon icon-lock" icon-pack="feather" label-placeholder="Confirm Password" v-model="confirm_new_password" class="w-full mb-8" />
 
                                 <div class="flex flex-wrap justify-between flex-col-reverse sm:flex-row">
                                     <vs-button type="border" to="/" class="w-full sm:w-auto mb-8 sm:mb-auto mt-3 sm:mt-auto">Go Back To Login</vs-button>
-                                    <vs-button class="w-full sm:w-auto">Reset</vs-button>
+                                    <vs-button class="w-full sm:w-auto" @click="UpdatePasswordUser">Reset</vs-button>
                                 </div>
 
                             </div>
@@ -41,12 +41,60 @@
 </template>
 
 <script>
+import apiUser from '../../api/user';
+
 export default {
   data () {
     return {
-      value1: '',
-      value2: '',
-      value3: ''
+      email: '',
+      new_password: '',
+      confirm_new_password: ''
+    }
+  },
+  methods: {
+    UpdatePasswordUser() {
+      this.userId = localStorage.getItem('userId')
+      if(this.email != '' && this.new_password == this.confirm_new_password){
+        //searching email milik user brp
+        apiUser
+          .UpdatePasswordUser(this.userId, this.new_password)
+          .then((response) => {
+              if(!response){
+                this.$vs.notify({
+                  title: 'Error',
+                  text: 'Failed to update password',
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'danger'
+                })
+              }else{
+                this.$vs.notify({
+                  title: 'Success',
+                  text: 'Succes to update password',
+                  color: 'success',
+                  iconPack: 'feather',
+                  icon: 'icon-check'
+                })
+              }
+            })
+            .catch((error) => {          
+              this.$vs.notify({
+                title: 'Error',
+                text: error.message,
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger'
+              })
+            })
+      }else{
+        this.$vs.notify({
+          title: 'Error',
+          text: 'Failed to update password',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'danger'
+        })
+      }
     }
   }
 }

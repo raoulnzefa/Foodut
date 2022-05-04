@@ -22,9 +22,9 @@
 export default [
     {
       url: null,
-      name: 'Dashboard Seller',
+      name: 'Authentication',
       icon: 'HomeIcon',
-      i18n: 'Dashboard Seller',
+      i18n: 'Authentication',
       submenu: [
         {
           url: '/',
@@ -54,111 +54,40 @@ export default [
           i18n: 'Store',
           submenu: [
             {
-              url: '/apps/store/browse',
+              url: '/seller/browse',
               name: 'Browse',
-              slug: 'store-browse',
+              slug: 'seller-browse',
               i18n: 'Browse'
             },
             {
-              url: '/apps/store/item/',
-              name: 'Item Details',
-              slug: 'store-item-detail-view',
-              i18n: 'ItemDetails'
-            },
-            {
-              url: '/apps/store/cart',
-              name: 'Cart',
-              slug: 'store-cart',
-              i18n: 'Cart'
-            },
-            {
-              url: '/apps/store/checkout',
-              name: 'Checkout',
-              slug: 'store-checkout',
-              i18n: 'Checkout'
-            },
-            {
-              url: '/apps/store/history',
-              name: 'History',
-              slug: 'store-history',
-              i18n: 'History'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      header: 'Advance',
-      icon: 'PackageIcon',
-      i18n: 'Advance',
-      items: [
-        {
-          url: null,
-          name: 'Store',
-          icon: 'ShoppingCartIcon',
-          i18n: 'Store',
-          submenu: [
-            {
-              url: '/advance/store/product/add',
+              url: '/seller/product/add',
               name: 'Add Product',
-              slug: 'store-add-product',
+              slug: 'seller-add-product',
               i18n: 'AddProduct'
             },
             {
-              url: '/advance/store/product/edit',
+              url: '/seller/product/edit',
               name: 'Edit Product',
-              slug: 'store-edit-product',
+              slug: 'seller-edit-product',
               i18n: 'EditProduct'
             },
             {
-              url: '/advance/store/view',
+              url: '/seller/product',
               name: 'View Store',
-              slug: 'store-view',
+              slug: 'seller-product',
               i18n: 'ViewStore'
             },
             {
-              url: '/advance/store/orders/view',
+              url: '/seller/transaction/order',
               name: 'View Orders',
-              slug: 'store-orders-view',
+              slug: 'seller-transaction-order',
               i18n: 'ViewOrders'
             }
           ]
-        },
-        {
-          url: null,
-          name: 'User',
-          icon: 'UserIcon',
-          i18n: 'User',
-          submenu: [
-            {
-              url: '/advance/user/user-list/268',
-              name: 'List User',
-              slug: 'advance-user-list',
-              i18n: 'ListUser'
-            },
-            {
-              url: '/advance/store/store-list',
-              name: 'List Store',
-              slug: 'advance-store-list',
-              i18n: 'ListStore'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      header: 'Test Api',
-      icon: 'PackageIcon',
-      i18n: 'Test Api',
-      items: [
-        {
-          url: '/test',
-          name: 'Test Api',
-          icon: 'ShoppingCartIcon',
-          i18n: 'Test Api',
         }
       ]
     }
-  ]
+]
+  
   
   

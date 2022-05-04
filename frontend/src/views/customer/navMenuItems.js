@@ -22,23 +22,21 @@
 export default [
     {
       url: null,
-      name: 'Dashboard Customer',
+      name: 'Authentication',
       icon: 'HomeIcon',
-      i18n: 'Dashboard Customer',
+      i18n: 'Authentication',
       submenu: [
         {
           url: '/',
           name: 'Login',
-          slug: 'pages-login',
-          i18n: 'Login',
-          target: '_blank'
+          slug: 'login-page',
+          i18n: 'Login'
         },
         {
           url: '/register',
           name: 'Register',
-          slug: 'pages-register',
-          i18n: 'Register',
-          target: '_blank'
+          slug: 'register-page',
+          i18n: 'Register'
         }
       ]
     },
@@ -54,108 +52,42 @@ export default [
           i18n: 'Store',
           submenu: [
             {
-              url: '/apps/store/browse',
+              url: '/customer/browse',
               name: 'Browse',
-              slug: 'store-browse',
+              slug: 'customer-browse',
               i18n: 'Browse'
             },
             {
-              url: '/apps/store/item/',
-              name: 'Item Details',
-              slug: 'store-item-detail-view',
-              i18n: 'ItemDetails'
+              url: '/customer/product/',
+              name: 'Product Details',
+              slug: 'customer-product-view',
+              i18n: 'ProductDetails'
             },
             {
-              url: '/apps/store/cart',
+              url: '/customer/cart',
               name: 'Cart',
-              slug: 'store-cart',
+              slug: 'customer-cart',
               i18n: 'Cart'
             },
             {
-              url: '/apps/store/checkout',
+              url: '/customer/cart/checkout',
               name: 'Checkout',
-              slug: 'store-checkout',
+              slug: 'customer-checkout',
               i18n: 'Checkout'
             },
             {
-              url: '/apps/store/history',
+              url: '/customer/transaction/history',
               name: 'History',
               slug: 'store-history',
               i18n: 'History'
+            },
+            {
+              url: '/customer/store',
+              name: 'Store',
+              slug: 'customer-store',
+              i18n: 'Store'
             }
           ]
-        }
-      ]
-    },
-    {
-      header: 'Advance',
-      icon: 'PackageIcon',
-      i18n: 'Advance',
-      items: [
-        {
-          url: null,
-          name: 'Store',
-          icon: 'ShoppingCartIcon',
-          i18n: 'Store',
-          submenu: [
-            {
-              url: '/advance/store/product/add',
-              name: 'Add Product',
-              slug: 'store-add-product',
-              i18n: 'AddProduct'
-            },
-            {
-              url: '/advance/store/product/edit',
-              name: 'Edit Product',
-              slug: 'store-edit-product',
-              i18n: 'EditProduct'
-            },
-            {
-              url: '/advance/store/view',
-              name: 'View Store',
-              slug: 'store-view',
-              i18n: 'ViewStore'
-            },
-            {
-              url: '/advance/store/orders/view',
-              name: 'View Orders',
-              slug: 'store-orders-view',
-              i18n: 'ViewOrders'
-            }
-          ]
-        },
-        {
-          url: null,
-          name: 'User',
-          icon: 'UserIcon',
-          i18n: 'User',
-          submenu: [
-            {
-              url: '/advance/user/user-list/268',
-              name: 'List User',
-              slug: 'advance-user-list',
-              i18n: 'ListUser'
-            },
-            {
-              url: '/advance/store/store-list',
-              name: 'List Store',
-              slug: 'advance-store-list',
-              i18n: 'ListStore'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      header: 'Test Api',
-      icon: 'PackageIcon',
-      i18n: 'Test Api',
-      items: [
-        {
-          url: '/test',
-          name: 'Test Api',
-          icon: 'ShoppingCartIcon',
-          i18n: 'Test Api',
         }
       ]
     }

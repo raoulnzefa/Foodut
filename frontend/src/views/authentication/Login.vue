@@ -36,7 +36,7 @@
                     <p>register if you want to buy the product.</p><br>
                     
                     <!-- Redirect to home page products -->
-                    <vs-button type="gradient" to="../apps/store/browse" class="mb-4">Start Wandering</vs-button>
+                    <vs-button type="gradient" to="../guest/browse" class="mb-4">Start Wandering</vs-button>
                   </vs-tab>
                 </vs-tabs>
 
