@@ -60,12 +60,6 @@ export default [
               i18n: 'Browse'
             },
             {
-              url: '/admin/product/',
-              name: 'Product Details',
-              slug: 'admin-product-detail',
-              i18n: 'ProductDetails'
-            },
-            {
               url: '/admin/user',
               name: 'List User',
               slug: 'admin-user',

@@ -302,7 +302,7 @@ const router = new Router({
           }
         },
         {
-          path: '/admin/user/:userId',
+          path: '/admin/user',
           name: 'admin-user',
           component: () => import('@/views/admin/user/ListUser.vue'),
           meta: {
