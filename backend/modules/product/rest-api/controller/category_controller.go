@@ -11,6 +11,23 @@ import (
 	rspn "github.com/Foodut/backend/responses"
 )
 
+func GetAllCategory(writer http.ResponseWriter, req *http.Request) {
+
+	// Call Service
+	categories := srvc.SendForReadAllCategory()
+
+	// Set response
+	var response rspn.Response
+	if len(categories) > 0 {
+		response.Response_201(categories)
+	} else {
+		response.Response_204("Get categories failed")
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
+}
+
 func PostCategory(writer http.ResponseWriter, req *http.Request) {
 
 	// Decode JSON

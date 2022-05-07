@@ -133,6 +133,7 @@ func DeleteUser(writer http.ResponseWriter, req *http.Request) {
   User can edit its profile anytime
   Custsomer = 1
   Seller = 2
+  Admin = 3
 */
 func EditUser(writer http.ResponseWriter, req *http.Request) {
 	// Decode JSON
@@ -151,30 +152,40 @@ func EditUser(writer http.ResponseWriter, req *http.Request) {
 	id = append(id, userID)
 	users := srvc.SearchUserById(id)
 
-	result1, result2, level := srvc.EditUser(users[0], editUserDto)
 	var response rspn.Response
+	if len(users) < 1 {
+		response.Response_400("Edit user data failed, ID not valid")
+		writer.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(writer).Encode(response)
 
-	// Custsomer = 1 dan Seller = 2
+		return
+	}
+
+	result1, result2, level := srvc.EditUser(users[0], editUserDto)
+
+	var userLevel string
+
 	if level == 1 {
-		if err == nil {
-			if result1.Error == nil && result2.Error == nil {
-				response.Response_200("Edit customer data success")
-			} else {
-				response.Response_400("Edit customer data fail || " + result1.Error.Error() + " || " + result2.Error.Error())
-			}
-		} else {
-			response.Response_400("Edit customer data failed, ID not valid || " + err.Error())
-		}
+		userLevel = "customer"
 	} else if level == 2 {
+		userLevel = "seller"
+	} else if level == 3 {
+		userLevel = "admin"
+	}
 
-		if err == nil {
-			if result1.Error == nil && result2.Error == nil {
-				response.Response_200("Edit seller data success")
+	if err == nil {
+		if userLevel == "admin" {
+			if result1.Error == nil {
+				response.Response_200("Edit " + userLevel + " data success")
 			} else {
-				response.Response_400("Edit seller fata failed || " + result1.Error.Error() + " || " + result2.Error.Error())
+				response.Response_400("Edit " + userLevel + " fata failed || " + result1.Error.Error() + " || " + result2.Error.Error())
 			}
 		} else {
-			response.Response_400("Edit seller data failed, ID not valid || " + err.Error())
+			if result1.Error == nil && result2.Error == nil {
+				response.Response_200("Edit " + userLevel + " data success")
+			} else {
+				response.Response_400("Edit " + userLevel + " fata failed || " + result1.Error.Error() + " || " + result2.Error.Error())
+			}
 		}
 	}
 

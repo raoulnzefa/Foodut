@@ -62,11 +62,15 @@ func GetMD5Hash(text string) string {
 
 func EditUser(user model.User, editUserDto dto.EditUser) (*gorm.DB, *gorm.DB, int) {
 	levelUser := user.Level // buat dipake saat cek level user apakah cust atau seller
-	username := editUserDto.Username
 	name := editUserDto.Name
+	username := editUserDto.Username
 	password := editUserDto.Password
 	profilePhoto := editUserDto.ProfilePhoto
+
+	// Customer related data
 	addressCust := editUserDto.Address
+
+	// Seller related data
 	citySeller := editUserDto.City
 	storeNameSeller := editUserDto.StoreName
 
@@ -83,10 +87,13 @@ func EditUser(user model.User, editUserDto dto.EditUser) (*gorm.DB, *gorm.DB, in
 	if profilePhoto != "" {
 		user.ProfilePhoto = profilePhoto
 	}
+
+	var id []string
+	id = append(id, strconv.Itoa(user.ID))
+
 	if user.Level == 1 {
-		var id []string
-		id = append(id, strconv.Itoa(user.ID))
 		custs := repo.ReadAllCustomers(id)
+
 		if addressCust != "" {
 			custs[0].Address = addressCust
 		}
@@ -99,15 +106,15 @@ func EditUser(user model.User, editUserDto dto.EditUser) (*gorm.DB, *gorm.DB, in
 			return nil, nil, 1
 		}
 	} else if levelUser == 2 {
-		var id []string
-		id = append(id, strconv.Itoa(user.ID))
 		sellers := repo.ReadAllSellers(id)
+
 		if citySeller != "" {
 			sellers[0].City = citySeller
 		}
 		if storeNameSeller != "" {
 			sellers[0].StoreName = storeNameSeller
 		}
+
 		if len(sellers) > 0 {
 			result1 := repo.SaveUser(user)
 			result2 := repo.SaveSeller(sellers[0])
@@ -115,6 +122,16 @@ func EditUser(user model.User, editUserDto dto.EditUser) (*gorm.DB, *gorm.DB, in
 		} else {
 			return nil, nil, 2
 		}
+	} else if levelUser == 3 {
+		adms := repo.ReadAllAdmins(id)
+
+		if len(adms) > 0 {
+			result1 := repo.SaveUser(user)
+			return result1, nil, 3
+		} else {
+			return nil, nil, 3
+		}
 	}
-	return nil, nil, 3
+
+	return nil, nil, 0
 }

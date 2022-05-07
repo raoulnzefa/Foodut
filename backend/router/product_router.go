@@ -9,6 +9,9 @@ import (
 func ProductRouter(router *mux.Router) {
 	// CATEGORIES
 	//
+	//- Get Categories
+	router.HandleFunc("/categories", prController.GetAllCategory).Methods("GET")
+
 	//- Insert Categories
 	router.HandleFunc("/categories", prController.PostCategory).Methods("POST")
 
