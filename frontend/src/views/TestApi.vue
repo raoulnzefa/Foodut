@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import apiCategories from '../api/categories'
+import apiCategory from '../api/category'
 import apiProduct from '../api/product'
 import apiCart from '../api/cart';
 import apiTransaction from '../api/transaction'
@@ -61,7 +61,7 @@ export default {
     //Categories
     AddCategories() {
       const productCategory = "Bakso Frozen"
-      apiCategories
+      apiCategory
         .AddCategories(productCategory)
         .then((response) => {
           if(!response){
@@ -95,7 +95,7 @@ export default {
     UpdateCategories() {
       const oldProductCategory = "frozenfood"
       const newProductCategory = "Permen"
-      apiCategories
+      apiCategory
         .UpdateCategories(oldProductCategory, newProductCategory)
         .then((response) => {
           if(!response){

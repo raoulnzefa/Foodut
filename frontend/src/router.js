@@ -282,13 +282,9 @@ const router = new Router({
           }
         },
         {
-          path: '/admin/product/',
-          redirect: '/admin/product/5546604'
-        },
-        {
           path: '/admin/product/:product_id',
           name: 'admin-product-detail',
-          component: () => import('./views/admin/ProductDetail.vue'),
+          component: () => import('./views/admin/browse/ProductDetail.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},

@@ -64,8 +64,6 @@ export default {
   },
   data () {
     return {
-      searchQuery: '',
-
       // AgGrid
       gridApi: null,
       gridOptions: {},

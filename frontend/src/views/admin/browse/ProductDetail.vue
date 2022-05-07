@@ -9,7 +9,6 @@
 
 <template>
   <div id="item-detail-page">
-
     <vs-alert color="danger" title="Error Fetching Product Data" :active.sync="error_occured">
       <span>{{ error_msg }}. </span>
       <span>
@@ -17,216 +16,121 @@
       </span>
     </vs-alert>
 
-    <vx-card v-if="item_data" :key="item_data.objectID">
-
-
+    <vx-card>
       <template slot="no-body">
-
         <div class="item-content">
-
           <!-- Item Main Info -->
           <div class="product-details p-6">
             <div class="vx-row mt-6">
               <div class="vx-col md:w-2/5 w-full flex items-center justify-center">
                 <div class="product-img-container w-3/5 mx-auto mb-10 md:mb-0">
-                  <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png" :alt="item_data.name" class="responsive">
-
-                  <!--
-                    UnComment Below line for true flow
-                    <img :src="item_data.image" :alt="item_data.name" class="responsive">
-
-                    Remove above img tag which is for demo purpose in actual flow
-                  -->
+                  <img src="https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg" class="responsive">
                 </div>
               </div>
 
               <!-- Item Content -->
               <div class="vx-col md:w-3/5 w-full">
-
-                <h3>{{ item_data.name }}</h3>
-
+                <h3>{{ product.productName }}</h3>
                 <p class="my-2">
                   <span class="mr-2">by</span>
-                  <span>{{ item_data.brand }}</span>
+                  <span>{{ product.sellerId }}</span>
                 </p>
                 <p class="flex items-center flex-wrap">
-                  <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">${{ item_data.price }}</span>
-                  <span class="pl-4 mr-2 mt-2 border border-solid d-theme-border-grey-light border-t-0 border-b-0 border-r-0"><star-rating :show-rating="false" :rating="item_data.rating" :star-size="20" read-only /></span>
-                  <span class="cursor-pointer leading-none mt-2">424 ratings</span>
+                  <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">Rp {{ product.productPrice }}</span>
+                  <span class="pl-4 mr-2 mt-2 border border-solid d-theme-border-grey-light border-t-0 border-b-0 border-r-0"><star-rating :show-rating="false" :star-size="20" read-only /></span>
+                  <span class="cursor-pointer leading-none mt-2">{{ product.productRate }} ratings</span>
                 </p>
-
                 <vs-divider />
-
-                <p>{{ item_data.description }}</p>
-
-                <vs-list class="product-sales-meta-list px-0 pt-4">
-                  <vs-list-item
-                    v-if="item_data.free_shipping"
-                    class="p-0 border-none"
-                    title="Free Sheeping"
-                    icon-pack="feather"
-                    icon="icon-truck" />
-                  <vs-list-item class="p-0 border-none" title="EMI options available" icon-pack="feather" icon="icon-dollar-sign"></vs-list-item>
-                </vs-list>
-
+                <p>{{ product.description }}</p>
                 <vs-divider />
-
-                <!-- Color -->
-                <div class="vx-row">
-                  <div class="vx-col w-full">
-                    <span class="text-xl font-medium">Color</span>
-                    <div class="flex flex-wrap items-center mt-2">
-                      <div
-                        :class="{'border-transparent': opt_color != color}"
-                        class="color-radio rounded-full mx-1 border-2 border-solid cursor-pointer relative"
-                        :style="itemColor({color: color, style: ['borderColor']})"
-                        v-for="color in available_item_colors"
-                        :key="color"
-                        @click="opt_color=color">
-                          <div class="h-6 w-6 rounded-full absolute" :style="itemColor({color: color, style: ['backgroundColor']})"></div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- /Color -->
-
-                <vs-divider />
-
                 <!-- Quantity -->
                 <div class="vx-row">
-
                   <div class="vx-col w-full">
                     <p class="my-2">
-                      <span>Available</span>
+                      <span class="text-success">Available</span>
                       <span class="mx-2">-</span>
-                      <span class="text-success">In Stock</span>
+                      <span>{{ product.productStock }} pcs</span>
                     </p>
                   </div>
-
-                  <div class="vx-col w-full">
+                  <div class="vx-col w-full mt-5">
                     <div class="flex flex-wrap items-start mb-4">
-
                       <!-- Add To Cart Button -->
                       <vs-button
                         class="mr-4 mb-4"
                         icon-pack="feather"
                         icon="icon-shopping-cart"
-                        v-if="!isInCart(item_data.objectID)"
-                        @click="toggleItemInCart(item_data)">
+                        @click="popupAdd=true">
                         ADD TO CART
                       </vs-button>
-
+                      <vs-popup class="popup" background-color="rgba(25,25,25,0.25)" title="Failed to Add Product!" :active.sync="popupAdd">
+                        <p>Please login as customer to add product in your cart. If you don't have customer account, please register first!</p>
+                        <vs-divider />
+                        <div class="vx-row mt-3">
+                          <div class="vx-col w-1/2">
+                            <vs-button class="w-full"  @click="login" color="primary" type="filled">Login</vs-button>
+                          </div>
+                          <div class="vx-col w-1/2">
+                            <vs-button class="w-full"  @click="register" color="primary" type="border">Register</vs-button>
+                          </div>
+                        </div>
+                      </vs-popup>
+                      <!-- View In Cart Button -->
                       <vs-button
-                        v-else
-                        class="mr-4 mb-4"
-                        icon-pack="feather"
-                        icon="icon-shopping-cart"
-                        @click="$router.push({name: 'ecommerce-checkout'}).catch(err => {})">
-                        VIEW IN CART
-                      </vs-button>
-                      <!-- /Add To Cart Button -->
-
-                      <!-- Wishlist Button -->
-                      <vs-button
-                        v-if="isInWishList(item_data.objectID)"
-                        key="filled"
-                        class="mb-4"
-                        icon-pack="feather"
-                        icon="icon-heart"
-                        color="danger"
-                        @click="toggleItemInWishList(item_data)">
-                        WHISHLIST
-                      </vs-button>
-
-                      <vs-button
-                        v-else
                         key="border"
                         class="mb-4"
                         type="border"
                         icon-pack="feather"
-                        icon="icon-heart"
-                        color="danger"
-                        @click="toggleItemInWishList(item_data)">
-                        WHISHLIST
+                        icon="icon-shopping-cart"
+                        @click="popupView=true">
+                        VIEW IN CART
                       </vs-button>
-                      <!-- /Wishlist Button -->
-
+                      <vs-popup class="popup" background-color="rgba(25,25,25,0.25)"  title="Failed to View Cart!" :active.sync="popupView">
+                        <p>Please login as customer to view cart. If you don't have customer account, please register first!</p>
+                        <vs-divider />
+                        <div class="vx-row mt-3">
+                          <div class="vx-col w-1/2">
+                            <vs-button class="w-full"  @click="login" color="primary" type="filled">Login</vs-button>
+                          </div>
+                          <div class="vx-col w-1/2">
+                            <vs-button class="w-full"  @click="register" color="primary" type="border">Register</vs-button>
+                          </div>
+                        </div>
+                      </vs-popup>
                     </div>
                   </div>
                 </div>
-                <!-- /Quantity -->
-
-                <div class="vx-row">
-                  <div class="vx-col flex flex-wrap items-center">
-                    <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-facebook" radius></vs-button>
-                    <vs-button class="mr-4" type="border" icon-pack="feather" color="#00aaff" icon="icon-twitter" radius></vs-button>
-                    <vs-button class="mr-4" type="border" icon-pack="feather" color="#c4302b" icon="icon-youtube" radius></vs-button>
-                    <vs-button class="mr-4" type="border" icon-pack="feather" color="#405DE6" icon="icon-instagram" radius></vs-button>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Product Feature/Meta Row -->
-          <div class="py-24 mb-16 mt-10 text-center item-features">
-            <div class="vx-row">
-              <div class="vx-col md:w-1/3 w-full">
-                <div class="w-64 mx-auto mb-16 md:mb-0">
-                  <feather-icon icon="AwardIcon" svgClasses="h-12 w-12 text-primary stroke-current" class="block mb-4" />
-                  <span class="font-semibold text-lg">100% Original</span>
-                  <p class="mt-2">Chocolate bar candy canes ice cream toffee cookie halvah.</p>
-                </div>
-              </div>
-              <div class="vx-col md:w-1/3 w-full">
-                <div class="w-64 mx-auto mb-16 md:mb-0">
-                  <feather-icon icon="ClockIcon" svgClasses="h-12 w-12 text-primary stroke-current" class="block mb-4" />
-                  <span class="font-semibold text-lg">10 Day Replacement</span>
-                  <p class="mt-2">Marshmallow biscuit donut dragée fruitcake wafer.</p>
-                </div>
-              </div>
-              <div class="vx-col md:w-1/3 w-full">
-                <div class="w-64 mx-auto">
-                  <feather-icon icon="ShieldIcon" svgClasses="h-12 w-12 text-primary stroke-current" class="block mb-4" />
-                  <span class="font-semibold text-lg">1 Year Warranty</span>
-                  <p class="mt-2">Cotton candy gingerbread cake I love sugar sweet.</p>
-                </div>
               </div>
             </div>
           </div>
-
         </div>
-
+      </template>
+    </vx-card>
+    <vx-card>
+      <template slot="no-body">
         <!-- Related Products -->
-        <div class="related-products text-center px-6">
-
+        <div class="related-products text-center">
           <div class="related-headings mb-8 text-center">
-            <h2 class="uppercase">Related Products</h2>
+            <h2 class="uppercase mt-10">Related Products</h2>
             <p>People also search for this items</p>
           </div>
           <swiper :options="swiperOption" :dir="$vs.rtl ? 'rtl' : 'ltr'" :key="$vs.rtl" class="related-product-swiper px-12 py-6">
-            <swiper-slide v-for="item in related_items" :key="item.objectId" class="p-6 rounded cursor-pointer">
-
+            <swiper-slide v-for='product in products' :key='product.id' class="p-6 rounded cursor-pointer">
               <!-- Item Heading -->
               <div class="item-heading mb-4">
-                <p class="text-lg font-semibold truncate">{{ item.name }}</p>
+                <p class="text-lg font-semibold truncate">{{ product.productName }}</p>
                 <p class="text-sm">
                   <span class="mr-2">by</span>
-                  <span>{{ item.brand }}</span>
+                  <span>{{ product.sellerId }}</span>
                 </p>
               </div>
-
               <!-- Item Image -->
-              <div class="img-container w-32 mx-auto my-base">
-                <img class="responsive" :src="item.image" :alt="item.name">
+              <div class="img-container w-full mx-auto my-base">
+                <img class="responsive" src="https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg">
               </div>
-
               <!-- Item Meta -->
               <div class="item-meta">
-                <star-rating :show-rating="false" :rating="item.rating" :star-size="14" class="justify-center" read-only />
-                <p class="text-lg font-medium text-primary">${{ item.price }}</p>
+                <star-rating :show-rating="false" :rating="product.rating" :star-size="14" class="justify-center" read-only />
+                <p class="text-lg font-medium text-primary">${{ product.productPrice }}</p>
               </div>
             </swiper-slide>
             <div class="swiper-button-prev" slot="button-prev"></div>
@@ -242,8 +146,9 @@
 <script>
 import 'swiper/dist/css/swiper.min.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import algoliasearch from 'algoliasearch/lite'
 import StarRating from 'vue-star-rating'
+import apiProduct from '../../../api/product'
+import apiUser from '../../../api/user'
 
 export default{
   components: {
@@ -253,11 +158,10 @@ export default{
   },
   data () {
     return {
-      algolia_index: algoliasearch(
-        'latency',
-        '6be0576ff61c053d5f9a3225e2a90f76'
-      ).initIndex('instant_search'),
-      item_data: null,
+      product: {},
+      products: [],
+      popupAdd: false,
+      popupView: false,
       error_occured: false,
       error_msg: '',
 
@@ -357,8 +261,9 @@ export default{
   },
   computed: {
     item_qty () {
-      const item = this.$store.getters['eCommerce/getCartItem'](this.item_data.objectID)
-      return Object.keys(item).length ? item.quantity : 1
+      // const item = this.$store.getters['eCommerce/getCartItem'](this.item_data.objectID)
+      // return Object.keys(item).length ? item.quantity : 1
+      return 1
     },
     itemColor () {
       return (obj) => {
@@ -370,34 +275,98 @@ export default{
       }
     },
     isInWishList () {
-      return (itemId) => this.$store.getters['eCommerce/isInWishList'](itemId)
+      return 0 // (itemId) => this.$store.getters['eCommerce/isInWishList'](itemId)
     },
     isInCart () {
-      return (itemId) => this.$store.getters['eCommerce/isInCart'](itemId)
+      return 0 // (itemId) => this.$store.getters['eCommerce/isInCart'](itemId)
     }
   },
   methods: {
-    toggleItemInWishList (item) {
-      this.$store.dispatch('eCommerce/toggleItemInWishList', item)
+    // toggleItemInWishList (item) {
+    //   this.$store.dispatch('eCommerce/toggleItemInWishList', item)
+    // },
+    // toggleItemInCart (item) {
+    //   this.$store.dispatch('eCommerce/toggleItemInCart', item)
+    // }
+    login () {
+      this.popupAdd = false
+      this.popupView = false
+      apiUser
+        .Logout()
+        .then((response) => {
+          if(!response){
+            this.$vs.notify({
+              title: 'Error',
+              text: 'Failed to logout',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+            return
+          }
+          this.$vs.loading.close()
+          this.$router.push({ name : 'login-page'}).catch(() => {})
+        })
+        .catch((error) => {
+          this.$vs.loading.close()
+          this.$vs.notify({
+            title: 'Error',
+            text: error.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        })
     },
-    toggleItemInCart (item) {
-      this.$store.dispatch('eCommerce/toggleItemInCart', item)
+    register () {
+      this.popupAdd = false
+      this.popupView = false
+      apiUser
+        .Logout()
+        .then((response) => {
+          if(!response){
+            this.$vs.notify({
+              title: 'Error',
+              text: 'Failed to logout',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+            return
+          }
+          this.$vs.loading.close()
+          this.$router.push({ name : 'register-page'}).catch(() => {})
+        })
+        .catch((error) => {
+          this.$vs.loading.close()
+          this.$vs.notify({
+            title: 'Error',
+            text: error.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        })
     },
-    fetch_item_details (id) {
-      this.algolia_index.getObject(id, (err, content) => {
-        if (err) {
-          this.error_occured = true
-          this.error_msg = err.message
-          console.error(err)
-        } else {
-          this.item_data = content
-        }
-      })
-
-    }
   },
-  created () {
-    this.fetch_item_details(this.$route.params.item_id)
+  mounted () {
+    apiProduct
+      .GetProductById(this.$route.params.product_id)
+      .then((response) => { 
+        this.product = response[0] 
+        apiUser
+          .GetStoreByIdWithProduct(this.product.sellerId)
+          .then((response) => { 
+            this.product.sellerId = response.storeName 
+            this.products = response.listProduct
+            for(let i=0; i<this.products.length; i++){
+              this.products[i].sellerId = response.storeName
+            }
+          })
+          .catch((error) => { console.log('Error get storename!', error)})
+        console.log(this.product)
+      })
+      .catch((error) => { console.log('Error get id product!', error)})
   }
 }
 </script>

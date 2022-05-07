@@ -60,7 +60,7 @@
 <script>
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-import apiCategories from '../../../../api/categories'
+import apiCategory from '../../../../api/category'
 
 export default {
   components: {
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     CreateCategories(){
-      apiCategories
+      apiCategory
         .AddCategories(this.category)
         .then((response) => {
           if(!response){

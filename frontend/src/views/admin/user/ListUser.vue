@@ -63,18 +63,6 @@ export default {
   },
   data () {
     return {
-
-      // Filter Options
-      roleFilter: { label: 'All', value: 'all' },
-      roleOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Admin', value: 'admin' },
-        { label: 'User', value: 'user' },
-        { label: 'Staff', value: 'staff' }
-      ],
-
-      searchQuery: '',
-
       // AgGrid
       gridApi: null,
       gridOptions: {},

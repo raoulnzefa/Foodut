@@ -26,5 +26,9 @@ export default{
     }else{
       return false
     }
+  },
+  async GetAllCategories(){
+    const response = await transport.get('/categories')
+    return response.data.data
   }
 }

@@ -8,318 +8,117 @@
 ========================================================================================== -->
 
 <template>
-    <div>
-        <div
-            :search-client="searchClient"
-            index-name="instant_search" id="instant-search-demo">
+  <div>
+      <div index-name="instant_search" id="instant-search-demo">
+          <div :hits-per-page.camel="9" />
+          <div id="content-container" class="relative clearfix">
+            <div>
+              <vs-sidebar
+                class="items-no-padding vs-sidebar-rounded background-absolute"
+                parent="#content-container"
+                :click-not-close="clickNotClose"
+                :hidden-background="clickNotClose"
+                v-model="isFilterSidebarActive">
 
-            <div :hits-per-page.camel="9" />
-
-            <div class="header mb-4">
-                <div class="flex md:items-end items-center justify-between flex-wrap">
-
-                    <p class="lg:inline-flex hidden font-semibold filters-label">Filters</p>
-
-                    <div class="flex justify-between items-end flex-grow">
-                        <!-- Stats -->
-                        <div>
-                            <p slot-scope="{  nbHits, processingTimeMS }" class="font-semibold md:block hidden">
-                                {{ nbHits }} results found in {{ processingTimeMS }}ms
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="content-container" class="relative clearfix">
-              <div>
-                <vs-sidebar
-                  class="items-no-padding vs-sidebar-rounded background-absolute"
-                  parent="#content-container"
-                  :click-not-close="clickNotClose"
-                  :hidden-background="clickNotClose"
-                  v-model="isFilterSidebarActive">
-
-                  <div class="p-6 filter-container">
-                    <!-- PRICE -->
-                    <h6 class="font-bold mb-3">Price Range</h6>
-                    <div>
-                      <ul class="demo-aligment">
-                        <li><vs-radio v-model="price" vs-value="low">Rp -10000</vs-radio></li>
-                        <li><vs-radio v-model="price" vs-value="lowMedium">Rp 10000 - 50000</vs-radio></li>
-                        <li><vs-radio v-model="price" vs-value="mediumHigh">Rp 500000 - 100000</vs-radio></li>
-                        <vs-radio v-model="price" vs-value="high">Rp >=100000</vs-radio>
-                      </ul>
-                    </div>
-                    <vs-divider />
-
-                    <!-- CATEGORIES -->
-                    <h6 class="font-bold mb-4">Category</h6>
-                    <div>
-                      <ul>
-                        <li><vs-radio v-model="category" vs-value="chip">Chip</vs-radio></li>
-                        <li><vs-radio v-model="category" vs-value="bread">Bread</vs-radio></li>
-                        <li><vs-radio v-model="category" vs-value="beverage">Beverage</vs-radio></li>
-                        <li><vs-radio v-model="category" vs-value="candy">Candy</vs-radio></li>
-                      </ul>
-                    </div>
-                    <vs-divider />
-
-                    <!-- Store -->
-                    <h6 class="font-bold mb-4">Store</h6>
-                      <vs-checkbox class="mb-1 ml-0">Indofood</vs-checkbox>
-                      <vs-checkbox class="mb-1 ml-0">Snack Master</vs-checkbox>
-                      <vs-checkbox class="mb-1 ml-0">Makaroni</vs-checkbox>
-                    <vs-divider />
-
-                    <vs-button class="w-full" color="danger" type="border">Remove Filters</vs-button>
+                <div class="p-6 filter-container">
+                  <!-- PRICE -->
+                  <h6 class="font-bold mb-3">Price Range</h6>
+                  <div>
+                    <ul class="demo-aligment">
+                      <li><vs-radio vs-value="low">{{ numericItems[0].label }}</vs-radio></li>
+                      <li><vs-radio vs-value="lowMedium">{{ numericItems[1].label }}</vs-radio></li>
+                      <li><vs-radio vs-value="mediumHigh">{{ numericItems[2].label }}</vs-radio></li>
+                      <li><vs-radio vs-value="high">{{ numericItems[3].label }}</vs-radio></li>
+                    </ul>
                   </div>
-                </vs-sidebar>
+                  <vs-divider />
+
+                  <!-- CATEGORIES -->
+                  <h6 class="font-bold mb-4">Category</h6>
+                  <div>
+                    <ul>
+                      <li v-for='category in categories' :key='category.id'><vs-radio class="mb-1 ml-0" vs-value="category">{{ category.productCategory }}</vs-radio></li>
+                    </ul>
+                  </div>
+                  <vs-divider />
+
+                  <!-- Store -->
+                  <h6 class="font-bold mb-4">Store</h6>
+                    <vs-checkbox class="mb-1 ml-0" v-for='store in stores' :key='store.id'>{{ store.storeName }}</vs-checkbox>
+                  <vs-divider />
+
+                  <vs-button class="w-full" color="danger" type="border">Remove Filters</vs-button>
+                </div>
+              </vs-sidebar>
+            </div>
+            <!-- RIGHT COL -->
+            <div :class="{'sidebar-spacer-with-margin': clickNotClose}">
+              <div class="mb-8">
+                <vs-input icon-no-border label-placeholder="Search" class="w-full input-rounded-full" icon="icon-search" icon-pack="feather" />
               </div>
-                <!-- RIGHT COL -->
-                <div :class="{'sidebar-spacer-with-margin': clickNotClose}">
-                  <div class="mb-8">
-                    <vs-input icon-no-border label-placeholder="Search" v-model="searchQuery" class="w-full input-rounded-full" icon="icon-search" icon-pack="feather" />
-                    
-                    <!-- <input type="text" class="vs-inputx vs-input--input large" style="border: 0px solid rgba(0, 0, 0, 0);" placeholder="Search here"> -->
-                    <!-- <vs-input
-                      v-validate="'required|email|min:3'"
-                      data-vv-validate-on="blur"
-                      name="email"
-                      icon-no-border
-                      icon="icon icon-user"
-                      icon-pack="feather"
-                      label-placeholder="Email"
-                      v-model="email"
-                      class="w-full"
-                    /> -->
-                  </div>
-                  <div class="vx-row">
-                    <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base">
-                      <vx-card>
-                        <img :src="items.product" alt="product-img" class="w-full mb-3">
-                        <div class="vx-row">
-                          <div class="vx-col w-1/2">
-                            <!-- <div class="vx-row">
-                              <div class="vx-col w-1/12">
-                                <feather-icon icon="StarIcon" svgClasses="h-5 w-5 text-warning"/>
-                              </div>
-                              <div class="vx-col">
-                                <p>5</p>
-                              </div>
-                            </div> -->
-                            <p class="text-sm">by storename</p>
-                          </div>
-                          <div class="vx-col w-1/2">
-                            <p style="text-align:right">Rp 1000</p>
-                          </div>
-                        </div>
-                        <p class="font-bold"> Product name</p>
-                        <p class="text-sm">Description of product</p>
-                        <div class="vx-row  mt-3">
-                          <div class="vx-col w-1/2">
-                            <vs-button class="w-full" color="primary" icon-pack="feather" icon="icon-shopping-cart">Add</vs-button>
-                          </div>
-                          <div class="vx-col w-1/2">
-                            <vs-button class="w-full" color="primary" type="border" icon-pack="feather" icon="icon-shopping-bag">View</vs-button>
-                          </div>
-                        </div>
-                      </vx-card>
+              <div class="vx-row">
+                <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base" v-for='product in products' :key='product.id'>
+                  <vx-card>
+                    <img src='https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg' alt="product-img" class="w-full mb-3">
+                    <div class="vx-row">
+                      <div class="vx-col w-1/2">
+                        <p class="text-sm">{{ product.sellerId }}</p>
+                      </div>
+                      <div class="vx-col w-1/2">
+                        <p style="text-align:right">Rp {{ product.productPrice }}</p>
+                      </div>
                     </div>
-                    <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base">
-                        <vx-card>
-                          <img :src="items.product" alt="product-img" class="w-full mb-3">
-                          <div class="vx-row">
+                    <p class="truncate font-semibold mb-1 hover:text-primary cursor-pointer" @click="viewProduct(product.id)">{{ product.productName }}</p>
+                    <p class="item-description truncate text-sm">{{ product.description }}</p>
+                    <div class="vx-row  mt-3">
+                      <div class="vx-col w-full">
+                        <vs-button class="w-full"  @click="popupAdd=true" color="primary" type="filled" icon-pack="feather" icon="icon-shopping-cart">Add</vs-button>
+                        <vs-popup class="popup" background-color="rgba(25,25,25,0.1)" title="Failed to Add Product!" :active.sync="popupAdd">
+                          <p>Please login as customer to add product in your cart. If you don't have customer account, please register first!</p>
+                          <vs-divider />
+                          <div class="vx-row mt-3">
                             <div class="vx-col w-1/2">
-                              <!-- <div class="vx-row">
-                                <div class="vx-col w-1/12">
-                                  <feather-icon icon="StarIcon" svgClasses="h-5 w-5 text-warning"/>
-                                </div>
-                                <div class="vx-col">
-                                  <p>5</p>
-                                </div>
-                              </div> -->
-                              <p class="text-sm">by storename</p>
+                              <vs-button class="w-full"  @click="login" color="primary" type="filled">Login</vs-button>
                             </div>
                             <div class="vx-col w-1/2">
-                              <p style="text-align:right">Rp 1000</p>
+                              <vs-button class="w-full"  @click="register" color="primary" type="border">Register</vs-button>
                             </div>
                           </div>
-                          <p class="font-bold"> Product name</p>
-                          <p class="text-sm">Description of product</p>
-                          <div class="vx-row  mt-3">
-                            <div class="vx-col w-1/2">
-                              <vs-button class="w-full" color="primary" icon-pack="feather" icon="icon-shopping-cart">Add</vs-button>
-                            </div>
-                            <div class="vx-col w-1/2">
-                              <vs-button class="w-full" color="primary" type="border" icon-pack="feather" icon="icon-shopping-bag">View</vs-button>
-                            </div>
-                          </div>
-                        </vx-card>
+                        </vs-popup>
+                      </div>
                     </div>
-                    <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base">
-                        <vx-card>
-                          <img :src="items.product" alt="product-img" class="w-full mb-3">
-                          <div class="vx-row">
-                            <div class="vx-col w-1/2">
-                              <!-- <div class="vx-row">
-                                <div class="vx-col w-1/12">
-                                  <feather-icon icon="StarIcon" svgClasses="h-5 w-5 text-warning"/>
-                                </div>
-                                <div class="vx-col">
-                                  <p>5</p>
-                                </div>
-                              </div> -->
-                              <p class="text-sm">by storename</p>
-                            </div>
-                            <div class="vx-col w-1/2">
-                              <p style="text-align:right">Rp 1000</p>
-                            </div>
-                          </div>
-                          <p class="font-bold"> Product name</p>
-                          <p class="text-sm">Description of product</p>
-                          <div class="vx-row  mt-3">
-                            <div class="vx-col w-1/2">
-                              <vs-button class="w-full" color="primary" icon-pack="feather" icon="icon-shopping-cart">Add</vs-button>
-                            </div>
-                            <div class="vx-col w-1/2">
-                              <vs-button class="w-full" color="primary" type="border" icon-pack="feather" icon="icon-shopping-bag">View</vs-button>
-                            </div>
-                          </div>
-                        </vx-card>
-                    </div>
-                  </div>
-                  <div class="vx-row">
-                    <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base">
-                      <vx-card>
-                        <img :src="items.product" alt="product-img" class="w-full mb-3">
-                        <div class="vx-row">
-                          <div class="vx-col w-1/2">
-                            <!-- <div class="vx-row">
-                              <div class="vx-col w-1/12">
-                                <feather-icon icon="StarIcon" svgClasses="h-5 w-5 text-warning"/>
-                              </div>
-                              <div class="vx-col">
-                                <p>5</p>
-                              </div>
-                            </div> -->
-                            <p class="text-sm">by storename</p>
-                          </div>
-                          <div class="vx-col w-1/2">
-                            <p style="text-align:right">Rp 1000</p>
-                          </div>
-                        </div>
-                        <p class="font-bold"> Product name</p>
-                        <p class="text-sm">Description of product</p>
-                        <div class="vx-row  mt-3">
-                          <div class="vx-col w-1/2">
-                            <vs-button class="w-full" color="primary" icon-pack="feather" icon="icon-shopping-cart">Add</vs-button>
-                          </div>
-                          <div class="vx-col w-1/2">
-                            <vs-button class="w-full" color="primary" type="border" icon-pack="feather" icon="icon-shopping-bag">View</vs-button>
-                          </div>
-                        </div>
-                      </vx-card>
-                    </div>
-                    <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base">
-                        <vx-card>
-                          <img :src="items.product" alt="product-img" class="w-full mb-3">
-                          <div class="vx-row">
-                            <div class="vx-col w-1/2">
-                              <!-- <div class="vx-row">
-                                <div class="vx-col w-1/12">
-                                  <feather-icon icon="StarIcon" svgClasses="h-5 w-5 text-warning"/>
-                                </div>
-                                <div class="vx-col">
-                                  <p>5</p>
-                                </div>
-                              </div> -->
-                              <p class="text-sm">by storename</p>
-                            </div>
-                            <div class="vx-col w-1/2">
-                              <p style="text-align:right">Rp 1000</p>
-                            </div>
-                          </div>
-                          <p class="font-bold"> Product name</p>
-                          <p class="text-sm">Description of product</p>
-                          <div class="vx-row  mt-3">
-                            <div class="vx-col w-1/2">
-                              <vs-button class="w-full" color="primary" icon-pack="feather" icon="icon-shopping-cart">Add</vs-button>
-                            </div>
-                            <div class="vx-col w-1/2">
-                              <vs-button class="w-full" color="primary" type="border" icon-pack="feather" icon="icon-shopping-bag">View</vs-button>
-                            </div>
-                          </div>
-                        </vx-card>
-                    </div>
-                    <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base">
-                        <vx-card>
-                          <img :src="items.product" alt="product-img" class="w-full mb-3">
-                          <div class="vx-row">
-                            <div class="vx-col w-1/2">
-                              <!-- <div class="vx-row">
-                                <div class="vx-col w-1/12">
-                                  <feather-icon icon="StarIcon" svgClasses="h-5 w-5 text-warning"/>
-                                </div>
-                                <div class="vx-col">
-                                  <p>5</p>
-                                </div>
-                              </div> -->
-                              <p class="text-sm">by storename</p>
-                            </div>
-                            <div class="vx-col w-1/2">
-                              <p style="text-align:right">Rp 1000</p>
-                            </div>
-                          </div>
-                          <p class="font-bold"> Product name</p>
-                          <p class="text-sm">Description of product</p>
-                          <div class="vx-row  mt-3">
-                            <div class="vx-col w-1/2">
-                              <vs-button class="w-full" color="primary" icon-pack="feather" icon="icon-shopping-cart">Add</vs-button>
-                            </div>
-                            <div class="vx-col w-1/2">
-                              <vs-button class="w-full" color="primary" type="border" icon-pack="feather" icon="icon-shopping-bag">View</vs-button>
-                            </div>
-                          </div>
-                        </vx-card>
-                    </div>
-                  </div>
+                  </vx-card>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>
+          </div>
+      </div>
+  </div>
 </template>
 
 <script>
+import apiUser from '../../../api/user'
+import apiCategory from '../../../api/category'
+import apiProduct from '../../../api/product'
 
 export default {
-  components: {
-    ItemGridView: () => import('./components/ItemGridView.vue'),
-    ItemListView: () => import('./components/ItemListView.vue')
-  },
   data () {
     return {
-      items: {
-        product: require('@/assets/images/dummy/Doritos.jpg'),
-        star: require('@/assets/images/raty/star-on-2.png')
-      },
+      products: [],
       // Filter Sidebar
       isFilterSidebarActive: true,
       clickNotClose: true,
       currentItemView: 'item-grid-view',
       numericItems: [
-        { label: 'All' },
-        { label: '<= $10', end: 10 },
-        { label: '$10 - $100', start: 10, end: 100 },
-        { label: '$100 - $500', start: 100, end: 500 },
-        { label: '>= $500', start: 500 }
+        { label: '<= Rp 10000', end: 10000 },
+        { label: 'Rp 10000 - 50000', start: 10000, end: 50000 },
+        { label: 'Rp 50000 - 100000', start: 50000, end: 100000 },
+        { label: '>= Rp 100000', start: 100000 }
       ],
-      Categories: [
-        'hierarchicalCategories.lvl0',
-        'hierarchicalCategories.lvl1',
-        'hierarchicalCategories.lvl2',
-        'hierarchicalCategories.lvl3'
-      ]
+      categories: [],
+      stores: [],
+      popupAdd: false,
+      popupView: false
     }
   },
   computed: {
@@ -352,6 +151,69 @@ export default {
         this.isFilterSidebarActive = this.clickNotClose = true
       }
     },
+    viewProduct (productId) {
+      this.$router.push({ path: `/admin/product/${productId}` }).catch(() => {})
+    },
+    login () {
+      this.popupAdd = false
+      this.popupView = false
+      apiUser
+        .Logout()
+        .then((response) => {
+          if(!response){
+            this.$vs.notify({
+              title: 'Error',
+              text: 'Failed to logout',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+            return
+          }
+          this.$vs.loading.close()
+          this.$router.push({ name : 'login-page'}).catch(() => {})
+        })
+        .catch((error) => {
+          this.$vs.loading.close()
+          this.$vs.notify({
+            title: 'Error',
+            text: error.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        })
+    },
+    register () {
+      this.popupAdd = false
+      this.popupView = false
+      apiUser
+        .Logout()
+        .then((response) => {
+          if(!response){
+            this.$vs.notify({
+              title: 'Error',
+              text: 'Failed to logout',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+            return
+          }
+          this.$vs.loading.close()
+          this.$router.push({ name : 'register-page'}).catch(() => {})
+        })
+        .catch((error) => {
+          this.$vs.loading.close()
+          this.$vs.notify({
+            title: 'Error',
+            text: error.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        })
+    },
 
     // GRID VIEW - ACTIONS
     toggleFilterSidebar () {
@@ -367,6 +229,28 @@ export default {
     cartButtonClicked (item) {
       this.isInCart(item.objectID) ? this.$router.push('/customer/checkout').catch(() => {}) : this.additemInCart(item)
     }
+  },
+  mounted () {
+    apiProduct
+      .GetAllProduct()
+      .then((response) => { 
+        this.products = response 
+        for(let i=0; i<this.products.length; i++){
+          apiUser
+            .GetStoreByIdWithProduct(this.products[i].sellerId)
+            .then((response) => { this.products[i].sellerId = response.storeName })
+            .catch((error) => { console.log('Error get storename!', error)})
+        }  
+      })
+      .catch((error) => { console.log('Error get all product!', error)})
+    apiCategory
+      .GetAllCategories()
+      .then((response) => { this.categories = response })
+      .catch((error) => { console.log('Error get all categories!', error)})
+    apiUser
+      .GetAllStore()
+      .then((response) => { this.stores = response })
+      .catch((error) => { console.log('Error get all store!', error)})
   },
   created () {
     this.setSidebarWidth()
