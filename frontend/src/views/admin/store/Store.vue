@@ -22,7 +22,6 @@ export default {
     return {
       selected: [],
       store: {},
-      product: [],
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -81,10 +80,9 @@ export default {
     this.$store.dispatch('dataList/fetchDataListItems')
   },
   mounted () {
-    // this.isMounted = true
-    console.log(localStorage.getItem('userId'))
+    this.isMounted = true
     apiUser
-      .GetStoreByIdWithProduct(localStorage.getItem('userId'))
+      .GetStoreByIdWithProduct(this.$route.params.seller_id)
       .then((response) => { 
         console.log(response) 
         this.store = response 

@@ -1,7 +1,6 @@
 <template>
   <div id="ecommerce-checkout-demo">
     <add-categories /><br>
-    <list-categories /><br>
     <vx-card
       title="Add New Product"
       subtitle="Be sure to check Product Details when you have finished"
@@ -33,7 +32,7 @@
                   name="Price"
                   label="Price:"
                   v-model="price"
-                  class="w-full mt-5"
+                  class="w-full mt-4"
                 />
                 <span
                   v-show="errors.has('add-new-product.productPrice')"
@@ -42,18 +41,23 @@
                 >
               </div>
               <div class="vx-col sm:w-1/3 w-full">
-                <vs-input
+                <p class="mt-4 text-sm">Category:</p>
+                <v-select
+                  id="category"
+                  v-model="selectedCategory"
+                  :options="category"
+                  label="text"
+                  :selectable="option => selectedCategory"
                   v-validate="'required'"
-                  name="Category"
-                  label="Category:"
-                  v-model="category"
-                  class="w-full mt-5"
+                  name="selectedCategory"
+                  :clearable="false" 
+                  class="w-full mt-1"
+                  items="category"
                 />
                 <span
                   v-show="errors.has('add-new-product.productCategory')"
                   class="text-danger"
-                  >{{ errors.first("add-new-product.productCategory") }}</span
-                >
+                  >{{ errors.first("add-new-product.productCategory") }}</span>
               </div>
               <div class="vx-col sm:w-1/3 w-full">
                 <p class="mt-4 text-sm">Stock:</p>
@@ -86,7 +90,7 @@
         <div class="vx-row">
           <div class="vx-col sm:w-1/5 w-full">
             <p class="mt-4 text-sm">Picture:</p>
-            <div class="upload-img mt-5" v-if="!dataImg">
+            <div class="upload-img mt-5">
               <input type="file" class="hidden" ref="uploadImgInput" @change="updateNameFilePicture" accept="image/*" multiple="multiple">
               <vs-button @click="$refs.uploadImgInput.click()">Upload Image</vs-button>
             </div>
@@ -102,8 +106,8 @@
         <div class="vx-col w-full">
           <div class="mt-8 flex flex-wrap items-center justify-end">
             <!-- :disabled="!validateForm" -->
-            <vs-button class="ml-auto mt-2" @click="CreateProduct">Create</vs-button>
-            <vs-button class="ml-4 mt-2" type="border" color="warning" @click="reset_data">Cancel</vs-button>
+            <vs-button class="ml-auto mt-2" @click="createProduct">Create</vs-button>
+            <vs-button class="ml-4 mt-2" type="border" color="warning">Cancel</vs-button>
           </div>
         </div>
       </div>
@@ -128,13 +132,16 @@
 </template>
 
 <script>
+import vSelect from 'vue-select'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import AddCategories from './categories/AddCategories.vue'
 import apiProduct from '../../../api/product'
+import apiCategory from '../../../api/category'
 
 export default {
   components: {
+    vSelect,
     FormWizard,
     TabContent,
     AddCategories
@@ -144,11 +151,18 @@ export default {
       switch1: true,
       name: "",
       price: 0,
-      category: "",
+      category: [],
+      selectedCategory: {
+        text: "",
+        value: 0,
+        disabled: false,
+        divider: false,
+        header: ""
+      },
       stock: 0,
       description: "",
       picture: [],
-      total_picture: 0
+      total_picture: 0,
     }
   },
   methods: {
@@ -159,7 +173,7 @@ export default {
       console.log(files, totalfiles)
       this.total_picture = totalfiles
     },
-    CreateProduct() {
+    createProduct() {
       this.sellerId = localStorage.getItem('userId')
       const totalPicture = this.$refs.uploadImgInput.files;
       const pictureArray = []
@@ -167,9 +181,9 @@ export default {
         pictureArray.push(totalPicture[index].name)
       }
       console.log("Data Product Baru")
-      console.log(this.name, this.price, this.stock, this.sellerId,  this.category, this.description, pictureArray)
+      console.log(this.name, this.price, this.stock, this.sellerId,  this.selectedCategory.value, this.description, pictureArray)
       apiProduct
-        .AddProduct(this.name, this.price, this.stock, this.sellerId,  this.category, this.description, pictureArray)
+        .AddProduct(this.name, this.price, this.stock, this.sellerId,  this.selectedCategory.value, this.description, pictureArray)
         .then((response) => {
           if(!response){
             this.$vs.notify({
@@ -199,6 +213,26 @@ export default {
           })
         })
     }
+  },
+  mounted () {
+    apiCategory
+      .GetAllCategories()
+      .then((response) => { 
+        this.category = []
+        for(let i=0; i<response.length; i++){
+          this.category.push({
+            text: response[i].productCategory,
+            value: response[i].id,
+            disabled: false,
+            divider: false,
+            header: ""
+          }) 
+        }
+        console.log(response)
+        console.log(this.category)
+        console.log(this.selectedCategory)
+      })
+      .catch((error) => { console.log('Error get all categories!', error)})
   }
 }
 </script>

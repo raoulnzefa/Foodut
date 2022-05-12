@@ -34,10 +34,7 @@ export default {
     EditProfileChangePassword
   },
   data () {
-    return {
-      
-
-    }
+    return {}
   },
   method:{
     GetUserID(userId){

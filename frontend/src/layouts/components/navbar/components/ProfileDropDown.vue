@@ -15,7 +15,7 @@
         <ul style="min-width: 9.5rem">
           <li
             class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            @click="$router.push('/profile').catch(() => {})">
+            @click="editProfile">
             <feather-icon icon="SettingsIcon" svgClasses="w-4 h-4" />
             <span class="ml-2">Edit Profile</span>
           </li>
@@ -70,6 +70,20 @@ export default {
       .catch((error) => { console.log(error) })
   },
   methods: {
+    editProfile () {
+      apiUser
+        .GetUserById(localStorage.getItem('userId'))
+        .then((response) => {
+          if(response[0].level == 1){
+            this.$router.push('/customer/profile').catch(() => {})
+          }else if(response[0].level == 2){
+            this.$router.push('/seller/profile').catch(() => {})
+          }else if(response[0].level == 3){
+            this.$router.push('/admin/profile').catch(() => {})
+          }
+        })
+        .catch((error) => { console.log(error) })
+    },
     logout () {
       apiUser
         .Logout()

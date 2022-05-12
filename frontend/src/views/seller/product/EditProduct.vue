@@ -4,7 +4,7 @@
       title="Edit New Product"
       subtitle="Be sure to check Product Details when you have finished"
       class="mb-base">
-      <form data-vv-scope="edit-new-product">
+      <form data-vv-scope="product">
         <div class="vx-row">
           <div class="vx-col sm:w-1/2 w-full">
             <div class="vx-row">
@@ -16,11 +16,12 @@
                   label="Id Product:"
                   v-model="idProduct"
                   class="w-full mt-0"
+                  readonly="readonly"
                 />
                 <span
-                  v-show="errors.has('edit-new-product.Name')"
+                  v-show="errors.has('product.Name')"
                   class="text-danger"
-                  >{{ errors.first("edit-new-product.productId") }}</span
+                  >{{ errors.first("product.productId") }}</span
                 >
               </div>
               <div class="vx-col sm:w-3/4 w-full">
@@ -33,9 +34,9 @@
                   class="w-full mt-0"
                 />
                 <span
-                  v-show="errors.has('edit-new-product.Name')"
+                  v-show="errors.has('product.Name')"
                   class="text-danger"
-                  >{{ errors.first("edit-new-product.Name") }}</span
+                  >{{ errors.first("product.Name") }}</span
                 >
               </div>
             </div>
@@ -46,35 +47,41 @@
                   name="Price"
                   label="Price:"
                   v-model="price"
-                  class="w-full mt-5"
+                  class="w-full mt-4"
                 />
                 <span
-                  v-show="errors.has('edit-new-product.price')"
+                  v-show="errors.has('product.price')"
                   class="text-danger"
-                  >{{ errors.first("edit-new-product.price") }}</span
+                  >{{ errors.first("product.price") }}</span
                 >
               </div>
               <div class="vx-col sm:w-1/3 w-full">
-                <vs-input
+                <p class="mt-4 text-sm">Category:</p>
+                <v-select
+                  id="category"
+                  v-model="selectedCategory"
+                  :options="category"
+                  label="text"
+                  :selectable="option => selectedCategory"
                   v-validate="'required'"
-                  name="Category"
-                  label="Category:"
-                  v-model="category"
-                  class="w-full mt-5"
+                  name="selectedCategory"
+                  :clearable="false" 
+                  class="w-full mt-1"
+                  items="category"
                 />
                 <span
-                  v-show="errors.has('edit-new-product.category')"
+                  v-show="errors.has('product.category')"
                   class="text-danger"
-                  >{{ errors.first("edit-new-product.category") }}</span
+                  >{{ errors.first("product.category") }}</span
                 >
               </div>
               <div class="vx-col sm:w-1/3 w-full">
                 <p class="mt-4 text-sm">Stock:</p>
                 <vs-input-number style="width: 100px" v-model="stock" />
                 <span
-                  v-show="errors.has('edit-new-product.stock')"
+                  v-show="errors.has('product.stock')"
                   class="text-danger"
-                  >{{ errors.first("edit-new-product.stock") }}</span
+                  >{{ errors.first("product.stock") }}</span
                 >
               </div>
             </div>
@@ -90,9 +97,9 @@
               placeholder="Type Your Description"
             />
             <span
-              v-show="errors.has('edit-new-product.description')"
+              v-show="errors.has('product.description')"
               class="text-danger"
-              >{{ errors.first("edit-new-product.description") }}</span
+              >{{ errors.first("product.description") }}</span
             >
           </div>
         </div>
@@ -127,9 +134,11 @@
 </template>
 
 <script>
+import vSelect from 'vue-select'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import apiProduct from '../../../api/product'
+import apiCategory from '../../../api/category'
 
 export default {
   data () {
@@ -138,7 +147,14 @@ export default {
       idProduct: 0,
       name: "",
       price: 0,
-      category: "",
+      category: [],
+      selectedCategory: {
+        text: "",
+        value: 0,
+        disabled: false,
+        divider: false,
+        header: ""
+      },
       stock: 0,
       description: "",
       picture: [],
@@ -149,9 +165,14 @@ export default {
     UpdateProduct() {
       this.sellerId = localStorage.getItem('userId')
       console.log("Update Data Product")
-      console.log(this.idProduct, this.name, this.price, this.stock, this.sellerId,  this.category, this.description)
+      console.log('id: ', this.idProduct)
+      console.log('name: ', this.name)
+      console.log('price: ', this.price)
+      console.log('stock: ', this.stock)
+      console.log('selected category: ', this.selectedCategory.value)
+      console.log('description: ', this.description)
       apiProduct
-        .UpdateProduct(this.idProduct, this.name, this.price, this.stock, this.category, this.description)
+        .UpdateProduct(this.idProduct, this.name, this.price, this.stock, this.selectedCategory.value, this.description)
         .then((response) => {
           if(!response){
             this.$vs.notify({
@@ -183,8 +204,69 @@ export default {
     }
   },
   components: {
+    vSelect,
     FormWizard,
     TabContent
+  },
+  mounted () {
+    apiCategory
+      .GetAllCategories()
+      .then((response) => { 
+        this.category = []
+        for(let i=0; i<response.length; i++){
+          this.category.push({
+            text: response[i].productCategory,
+            value: response[i].id,
+            disabled: false,
+            divider: false,
+            header: ""
+          }) 
+        }
+        console.log(response)
+        console.log(this.category)
+        console.log(this.selectedCategory)
+      })
+      .catch((error) => { console.log('Error get all categories!', error)})
+    apiProduct
+      .GetProductById(this.$route.params.product_id)
+      .then((response) => { 
+        this.idProduct = response[0].id
+        this.name = response[0].productName
+        this.price = response[0].productPrice
+        const temp = response[0].categoryId
+        apiCategory
+          .GetAllCategories()
+          .then((response) => { 
+            this.category = []
+            for(let i=0; i<response.length; i++){
+              if(temp == response[i].id){
+                this.selectedCategory = {
+                  text: response[i].productCategory,
+                  value: response[i].id,
+                  disabled: false,
+                  divider: false,
+                  header: ""
+                }
+              }
+              this.category.push({
+                text: response[i].productCategory,
+                value: response[i].id,
+                disabled: false,
+                divider: false,
+                header: ""
+              }) 
+            }
+            console.log(response)
+            console.log(this.category)
+            console.log(this.selectedCategory)
+          })
+          .catch((error) => { console.log('Error get all categories!', error)})
+        console.log('kategori: ',this.selectedCategory)
+        this. stock = response[0].productStock
+        this.description = response[0].description
+        // console.log(this.product)
+      })
+      .catch((error) => { console.log('Error get id product!', error)})
   }
 }
 </script>

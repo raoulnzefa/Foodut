@@ -204,7 +204,7 @@ const router = new Router({
           }
         },
         {
-          path: '/seller/product/edit',
+          path: '/seller/product/edit/:product_id',
           name: 'seller-edit-product',
           component: () => import('./views/seller/product/EditProduct.vue'),
           meta: {
@@ -278,6 +278,20 @@ const router = new Router({
               { title: 'Browse', active: true }
             ],
             pageTitle: 'Browse',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/admin/store/:seller_id',
+          name: 'admin-store',
+          component: () => import('./views/admin/store/Store.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'View', active: true }
+            ],
+            pageTitle: 'ViewStore',
             rule: 'editor'
           }
         },

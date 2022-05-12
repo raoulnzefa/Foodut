@@ -115,22 +115,24 @@
           </div>
           <swiper :options="swiperOption" :dir="$vs.rtl ? 'rtl' : 'ltr'" :key="$vs.rtl" class="related-product-swiper px-12 py-6">
             <swiper-slide v-for='product in products' :key='product.id' class="p-6 rounded cursor-pointer">
-              <!-- Item Heading -->
-              <div class="item-heading mb-4">
-                <p class="text-lg font-semibold truncate">{{ product.productName }}</p>
-                <p class="text-sm">
-                  <span class="mr-2">by</span>
-                  <span>{{ product.sellerId }}</span>
-                </p>
-              </div>
-              <!-- Item Image -->
-              <div class="img-container w-full mx-auto my-base">
-                <img class="responsive" src="https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg">
-              </div>
-              <!-- Item Meta -->
-              <div class="item-meta">
-                <star-rating :show-rating="false" :rating="product.rating" :star-size="14" class="justify-center" read-only />
-                <p class="text-lg font-medium text-primary">${{ product.productPrice }}</p>
+              <div @click="viewProduct(product.id)">
+                <!-- Item Heading -->
+                <div class="item-heading mb-4">
+                  <p class="text-lg font-semibold truncate">{{ product.productName }}</p>
+                  <p class="text-sm">
+                    <span class="mr-2">by</span>
+                    <span>{{ product.sellerId }}</span>
+                  </p>
+                </div>
+                <!-- Item Image -->
+                <div class="img-container w-full mx-auto my-base">
+                  <img class="responsive" src="https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg">
+                </div>
+                <!-- Item Meta -->
+                <div class="item-meta">
+                  <star-rating :show-rating="false" :rating="product.rating" :star-size="14" class="justify-center" read-only />
+                  <p class="text-lg font-medium text-primary">${{ product.productPrice }}</p>
+                </div>
               </div>
             </swiper-slide>
             <div class="swiper-button-prev" slot="button-prev"></div>
@@ -348,6 +350,9 @@ export default{
           })
         })
     },
+    viewProduct (productId) {
+      this.$router.push({ path: `/admin/product/${productId}` }).catch(() => {})
+    }
   },
   mounted () {
     apiProduct

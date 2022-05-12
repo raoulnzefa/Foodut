@@ -85,7 +85,7 @@
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
             <vs-td class="img-container">
-              <img :src="tr.img" class="product-img" />
+              <img src="https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg" class="product-img" />
             </vs-td>
 
             <vs-td>
@@ -132,7 +132,7 @@ export default {
     return {
       selected: [],
       orders: [],
-      itemsPerPage: 4,
+      itemsPerPage: 5,
       isMounted: false,
       addNewDataSidebar: false,
       sidebarData: {}

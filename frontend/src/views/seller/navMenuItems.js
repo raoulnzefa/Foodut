@@ -66,12 +66,6 @@ export default [
               i18n: 'AddProduct'
             },
             {
-              url: '/seller/product/edit',
-              name: 'Edit Product',
-              slug: 'seller-edit-product',
-              i18n: 'EditProduct'
-            },
-            {
               url: '/seller/product',
               name: 'View Store',
               slug: 'seller-product',

@@ -62,7 +62,7 @@
                     <img src='https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg' alt="product-img" class="w-full mb-3">
                     <div class="vx-row">
                       <div class="vx-col w-1/2">
-                        <p class="text-sm">{{ product.sellerId }}</p>
+                        <p class="truncate text-sm hover:text-primary cursor-pointer" @click="viewStore(product.sellerId.id)">{{ product.sellerId.name }}</p>
                       </div>
                       <div class="vx-col w-1/2">
                         <p style="text-align:right">Rp {{ product.productPrice }}</p>
@@ -151,6 +151,9 @@ export default {
         this.isFilterSidebarActive = this.clickNotClose = true
       }
     },
+    viewStore (productId) {
+      this.$router.push({ path: `/admin/store/${productId}` }).catch(() => {})
+    },
     viewProduct (productId) {
       this.$router.push({ path: `/admin/product/${productId}` }).catch(() => {})
     },
@@ -238,7 +241,12 @@ export default {
         for(let i=0; i<this.products.length; i++){
           apiUser
             .GetStoreByIdWithProduct(this.products[i].sellerId)
-            .then((response) => { this.products[i].sellerId = response.storeName })
+            .then((response) => { 
+              this.products[i].sellerId = { 
+                 id: response.userId,
+                 name: response.storeName
+              }
+            })
             .catch((error) => { console.log('Error get storename!', error)})
         }  
       })

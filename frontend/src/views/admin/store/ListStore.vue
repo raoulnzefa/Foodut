@@ -11,6 +11,7 @@
   <div id="page-user-store">
     <div class="vx-card p-3">
       <!-- AgGrid Table -->
+      <!--https://www.ag-grid.com/vue-data-grid/row-selection/-->
       <ag-grid-vue
         ref="agGridTable"
         :components="components"
@@ -26,6 +27,7 @@
         :pagination="true"
         :paginationPageSize="paginationPageSize"
         :suppressPaginationPanel="true"
+        @row-clicked="onRowClicked"
         :enableRtl="$vs.rtl">
       </ag-grid-vue>
 
@@ -46,8 +48,8 @@ import vSelect from 'vue-select'
 import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
 
 // Cell Renderer
-import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
-import CellRendererActions from './cell-renderer/CellRendererActions.vue'
+import CellRendererVerified from './components/CellRendererVerified.vue'
+import CellRendererActions from './components/CellRendererActions.vue'
 
 //Api User
 import apiUser from '../../../api/user'
@@ -110,10 +112,14 @@ export default {
           width: 170
         }
       ],
-
+      onRowClicked: event => { 
+        console.log('A row store was clicked, Here is detail information about what row was clicked => ' , event)
+        console.log(event.data.id)
+        this.$router.push(`/admin/store/${event.data.id}`).catch(() => {})
+      },
       //Data Seller
       rowStores: [],
-
+      rowSelection: null,
       // Cell Renderer Components
       components: {
         CellRendererVerified,
@@ -152,6 +158,10 @@ export default {
     }
   },
   methods: {
+    onSelectionChanged() {
+      const selectedRows = this.gridApi.getSelectedRows();
+      console.log(selectedRows)
+    },
     setColumnFilter (column, val) {
       const filter = this.gridApi.getFilterInstance(column)
       let modelObj = null
@@ -175,6 +185,10 @@ export default {
     },
     updateSearchQuery (val) {
       this.gridApi.setQuickFilter(val)
+    },
+    viewStore (params) {
+      console.log("Triggere view store")
+      console.log(params)
     }
   },
   mounted () {

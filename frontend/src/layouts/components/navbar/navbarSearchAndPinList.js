@@ -8,8 +8,8 @@ export default {
       {title: "eCommerce Dashboard",        url: "/dashboard/ecommerce",                icon: "HomeIcon",           is_bookmarked: false},
 
       // APPS
-      {title: "Todo",                       url: "/apps/todo",                          icon: "CheckSquareIcon",    is_bookmarked: true},
-      {title: "Chat",                       url: "/apps/chat",                          icon: "MessageSquareIcon",  is_bookmarked: true},
+      {title: "Todo",                       url: "/apps/todo",                          icon: "CheckSquareIcon",    is_bookmarked: false},
+      {title: "Chat",                       url: "/apps/chat",                          icon: "MessageSquareIcon",  is_bookmarked: false},
       {title: "Email",                      url: "/apps/email",                         icon: "MailIcon",           is_bookmarked: false},
       {title: "Calendar",                   url: "/apps/calendar/vue-simple-calendar",  icon: "CalendarIcon",       is_bookmarked: false},
       {title: "E-Commerce Shop",            url: "/apps/eCommerce/shop",                icon: "ShoppingCartIcon",   is_bookmarked: false},

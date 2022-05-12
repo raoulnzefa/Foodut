@@ -3,9 +3,13 @@
   <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
       <feather-icon icon="ShoppingCartIcon" class="cursor-pointer ml-4 mr-6 mt-1" :badge="cartItems.length" />
       <vs-dropdown-menu class="cart-dropdown vx-navbar-dropdown" :class="{'dropdown-custom': cartItems.length}">
+          <!-- IF CART IS EMPTY -->
+          <template v-if="isCardDisabled">
+              <p class="p-4">Your Cart Is Disable. <br> This code will be finished by El</p>
+          </template>
 
           <!-- IF CART HAVE ITEMS: HEADER -->
-          <template v-if="cartItems.length">
+          <template v-else-if="cartItems.length">
               <div class="notification-header text-center p-5 bg-primary text-white">
                   <h3 class="text-white">{{ cartItems.length }} Item<span v-show="cartItems.length > 1">s</span></h3>
                   <p class="opacity-75">In Your Cart</p>
@@ -69,13 +73,17 @@ export default {
       settings: { // perfectscrollbar settings
         maxScrollbarLength: 60,
         wheelSpeed: .60
-      }
+      },
+      isCardDisabled : true,
     }
   },
   computed: {
     // CART DROPDOWN
     cartItems () {
-      return this.$store.state.eCommerce.cartItems.slice().reverse()
+      // Panggil api untuk set jumlah cart/wishlist 
+
+      //return this.$store.state.eCommerce.cartItems.slice().reverse()
+      return []
     },
     scrollbarTag () {
       return this.$store.getters.scrollbarTag
@@ -85,6 +93,12 @@ export default {
     removeItemFromCart (item) {
       this.$store.dispatch('eCommerce/toggleItemInCart', item)
     }
+  },
+  mounted() {
+    console.log("Haiii -")
+    this.isCardDisabled = false
+    // Panggil api untuk check currect userid di localstorage apakah dia bisa pake 
+    // Cart atau tidak , jika tidak maka set variabel isCardDisabled = true
   }
 }
 
