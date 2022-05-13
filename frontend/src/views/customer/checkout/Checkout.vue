@@ -43,7 +43,7 @@
                                 <template slot="action-buttons">
 
                                     <!-- PRIMARY BUTTON: REMOVE -->
-                                    <div class="item-view-primary-action-btn p-3 rounded-lg flex flex-grow items-center justify-center cursor-pointer mb-3" @click="removeItemFromCart(item)">
+                                    <div class="item-view-primary-action-btn p-3 rounded-lg flex flex-grow items-center justify-center cursor-pointer mb-3" @click="deleteSpesifikCart(item.productId)">
                                         <feather-icon icon="XIcon" svgClasses="h-4 w-4" />
                                         <span class="text-sm font-semibold ml-2">REMOVE</span>
                                     </div>
@@ -293,6 +293,39 @@ export default {
           icon: 'icon-alert-circle'
         })
       }
+    },
+    deleteSpesifikCart(productId){
+      apiCart
+        .DeleteSpecificCart(parseInt(localStorage.getItem('userId')), productId)
+        .then((response) => {
+          console.log('spesifik cart: ',response)
+          if(!response){
+            this.$vs.notify({
+              title: 'Error',
+              text: 'Failed to delete cart',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          }else{
+            this.$vs.notify({
+              title: 'Success',
+              text: 'Succes to delete cart',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check'
+            })
+          }
+        })
+        .catch((error) => {          
+          this.$vs.notify({
+            title: 'Error',
+            text: error.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        })
     },
     // TAB 1
     removeItemFromCart (item) {
