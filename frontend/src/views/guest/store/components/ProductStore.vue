@@ -3,39 +3,7 @@
 
     <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
 
-    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="products">
-
-      <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
-
-        <div class="flex flex-wrap-reverse items-center">
-
-          <!-- ACTION - DROPDOWN -->
-          <vs-dropdown vs-trigger-click class="cursor-pointer mr-4 mb-4">
-
-            <div class="p-4 shadow-drop rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-center text-lg font-medium w-32">
-              <span class="mr-2">Actions</span>
-              <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-            </div>
-
-            <vs-dropdown-menu>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Delete</span>
-                </span>
-              </vs-dropdown-item>
-            </vs-dropdown-menu>
-          </vs-dropdown>
-
-          <!-- ADD NEW -->
-          <div class="p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-between text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData">
-              <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-              <span class="ml-2 text-base text-primary">Add New</span>
-          </div>
-        </div>
-      </div>
-
+    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="listProduct">
       <template slot="thead">
         <vs-th>Image</vs-th>
         <vs-th sort-key="name">Name</vs-th>
@@ -43,43 +11,37 @@
         <vs-th sort-key="rate">Rate</vs-th>
         <vs-th sort-key="stock">Stock</vs-th>
         <vs-th sort-key="price">Price</vs-th>
-        <vs-th>Action</vs-th>
       </template>
 
-      <template slot-scope="{data}">
+      <template >
         <tbody>
-          <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+          <vs-tr :key="index" v-for="(product, index) in listProduct">
 
             <vs-td class="img-container">
-              <img :src="tr.img" class="product-img" />
+              <img src="https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg" class="product-img" />
             </vs-td>
 
             <vs-td>
-              <p class="product-name font-medium truncate">{{ tr.productName }}</p>
+              <p class="product-name font-medium truncate">{{ product.productName }}</p>
             </vs-td>
 
             <vs-td>
-              <p class="product-category">{{ tr.categoryId }}</p>
+              <p class="product-category">{{ product.categoryId }}</p>
             </vs-td>
 
             <vs-td>
               <p class="product-rate">
                 <img :src="require('../../../../assets/images/raty/star-on-2.png')"/> 
-                {{ tr.productRate }}
+                {{ product.productRate }}
               </p>
             </vs-td>
 
             <vs-td>
-              <p class="product-stock">{{ tr.productStock }}</p>
+              <p class="product-stock">{{ product.productStock }}</p>
             </vs-td>
 
             <vs-td>
-              <p class="product-price">${{ tr.productPrice }}</p>
-            </vs-td>
-
-            <vs-td class="whitespace-no-wrap">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
-              <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+              <p class="product-price">${{ product.productPrice }}</p>
             </vs-td>
           </vs-tr>
         </tbody>
@@ -91,16 +53,17 @@
 <script>
 import DataViewSidebar from './DataViewSidebar.vue'
 import moduleDataList from '@/store/data-list/moduleDataList.js'
-import apiProduct from '../../../../api/product'
 
 export default {
+  props: [
+    "listProduct"
+  ],
   components: {
     DataViewSidebar
   },
   data () {
     return {
       selected: [],
-      products: [], // Data Product
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -108,61 +71,25 @@ export default {
     }
   },
   computed: {
-    productData() {
-      return this.products
-    },
-    currentPage () {
-      if (this.isMounted) {
-        return this.$refs.table.currentx
-      }
-      return 0
-    },
-    queriedItems () {
-      return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
-    }
+    // productData() {
+    //   return this.listProduct
+    // },
+    // currentPage () {
+    //   if (this.isMounted) {
+    //     return this.$refs.table.currentx
+    //   }
+    //   return 0
+    // },
+    // queriedItems () {
+    //   return this.$refs.table ? this.$refs.table.queriedResults.length : this.listProduct.length
+    // }
   },
   methods: {
     addNewData () {
-      this.$router.push({ name : 'store-add-product'}).catch(() => {})
-    },
-    deleteData (id) {
-      console.log(id)
-      apiProduct
-        .DeleteProduct(id)
-        .then((response) => {
-          if(!response){
-            this.$vs.notify({
-              title: 'Error',
-              text: 'Failed to delete product',
-              iconPack: 'feather',
-              icon: 'icon-alert-circle',
-              color: 'danger'
-            })
-          }else{
-            this.$vs.notify({
-              title: 'Success',
-              text: 'Succes to delete product',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check'
-            })
-          }
-          setTimeout(function(){
-            window.location.reload(1);
-          }, 1500);
-        })
-        .catch((error) => {          
-          this.$vs.notify({
-            title: 'Error',
-            text: error.message,
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger'
-          })
-        })
+      // this.$router.push({ name : 'store-add-product'}).catch(() => {})
     },
     editData () {
-      this.$router.push({ name : 'store-edit-product'}).catch(() => {})
+      // this.$router.push({ name : 'store-edit-product'}).catch(() => {})
     },
     getOrderStatusColor (status) {
       if (status === 'on_hold')   return 'warning'
@@ -187,12 +114,6 @@ export default {
       moduleDataList.isRegistered = true
     }
     this.$store.dispatch('dataList/fetchDataListItems')
-  },
-  mounted () {
-    apiProduct
-      .GetAllProduct()
-      .then((response) => { this.products = response })
-      .catch((error) => { console.log('Error get all data product!', error) })
   }
 }
 </script>

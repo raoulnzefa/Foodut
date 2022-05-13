@@ -351,10 +351,10 @@ export default{
         })
     },
     viewProduct (productId) {
-      this.$router.push({ path: `/admin/product/${productId}` }).catch(() => {})
+      this.$router.push({ path: `/guest/product/${productId}` }).catch(() => {})
     },
     viewStore (productId) {
-      this.$router.push({ path: `/admin/store/${productId}` }).catch(() => {})
+      this.$router.push({ path: `/guest/store/${productId}` }).catch(() => {})
     }
   },
   mounted () {

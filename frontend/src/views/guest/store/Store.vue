@@ -1,7 +1,7 @@
 <template>
     <div id="Store">
-        <header-store     />
-        <product-store    />
+        <header-store :storeName=store.storeName :city=store.city />
+        <product-store :listProduct=store.listProduct />
     </div>
 </template>
 
@@ -10,6 +10,7 @@ import HeaderStore    from './components/HeaderStore.vue'
 import ProductStore   from './components/ProductStore.vue'
 import DataViewSidebar from './components/DataViewSidebar.vue'
 import moduleDataList from '@/store/data-list/moduleDataList.js'
+import apiUser from '../../../api/user'
 
 export default {
   components: {
@@ -20,7 +21,7 @@ export default {
   data () {
     return {
       selected: [],
-      // products: [],
+      store: {},
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -80,6 +81,13 @@ export default {
   },
   mounted () {
     this.isMounted = true
+    apiUser
+      .GetStoreByIdWithProduct(this.$route.params.seller_id)
+      .then((response) => { 
+        console.log(response) 
+        this.store = response 
+      })
+      .catch((error) => { console.log('Error get all data product!', error) })
   }
 }
 </script>

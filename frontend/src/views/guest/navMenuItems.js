@@ -58,18 +58,6 @@ export default [
             name: 'Browse',
             slug: 'guest-browse',
             i18n: 'Browse'
-          },
-          {
-            url: '/guest/product/',
-            name: 'Product Details',
-            slug: 'guest-product-detail',
-            i18n: 'ProductDetails'
-          },
-          {
-            url: '/guest/store',
-            name: 'View Store',
-            slug: 'guest-store',
-            i18n: 'ViewStore'
           }
         ]
       }

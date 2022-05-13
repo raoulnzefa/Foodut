@@ -6,27 +6,7 @@
             <swiper-slide>
                 <div class="title" data-swiper-parallax="-100">{{ storeName }}</div>
                 <div class="subtitle font-semibold" data-swiper-parallax="-200">{{ city }}</div>
-                <div class="text" data-swiper-parallax="-300">
-                    <p class="font-medium">Jelly chocolate cupcake chocolate bar caramels chupa chups chupa chups ice cream tiramisu. Oat cake muffin pastry marzipan sweet jujubes powder cupcake carrot cake. Caramels candy pastry marzipan pudding. Sugar plum carrot cake topping cookie.</p>
-                </div>
             </swiper-slide>
-            <swiper-slide>
-                <div class="title" data-swiper-parallax="-100">Slide 2</div>
-                <div class="subtitle font-semibold" data-swiper-parallax="-200">Subtitle</div>
-                <div class="text" data-swiper-parallax="-300">
-                    <p class="font-medium">Sweet oat cake marzipan jelly brownie ice cream bear claw marshmallow jelly beans. Halvah dessert caramels toffee sweet cake tiramisu. Chocolate bar marshmallow topping biscuit gummies chocolate cake candy liquorice.</p>
-                </div>
-            </swiper-slide>
-            <swiper-slide>
-                <div class="title" data-swiper-parallax="-100">Slide 3</div>
-                <div class="subtitle font-semibold" data-swiper-parallax="-200">Subtitle</div>
-                <div class="text" data-swiper-parallax="-300">
-                    <p class="font-medium">Powder jelly bonbon liquorice candy canes jujubes fruitcake cotton candy macaroon. Croissant jelly-o tootsie roll halvah. Topping lollipop pastry. Fruitcake powder cupcake apple pie chocolate bar wafer. brownie macaroon dragée chocolate bar candy.</p>
-                </div>
-            </swiper-slide>
-            <div class="swiper-pagination swiper-pagination-white" slot="pagination"></div>
-            <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
-            <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
         </swiper>
     </vx-card>
 </template>
