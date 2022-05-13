@@ -93,7 +93,6 @@ export default {
       return true
     },
     registerAdmin () {
-      if (!this.validateForm || !this.checkLogin()) return
       apiUser
         .RegisterAdmin(this.username, this.email, this.name, this.password)
         .then((response) => {

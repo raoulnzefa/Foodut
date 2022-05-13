@@ -104,8 +104,6 @@ export default {
       return true
     },
     registerCustomer () {
-      // If form is not validated or user is already login return
-      if (!this.validateForm || !this.checkLogin()) return
       apiUser
         .RegisterCustomer(this.username, this.email, this.name, this.password, this.address)
         .then((response) => {
