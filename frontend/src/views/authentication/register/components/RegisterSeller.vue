@@ -127,7 +127,6 @@ export default {
     },
     registerSeller () {
       // If form is not validated or user is already login return
-      if (!this.validateForm || !this.checkLogin()) return
       apiUser
         .RegisterSeller(this.username, this.email, this.name, this.password, this. address, this.storeName, this.city)
         .then((response) => {
