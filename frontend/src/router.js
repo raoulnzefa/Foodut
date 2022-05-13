@@ -263,6 +263,20 @@ const router = new Router({
             rule: 'editor'
           }
         },
+        {
+          path: '/seller/store/:seller_id',
+          name: 'seller-store',
+          component: () => import('./views/admin/store/Store.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'View', active: true }
+            ],
+            pageTitle: 'View Store',
+            rule: 'editor'
+          }
+        },
         // =============================================================================
         // Profile Routes
         // =============================================================================
