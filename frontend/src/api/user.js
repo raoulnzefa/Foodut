@@ -95,6 +95,10 @@ export default{
         return false
       }
   },
+  async GetCustomerWithAssociation(userId) {
+    const response = await transport.get(`/customers?user_id=${userId}`)
+    return response.data.data
+  },
   async GetAllCustomerWithAssociation() {
     const response = await transport.get('/customers')
     return response.data.data

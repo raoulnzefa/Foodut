@@ -392,7 +392,7 @@ const router = new Router({
         {
           path: '/guest/product/:product_id',
           name: 'guest-product-detail',
-          component: () => import('./views/guest/ProductDetail.vue'),
+          component: () => import('./views/guest/browse/ProductDetail.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -406,7 +406,7 @@ const router = new Router({
           }
         },
         {
-          path: '/guest/store',
+          path: '/guest/store/:product_id',
           name: 'guest-store',
           component: () => import('./views/guest/store/Store.vue'),
           meta: {
