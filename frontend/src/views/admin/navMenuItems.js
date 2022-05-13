@@ -74,20 +74,6 @@ export default [
           ]
         }
       ]
-    },
-    {
-      header: 'Test Api',
-      icon: 'PackageIcon',
-      i18n: 'Test Api',
-      items: [
-        {
-          url: '/admin/test',
-          name: 'Test Api',
-          icon: 'ShoppingCartIcon',
-          slug: 'admin-test',
-          i18n: 'Test Api',
-        }
-      ]
     }
   ]
   
