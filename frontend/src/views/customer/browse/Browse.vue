@@ -9,9 +9,7 @@
 
 <template>
   <div>
-      <div
-          :search-client="searchClient"
-          index-name="instant_search" id="instant-search-demo">
+      <div index-name="instant_search" id="instant-search-demo">
           <div :hits-per-page.camel="9" />
           <div id="content-container" class="relative clearfix">
             <div>
@@ -27,10 +25,10 @@
                   <h6 class="font-bold mb-3">Price Range</h6>
                   <div>
                     <ul class="demo-aligment">
-                      <li><vs-radio v-model="price" vs-value="low">{{ numericItems[0].label }}</vs-radio></li>
-                      <li><vs-radio v-model="price" vs-value="lowMedium">{{ numericItems[1].label }}</vs-radio></li>
-                      <li><vs-radio v-model="price" vs-value="mediumHigh">{{ numericItems[2].label }}</vs-radio></li>
-                      <li><vs-radio v-model="price" vs-value="high">{{ numericItems[3].label }}</vs-radio></li>
+                      <li><vs-radio vs-value="low">{{ numericItems[0].label }}</vs-radio></li>
+                      <li><vs-radio vs-value="lowMedium">{{ numericItems[1].label }}</vs-radio></li>
+                      <li><vs-radio vs-value="mediumHigh">{{ numericItems[2].label }}</vs-radio></li>
+                      <li><vs-radio vs-value="high">{{ numericItems[3].label }}</vs-radio></li>
                     </ul>
                   </div>
                   <vs-divider />
@@ -56,28 +54,37 @@
             <!-- RIGHT COL -->
             <div :class="{'sidebar-spacer-with-margin': clickNotClose}">
               <div class="mb-8">
-                <vs-input icon-no-border label-placeholder="Search" v-model="searchQuery" class="w-full input-rounded-full" icon="icon-search" icon-pack="feather" />
+                <vs-input icon-no-border label-placeholder="Search" class="w-full input-rounded-full" icon="icon-search" icon-pack="feather" />
               </div>
               <div class="vx-row">
                 <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base" v-for='product in products' :key='product.id'>
                   <vx-card>
-                    <img :src="items.productImage" alt="product-img" class="w-full mb-3">
+                    <img src='https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg' alt="product-img" class="w-full mb-3">
                     <div class="vx-row">
                       <div class="vx-col w-1/2">
-                        <p class="text-sm">{{ getStoreName(product.sellerId).then((response) => { return response }) }}</p>
+                        <p class="truncate text-sm hover:text-primary cursor-pointer" @click="viewStore(product.sellerId.id)">{{ product.sellerId.name }}</p>
                       </div>
                       <div class="vx-col w-1/2">
                         <p style="text-align:right">Rp {{ product.productPrice }}</p>
                       </div>
                     </div>
-                    <p class="truncate font-semibold mb-1 hover:text-primary cursor-pointer">{{ product.productName }}</p>
+                    <p class="truncate font-semibold mb-1 hover:text-primary cursor-pointer" @click="viewProduct(product.id)">{{ product.productName }}</p>
                     <p class="item-description truncate text-sm">{{ product.description }}</p>
-                    <div class="vx-row  mt-3">
-                      <div class="vx-col w-1/2">
-                        <vs-button class="w-full"  @click="addCart" color="primary" type="filled" icon-pack="feather" icon="icon-shopping-cart">Add</vs-button>
-                      </div>
-                      <div class="vx-col w-1/2">
-                        <vs-button class="w-full" @click="viewCart" color="primary" type="border" icon-pack="feather" icon="icon-shopping-bag">View</vs-button>
+                    <div class="vx-row mt-3">
+                      <div class="vx-col w-full">
+                        <vs-button class="w-full"  color="primary" type="filled" @click="selectedProduct(product.id);popupAdd=true" icon-pack="feather" icon="icon-shopping-cart">Add</vs-button>
+                        <vs-popup class="popup" background-color="rgba(25,25,25,0.1)" title="Insert Quantity!" :active.sync="popupAdd">
+                          <p>How many products do you want to add to cart?</p>
+                          <div class="demo-alignment">
+                            <vs-input-number v-model="quantity" />
+                          </div>
+                          <vs-divider />
+                          <div class="vx-row mt-3">
+                            <div class="vx-col w-full">
+                              <vs-button class="w-full" @click="addCart()" color="primary" type="filled">Add to Cart</vs-button>
+                            </div>
+                          </div>
+                        </vs-popup>
                       </div>
                     </div>
                   </vx-card>
@@ -98,10 +105,6 @@ import apiCart from '../../../api/cart'
 export default {
   data () {
     return {
-      items: {
-        // productImage: require('@/assets/images/dummy/Doritos.jpg')
-        productImage: 'https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg'
-      },
       products: [],
       // Filter Sidebar
       isFilterSidebarActive: true,
@@ -116,7 +119,9 @@ export default {
       categories: [],
       stores: [],
       popupAdd: false,
-      popupView: false
+      popupView: false,
+      quantity: 0,
+      selectedIDProduct: -1,
     }
   },
   computed: {
@@ -142,16 +147,6 @@ export default {
     }
   },
   methods: {
-    async getStoreName (sellerId) {
-      let storename = await apiUser
-        .GetStoreByIdWithProduct(sellerId)
-        .then((response) => { 
-          // console.log(response.storeName) 
-          return response.storeName
-        })
-        .catch((error) => { console.log('Error get store name!', error)})
-      return storename
-    },
     setSidebarWidth () {
       if (this.windowWidth < 992) {
         this.isFilterSidebarActive = this.clickNotClose = false
@@ -159,11 +154,25 @@ export default {
         this.isFilterSidebarActive = this.clickNotClose = true
       }
     },
-    addCart () {
-      const userId = localStorage.getItem('userId')
-      const products = [] // cari product idnya, quantity set 1
+    viewStore (productId) {
+      this.$router.push({ path: `/customer/store/${productId}` }).catch(() => {})
+    },
+    viewProduct (productId) {
+      this.$router.push({ path: `/customer/product/${productId}` }).catch(() => {})
+    },
+    selectedProduct(productId){
+      this.selectedIDProduct = productId;
+      console.log(productId);
+    },
+    addCart() {
+      const userId = parseInt(localStorage.getItem('userId'))
+      let cartProducts = [{
+        productId : this.selectedIDProduct,
+        quantity: parseInt(this.quantity)
+      }]
+      console.log('products: ', cartProducts)
       apiCart
-        .AddCart(userId, products)       
+        .AddCart(userId, cartProducts)       
         .then((response) => {
           if(!response){
             this.$vs.notify({
@@ -182,6 +191,7 @@ export default {
               icon: 'icon-check'
             })
           }
+          this.popupAdd = false
         })
         .catch((error) => {          
           this.$vs.notify({
@@ -192,9 +202,6 @@ export default {
             color: 'danger'
           })
         })
-    },
-    viewCart () {
-      this.$router.push({ name : 'customer-cart'}).catch(() => {})
     },
 
     // GRID VIEW - ACTIONS
@@ -215,18 +222,28 @@ export default {
   mounted () {
     apiProduct
       .GetAllProduct()
-      .then((response) => { this.products = response })
+      .then((response) => { 
+        this.products = response 
+        for(let i=0; i<this.products.length; i++){
+          apiUser
+            .GetStoreByIdWithProduct(this.products[i].sellerId)
+            .then((response) => { 
+              this.products[i].sellerId = { 
+                 id: response.userId,
+                 name: response.storeName
+              }
+            })
+            .catch((error) => { console.log('Error get storename!', error)})
+        }  
+      })
       .catch((error) => { console.log('Error get all product!', error)})
     apiCategory
       .GetAllCategories()
       .then((response) => { this.categories = response })
-      .catch((error) => { console.log('Error get all product!', error)})
+      .catch((error) => { console.log('Error get all categories!', error)})
     apiUser
       .GetAllStore()
-      .then((response) => { 
-        this.stores = response
-        console.log(this.stores)
-      })
+      .then((response) => { this.stores = response })
       .catch((error) => { console.log('Error get all store!', error)})
   },
   created () {

@@ -20,26 +20,23 @@
             <tab-content title="Cart" icon="feather icon-shopping-cart" class="mb-5">
 
                 <!-- IF CART HAVE ITEMS -->
-                <div class="vx-row" v-if="cartItems.length">
+                <div class="vx-row" v-if="carts.length">
 
                     <!-- LEFT COL -->
                     <div class="vx-col lg:w-2/3 w-full relative">
-                        <div class="items-list-view" v-for="(item, index) in cartItems" :key="item.objectID">
+                        <div class="items-list-view" v-for="(item, index) in carts" :key="item.objectID">
                             <item-list-view :item="item" class="mb-base">
 
                                 <!-- SLOT: ITEM META -->
                                 <template slot="item-meta">
                                     <h6
                                       class="item-name font-semibold mb-1 cursor-pointer hover:text-primary"
-                                      @click="$router.push({name: 'ecommerce-item-detail-view', params: {item_id: item.objectID }}).catch(() => {})">{{ item.name }}</h6>
-                                    <p class="text-sm mb-2">By <span class="font-semibold cursor-pointer">{{ item.brand }}</span></p>
-                                    <p class="text-success text-sm">In Stock</p>
+                                      @click="$router.push({name: 'ecommerce-item-detail-view', params: {item_id: item.objectID }}).catch(() => {})">{{ item.product.productName }}</h6>
+                                    <p class="text-sm mb-2">By <span class="font-semibold cursor-pointer hover:text-primary">{{ item.store.storeName }}</span></p>
+                                    <p class="text-success text-sm">In Stock: {{ item.product.productStock }}</p>
 
                                     <p class="mt-4 font-bold text-sm">Quantity</p>
                                     <vs-input-number min="1" max="10" :value="item.quantity" @input="updateItemQuantity($event, index)" class="inline-flex" />
-
-                                    <p class="font-medium text-grey mt-4">Delivery by, {{ item.delivery_date }}</p>
-                                    <p class="text-success font-medium">{{ item.discount_in_percentage }}% off {{ item.offers_count }} offers Available</p>
                                 </template>
 
                                 <!-- SLOT: ACTION BUTTONS -->
@@ -50,56 +47,27 @@
                                         <feather-icon icon="XIcon" svgClasses="h-4 w-4" />
                                         <span class="text-sm font-semibold ml-2">REMOVE</span>
                                     </div>
-
-                                    <!-- SECONDARY BUTTON: MOVE-TO/VIEW-IN WISHLIST -->
-                                    <div class="item-view-secondary-action-btn bg-primary p-3 rounded-lg flex flex-grow items-center justify-center text-white cursor-pointer" @click="wishListButtonClicked(item)">
-                                        <feather-icon icon="HeartIcon" :svgClasses="[{'text-white fill-current': isInWishList(item.objectID)}, 'h-4 w-4']" />
-                                        <span class="text-sm font-semibold ml-2" v-if="isInWishList(item.objectID)">WISHLIST</span>
-                                        <span class="text-sm font-semibold ml-2" v-else>WISHLIST</span>
-                                    </div>
                                 </template>
                             </item-list-view>
                         </div>
                     </div>
 
                     <!-- RIGHT COL -->
-                    <div class="vx-col lg:w-1/3 w-full">
+                    <div class="vx-col lg:w-1/3 w-full" v-for="item in carts" :key="item.objectID">
                         <vx-card>
                             <p class="text-grey mb-3">Options</p>
-                            <div class="flex justify-between">
-                                <span class="font-semibold">Coupons</span>
-                                <span class="font-medium text-primary cursor-pointer">Apply</span>
-                            </div>
-
                             <vs-divider />
 
                             <p class="font-semibold mb-3">Price Details</p>
                             <div class="flex justify-between mb-2">
-                                <span class="text-grey">Total MRP</span>
-                                <span>$598</span>
+                                <span class="text-grey">{{ item.product.productName }}</span>
+                                <span>{{ item.product.productPrice }}</span>
                             </div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-grey">Bag Discount</span>
-                                <span class="text-success">-25$</span>
-                            </div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-grey">Estimated Tax</span>
-                                <span>$1.3</span>
-                            </div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-grey">EMI Eligibility</span>
-                                <a href="#" class="text-primary">Details</a>
-                            </div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-grey">Delivery Charges</span>
-                                <span class="text-success">Free</span>
-                            </div>
-
                             <vs-divider />
 
                             <div class="flex justify-between font-semibold mb-3">
                                 <span>Total</span>
-                                <span>$574.3</span>
+                                <span>$0</span>
                             </div>
 
                             <vs-button class="w-full" @click="$refs.checkoutWizard.nextTab()">PLACE ORDER</vs-button>
@@ -352,10 +320,14 @@
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 const ItemListView = () => import('./components/ItemListView.vue')
+import apiCart from '../../../api/cart'
+import apiProduct from '../../../api/product'
+import apiUser from '../../../api/user'
 
 export default {
   data () {
     return {
+      carts: [],
 
       // TAB 2
       fullName: '',
@@ -386,7 +358,55 @@ export default {
     }
   },
   methods: {
+    getDetailCart(){
+      for(let i=0; i<this.carts.length; i++){
+        //customerId, quantity, productId
+        this.carts[i].product = {
+          id: 0,
+          productName: "Dummy",
+          productPrice: 0,
+          productRate: 0,
+          productStock: 0,
+          description: "",
+          sellerId: 0,
+          categoryId: 0,
+          pictures: [],
+        }
+        this.carts[i].store = {
+          userId: 0,
+          user: {},
+          storeName: "",
+          city: ""
+        }
+        apiProduct
+          .GetProductById(this.carts[i].productId)
+          .then((response) => {  
+            this.carts[i].id = response[0].id
+            this.carts[i].product.productName = response[0].productName
+            this.carts[i].product.productPrice = response[0].productPrice
+            this.carts[i].product.productRate = response[0].productRate
+            this.carts[i].product.productStock = response[0].productStock
+            this.carts[i].product.description = response[0].description
+            this.carts[i].product.sellerId = response[0].sellerId
+            this.carts[i].product.categoryId = response[0].categoryId
+            this.carts[i].product.pictures = response[0].pictures
+          }).then(()=>{
+              apiUser
+                .GetStoreByIdWithProduct(this.carts[i].product.sellerId)
+                .then((response) => {
+                  this.carts[i].store.userId = response.userId
+                  this.carts[i].store.storeName = response.storeName                    
+                  this.carts[i].store.city = response.city
+                }).catch((error) => { 
+                  console.log('Error get data store!', error)
+                })
+          })
+          .catch((error) => { 
+            console.log('Error get product by id!', error) 
+          }) 
+      }
 
+    },
     // TAB 1
     removeItemFromCart (item) {
       this.$store.dispatch('eCommerce/toggleItemInCart', item)
@@ -457,6 +477,37 @@ export default {
     ItemListView,
     FormWizard,
     TabContent
+  },
+  mounted(){
+    apiCart
+      .GetCart(localStorage.getItem('userId'))
+      .then((response) => {
+        if(!response){
+          this.$vs.notify({
+            title: 'Error',
+            text: 'Failed to get all cart',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        }else{
+          this.carts = response
+          for(let i=0; i<response.length; i++){
+            this.carts[i].productId = response[i].productId
+          }
+        }
+        console.log('cart checkout: ', this.carts)
+        this.getDetailCart()
+      })
+      .catch((error) => {          
+        this.$vs.notify({
+          title: 'Error',
+          text: error.message,
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'danger'
+        })
+      })
   }
 }
 </script>

@@ -9,7 +9,6 @@
     </vs-tab>
     <vs-tab icon-pack="feather" icon="icon-info" :label="!isSmallerScreen ? 'Info' : ''">
       <div class="tab-info md:ml-4 md:mt-0 mt-4 ml-0">
-        <component :is="infoUser"></component>
         <edit-profile-info />
       </div>
     </vs-tab>
@@ -38,37 +37,37 @@ export default {
   },
   method:{
     GetUserID(userId){
-        apiUser 
-        .GetUserById(userId)
-        .then((response) => {
-          if(!response){
-            this.$vs.notify({
-              title: 'Error',
-              text: 'Failed to get user',
-              iconPack: 'feather',
-              icon: 'icon-alert-circle',
-              color: 'danger'
-            })
-          }else{
-            this.$vs.notify({
-              title: 'Success',
-              text: 'Succes to get user',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check'
-            })
-            console.log(response)
-          }
-        })
-        .catch((error) => {          
+      apiUser 
+      .GetUserById(userId)
+      .then((response) => {
+        if(!response){
           this.$vs.notify({
             title: 'Error',
-            text: error.message,
+            text: 'Failed to get user',
             iconPack: 'feather',
             icon: 'icon-alert-circle',
             color: 'danger'
           })
+        }else{
+          this.$vs.notify({
+            title: 'Success',
+            text: 'Succes to get user',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check'
+          })
+          console.log(response)
+        }
+      })
+      .catch((error) => {          
+        this.$vs.notify({
+          title: 'Error',
+          text: error.message,
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'danger'
         })
+      })
     }
   },
   computed: {

@@ -92,7 +92,7 @@
 import DataViewSidebar from './DataViewSidebar.vue'
 import moduleDataList from '@/store/data-list/moduleDataList.js'
 import apiProduct from '../../../../api/product'
-import apiUser from '../../../../api/user'
+// import apiUser from '../../../../api/user'
 
 export default {
   components: {
@@ -148,9 +148,9 @@ export default {
               icon: 'icon-check'
             })
           }
-          setTimeout(function(){
-            window.location.reload(1);
-          }, 1500);
+          // setTimeout(function(){
+          //   window.location.reload(1);
+          // }, 1500);
         })
         .catch((error) => {          
           this.$vs.notify({
@@ -191,13 +191,13 @@ export default {
     this.$store.dispatch('dataList/fetchDataListItems')
   },
   mounted () {
-    apiUser
-      .GetStoreByIdWithProduct(localStorage.getItem('userId'))
-      .then((response) => { 
-        console.log('product: ', response)
-        this.products = response.listProduct
-      })
-      .catch((error) => { console.log('Error get all data product!', error) })
+    // apiUser
+    //   .GetStoreByIdWithProduct(localStorage.getItem('userId'))
+    //   .then((response) => { 
+    //     console.log('product: ', response)
+    //     this.products = response.listProduct
+    //   })
+    //   .catch((error) => { console.log('Error get all data product!', error) })
   }
 }
 </script>

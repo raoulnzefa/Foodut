@@ -13,37 +13,37 @@
             <vx-card class="grid-view-item mb-base overflow-hidden" v-on="$listeners">
                 <template slot="no-body">
 
-                    <!-- ITEM IMAGE -->
+                    <!-- ITEM IMAGE  -->
                     <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer" @click="navigate_to_detail_view">
-                        <img :src="item.image" :alt="item.name" class="grid-view-img px-4">
+                        <img src="https://i.pinimg.com/564x/d0/a7/f0/d0a7f03c63f1c54887d739892fd75f70.jpg" class="grid-view-img px-4">
                     </div>
                     <div class="item-details px-4">
 
-                        <!-- RATING & PRICE -->
+                        <!-- RATING & PRICE  -->
                         <div class="flex justify-between items-center">
-                            <div class="text-warning border border-solid border-warning flex py-1 px-2 rounded">
-                                <span class="text-sm mr-1">{{ item.rating }}</span>
-                                <feather-icon icon="StarIcon" svgClasses="h-4 w-4" />
-                            </div>
-                            <h6 class="font-bold">${{ item.price }}</h6>
+                            <p class="truncate text-sm hover:text-primary cursor-pointer" @click="viewStore(product.sellerId)">{{ product.store.storeName }}</p>
+                            <h6 class="font-bold">Rp {{ product.productPrice }}</h6>
                         </div>
 
-                        <!-- TITLE & DESCRIPTION -->
+                        <!-- TITLE & DESCRIPTION  -->
                         <div class="my-4">
-                            <h6 class="truncate font-semibold mb-1 hover:text-primary cursor-pointer" @click="navigate_to_detail_view">{{ item.name }}</h6>
-                            <p class="item-description truncate text-sm">{{ item.description }}</p>
+                            <h6 class="truncate font-semibold mb-1 hover:text-primary cursor-pointer" @click="viewProduct(product.id)">{{ product.productName }}</h6>
+                            <p class="item-description truncate text-sm">{{ product.description }}</p>
                         </div>
                     </div>
 
-                    <!-- SLOT: ACTION BUTTONS -->
+                    <!-- SLOT: ACTION BUTTONS  -->
                     <slot name="action-buttons" />
                 </template>
-            </vx-card>
-       <!--  </div>
+            </vx-card> 
+         <!-- </div>
     </div> -->
 </template>
 
 <script>
+import apiProduct from '../../../../api/product'
+import apiUser from '../../../../api/user'
+
 export default{
   props: {
     item: {
@@ -51,11 +51,69 @@ export default{
       required: true
     }
   },
+  data(){
+    return {
+      product: {
+        id: 0,
+        productName: "",
+        productPrice: 0,
+        productRate: 0,
+        productStock: 0,
+        description: "",
+        sellerId: 0,
+        categoryId: 0,
+        pictures: [],
+        store: {
+            userId: 0,
+            user: {},
+            storeName: "",
+            city: ""
+        },
+      }
+    }
+  },
   methods: {
     navigate_to_detail_view () {
       this.$router.push({name: 'customer-product-view', params: {item_id: this.item.objectID }})
         .catch(() => {})
-    }
+    },
+    getProduct(){
+        apiProduct
+            .GetProductById(this.item.productId)
+            .then((response) => {  
+              this.product.id = response[0].id
+              this.product.productName = response[0].productName
+              this.product.productPrice = response[0].productPrice
+              this.product.productRate = response[0].productRate
+              this.product.productStock = response[0].productStock
+              this.product.description = response[0].description
+              this.product.sellerId = response[0].sellerId
+              this.product.categoryId = response[0].categoryId
+              this.product.pictures = response[0].pictures
+            }).then(()=>{
+                apiUser
+                  .GetStoreByIdWithProduct(this.product.sellerId)
+                  .then((response) => {
+                    this.product.store.userId = response.userId
+                    this.product.store.storeName = response.storeName                    
+                    this.product.store.city = response.city
+                  }).catch((error) => { 
+                    console.log('Error get data store!', error)
+                  })
+            })
+            .catch((error) => { 
+            console.log('Error get product by id!', error) 
+            }) 
+    },
+    viewStore (productId) {
+      this.$router.push({ path: `/customer/store/${productId}` }).catch(() => {})
+    },
+    viewProduct (productId) {
+      this.$router.push({ path: `/customer/product/${productId}` }).catch(() => {})
+    },
+  },
+  mounted(){
+    this.getProduct()
   }
 }
 </script>

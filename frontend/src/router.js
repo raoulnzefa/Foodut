@@ -85,7 +85,7 @@ const router = new Router({
         {
           path: '/customer/product/:product_id',
           name: 'customer-product-detail',
-          component: () => import('./views/customer/ProductDetail.vue'),
+          component: () => import('./views/customer/browse/ProductDetail.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -141,7 +141,7 @@ const router = new Router({
           }
         },
         {
-          path: '/customer/store',
+          path: '/customer/store/:seller_id',
           name: 'customer-store',
           component: () => import('./views/customer/store/Store.vue'),
           meta: {

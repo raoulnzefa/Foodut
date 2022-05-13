@@ -58,12 +58,6 @@ export default [
               i18n: 'Browse'
             },
             {
-              url: '/customer/product/',
-              name: 'Product Details',
-              slug: 'customer-product-view',
-              i18n: 'ProductDetails'
-            },
-            {
               url: '/customer/cart',
               name: 'Cart',
               slug: 'customer-cart',
@@ -80,12 +74,6 @@ export default [
               name: 'History',
               slug: 'store-history',
               i18n: 'History'
-            },
-            {
-              url: '/customer/store',
-              name: 'Store',
-              slug: 'customer-store',
-              i18n: 'Store'
             }
           ]
         }
