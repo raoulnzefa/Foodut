@@ -33,7 +33,7 @@
                 <h3>{{ product.productName }}</h3>
                 <p class="my-2">
                   <span class="mr-2">by</span>
-                  <span>{{ product.sellerId }}</span>
+                  <span class="hover:text-primary cursor-pointer" @click="viewStore(product.id)">{{ product.sellerId }}</span>
                 </p>
                 <p class="flex items-center flex-wrap">
                   <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">Rp {{ product.productPrice }}</span>
@@ -59,18 +59,18 @@
                         class="mr-4 mb-4"
                         icon-pack="feather"
                         icon="icon-shopping-cart"
-                        @click="popupAdd=true">
+                        @click="selectedProduct(product.id);popupAdd=true">
                         ADD TO CART
                       </vs-button>
-                      <vs-popup class="popup" background-color="rgba(25,25,25,0.25)" title="Failed to Add Product!" :active.sync="popupAdd">
-                        <p>Please login as customer to add product in your cart. If you don't have customer account, please register first!</p>
+                      <vs-popup class="popup" background-color="rgba(25,25,25,0.1)" title="Insert Quantity!" :active.sync="popupAdd">
+                        <p>How many products do you want to add to cart?</p>
+                        <div class="demo-alignment">
+                          <vs-input-number v-model="quantity" />
+                        </div>
                         <vs-divider />
                         <div class="vx-row mt-3">
-                          <div class="vx-col w-1/2">
-                            <vs-button class="w-full"  @click="login" color="primary" type="filled">Login</vs-button>
-                          </div>
-                          <div class="vx-col w-1/2">
-                            <vs-button class="w-full"  @click="register" color="primary" type="border">Register</vs-button>
+                          <div class="vx-col w-full">
+                            <vs-button class="w-full" @click="addCart()" color="primary" type="filled">Add to Cart</vs-button>
                           </div>
                         </div>
                       </vs-popup>
@@ -81,21 +81,9 @@
                         type="border"
                         icon-pack="feather"
                         icon="icon-shopping-cart"
-                        @click="popupView=true">
+                        @click="viewCart">
                         VIEW IN CART
                       </vs-button>
-                      <vs-popup class="popup" background-color="rgba(25,25,25,0.25)"  title="Failed to View Cart!" :active.sync="popupView">
-                        <p>Please login as customer to view cart. If you don't have customer account, please register first!</p>
-                        <vs-divider />
-                        <div class="vx-row mt-3">
-                          <div class="vx-col w-1/2">
-                            <vs-button class="w-full"  @click="login" color="primary" type="filled">Login</vs-button>
-                          </div>
-                          <div class="vx-col w-1/2">
-                            <vs-button class="w-full"  @click="register" color="primary" type="border">Register</vs-button>
-                          </div>
-                        </div>
-                      </vs-popup>
                     </div>
                   </div>
                 </div>
@@ -151,6 +139,7 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import StarRating from 'vue-star-rating'
 import apiProduct from '../../../api/product'
 import apiUser from '../../../api/user'
+import apiCart from '../../../api/cart'
 
 export default{
   components: {
@@ -162,6 +151,8 @@ export default{
     return {
       product: {},
       products: [],
+      quantity: 0,
+      selectedIDProduct: 0,
       popupAdd: false,
       popupView: false,
       error_occured: false,
@@ -290,27 +281,41 @@ export default{
     // toggleItemInCart (item) {
     //   this.$store.dispatch('eCommerce/toggleItemInCart', item)
     // }
-    login () {
-      this.popupAdd = false
-      this.popupView = false
-      apiUser
-        .Logout()
+    selectedProduct(productId){
+      this.selectedIDProduct = productId;
+      console.log(productId);
+    },
+    addCart () {
+      console.log('id product: ', this.selectedIDProduct)
+      const userId = parseInt(localStorage.getItem('userId'))
+      let cartProducts = [{
+        productId : this.selectedIDProduct,
+        quantity: parseInt(this.quantity)
+      }]
+      console.log('products: ', cartProducts)
+      apiCart
+        .AddCart(userId, cartProducts)       
         .then((response) => {
           if(!response){
             this.$vs.notify({
               title: 'Error',
-              text: 'Failed to logout',
+              text: 'Failed to create cart',
               iconPack: 'feather',
               icon: 'icon-alert-circle',
               color: 'danger'
             })
-            return
+          }else{
+            this.$vs.notify({
+              title: 'Success',
+              text: 'Succes to create cart',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check'
+            })
           }
-          this.$vs.loading.close()
-          this.$router.push({ name : 'login-page'}).catch(() => {})
+          this.popupAdd = false
         })
-        .catch((error) => {
-          this.$vs.loading.close()
+        .catch((error) => {          
           this.$vs.notify({
             title: 'Error',
             text: error.message,
@@ -320,38 +325,14 @@ export default{
           })
         })
     },
-    register () {
-      this.popupAdd = false
-      this.popupView = false
-      apiUser
-        .Logout()
-        .then((response) => {
-          if(!response){
-            this.$vs.notify({
-              title: 'Error',
-              text: 'Failed to logout',
-              iconPack: 'feather',
-              icon: 'icon-alert-circle',
-              color: 'danger'
-            })
-            return
-          }
-          this.$vs.loading.close()
-          this.$router.push({ name : 'register-page'}).catch(() => {})
-        })
-        .catch((error) => {
-          this.$vs.loading.close()
-          this.$vs.notify({
-            title: 'Error',
-            text: error.message,
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger'
-          })
-        })
+    viewCart () {
+      this.$router.push({ path: '/customer/cart' }).catch(() => {})
     },
     viewProduct (productId) {
       this.$router.push({ path: `/admin/product/${productId}` }).catch(() => {})
+    },
+    viewStore (productId) {
+      this.$router.push({ path: `/seller/store/${productId}` }).catch(() => {})
     }
   },
   mounted () {
