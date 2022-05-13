@@ -49,6 +49,33 @@ export default{
       return false
     }
   },
+  async UpdateInfoCustomer(userId, address) {
+    const response = await transport
+      .put(`/users/${userId}`, {
+        address: address
+      })
+    console.log('Update Info Customer')
+    console.log(response.data)
+    if(response.data.statusCode == 200){
+      return true
+    }else{
+      return false
+    }
+  },
+  async UpdateInfoSeller(userId, storeName, city) {
+    const response = await transport
+      .put(`/users/${userId}`, {
+        storeName: storeName,
+        city: city
+      })
+    console.log('Update Info Seller')
+    console.log(response.data)
+    if(response.data.statusCode == 200){
+      return true
+    }else{
+      return false
+    }
+  },
   async UpdatePasswordUser(userId, newPassword) {
     const response = await transport
       .put(`/users/${userId}`, {
