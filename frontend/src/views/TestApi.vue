@@ -18,6 +18,8 @@
         <vs-button class="ml-auto mt-2" @click="Logout">Logout</vs-button> ✔<br>
         <vs-button class="ml-auto mt-2" @click="GetAllUser">Get All User</vs-button> ✔<br>
         <vs-button class="ml-auto mt-2" @click="GetUserById">Get User By Id</vs-button> ✔<br>
+        <vs-button class="ml-auto mt-2" @click="UpdateGeneralUser">Update General User</vs-button> ✔<br>
+        <vs-button class="ml-auto mt-2" @click="UpdatePasswordUser">Update Password User</vs-button> ✔<br>
         Admin <br>
         <vs-button class="ml-auto mt-2" @click="RegisterAdmin">Register Admin</vs-button> ✔<br>
         Customer <br>
@@ -45,7 +47,7 @@
 </template>
 
 <script>
-import apiCategories from '../api/categories'
+import apiCategory from '../api/category'
 import apiProduct from '../api/product'
 import apiCart from '../api/cart';
 import apiTransaction from '../api/transaction'
@@ -59,7 +61,7 @@ export default {
     //Categories
     AddCategories() {
       const productCategory = "Bakso Frozen"
-      apiCategories
+      apiCategory
         .AddCategories(productCategory)
         .then((response) => {
           if(!response){
@@ -93,7 +95,7 @@ export default {
     UpdateCategories() {
       const oldProductCategory = "frozenfood"
       const newProductCategory = "Permen"
-      apiCategories
+      apiCategory
         .UpdateCategories(oldProductCategory, newProductCategory)
         .then((response) => {
           if(!response){
@@ -580,6 +582,76 @@ export default {
             color: 'danger'
           })
         })
+    },
+    UpdateGeneralUser() {
+      const userId = 15
+      const profilePhoto = "abc"
+      const username = "abc123"
+      const name = "abcde"
+      apiUser
+        .UpdateGeneralUser(userId, profilePhoto, username, name)
+        .then((response) => {
+            if(!response){
+              this.$vs.notify({
+                title: 'Error',
+                text: 'Failed to update password',
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger'
+              })
+            }else{
+              this.$vs.notify({
+                title: 'Success',
+                text: 'Succes to update password',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check'
+              })
+            }
+          })
+          .catch((error) => {          
+            this.$vs.notify({
+              title: 'Error',
+              text: error.message,
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          })
+    },
+    UpdatePasswordUser() {
+      const userId = 15
+      const password = "7554234276"
+      apiUser
+        .UpdatePasswordUser(userId, password)
+        .then((response) => {
+            if(!response){
+              this.$vs.notify({
+                title: 'Error',
+                text: 'Failed to update password',
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger'
+              })
+            }else{
+              this.$vs.notify({
+                title: 'Success',
+                text: 'Succes to update password',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check'
+              })
+            }
+          })
+          .catch((error) => {          
+            this.$vs.notify({
+              title: 'Error',
+              text: error.message,
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          })
     },
     //Admin
     RegisterAdmin() {

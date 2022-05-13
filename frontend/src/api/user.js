@@ -20,6 +20,7 @@ export default{
       .get('/logout')
       console.log(response.data)
       if(response.data.statusCode == 200){
+        localStorage.setItem('userId', "")
         return true
       }else{
         return false
@@ -32,6 +33,34 @@ export default{
   async GetUserById(userId) {
     const response = await transport.get(`/users/${userId}`)
     return response.data.data
+  },
+  async UpdateGeneralUser(userId, profilePhoto, username, name) {
+    const response = await transport
+      .put(`/users/${userId}`, {
+        profilePhoto: profilePhoto,
+        username: username,
+        name: name
+      })
+    console.log('Update General User')
+    console.log(response.data)
+    if(response.data.statusCode == 200){
+      return true
+    }else{
+      return false
+    }
+  },
+  async UpdatePasswordUser(userId, newPassword) {
+    const response = await transport
+      .put(`/users/${userId}`, {
+        password: newPassword
+      })
+    console.log('Update Password')
+    console.log(response.data)
+    if(response.data.statusCode == 200){
+      return true
+    }else{
+      return false
+    }
   },
   async RegisterAdmin(username, email, name, password) {
     const response = await transport

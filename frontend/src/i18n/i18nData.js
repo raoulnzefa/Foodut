@@ -1,14 +1,14 @@
 // en, fr, de, pt
 export default {
   en: {
-    Dashboard: 'Dashboard',
+    Authentication: 'Authentication',
     Login: 'Login',
     Register: 'Register',
     ForgotPassword: 'Forgot Password',
     AppsPages: 'Apps & Pages',
     Store: 'Store',
     Browse: 'Browse',
-    ItemDetails: 'Item Details',
+    ProductDetails: 'Product Details',
     Cart: 'Cart',
     Checkout: 'Checkout',
     History: 'History',
@@ -22,14 +22,14 @@ export default {
     ListStore: 'List Store'
   },
   fr: {
-    Dashboard: 'Tableau de bord',
+    Authentication: 'Authentification',
     Login: 'Connexion',
     Register: 'S\'inscrire',
     ForgotPassword: 'Mot de passe oublié',
     AppsPages: 'Applications et pages',
     Store: 'Boutique',
     Browse: 'Parcourir',
-    ItemDetails: 'Détails de l\'article',
+    ProductDetails: 'Détails du produit',
     Cart: 'Chariot',
     Checkout: 'Vérifier',
     History: 'Histoire',
@@ -43,14 +43,14 @@ export default {
     ListStore: 'Magasin de liste'
   },
   de: {
-    Dashboard: 'Armaturenbrett',
+    Authentication: 'Authentifizierung',
     Login: 'Armaturenbrett',
     Register: 'Registrieren',
     ForgotPassword: 'Passwort vergessen',
     AppsPages: 'Apps & Seiten',
     Store: 'Speichern',
     Browse: 'Durchsuche',
-    ItemDetails: 'Artikeldetails',
+    ProductDetails: 'Produktdetails',
     Cart: 'Wagen',
     Checkout: 'Kasse',
     History: 'Geschichte',
@@ -64,14 +64,14 @@ export default {
     ListStore: 'Listenspeicher'
   },
   pt: {
-    Dashboard: 'Dashboard',
+    Authentication: 'Autenticação',
     Login: 'Conecte-se',
     Register: 'Registro',
     ForgotPassword: 'Esqueceu a senha',
     AppsPages: 'Aplicativos e páginas',
     Store: 'Armazenar',
     Browse: 'Navegar',
-    ItemDetails: 'Detalhes do item',
+    ProductDetails: 'Detalhes do produto',
     Cart: 'Carrinho',
     Checkout: 'Confira',
     History: 'História',

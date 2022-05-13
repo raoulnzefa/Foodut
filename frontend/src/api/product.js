@@ -52,6 +52,10 @@ export default{
     const response = await transport.get('/products')
     return response.data.data
   },
+  async GetProductById(productId){
+    const response = await transport.get(`/products?id=${productId}`)
+    return response.data.data
+  },
   async GetProductByName(productName){
     const response = await transport.get(`/products-by-name?product_name=${productName}`)
     return response.data.data

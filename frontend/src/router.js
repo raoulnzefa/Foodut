@@ -28,17 +28,17 @@ const router = new Router({
     return { x: 0, y: 0 }
   },
   routes: [
+    // =============================================================================
+    // Global Authentication Routes
+    // =============================================================================
     {
       path: '',
       component: () => import('@/layouts/full-page/FullPage.vue'),
       children: [
-        // =============================================================================
-        // Dashboard Routes
-        // =============================================================================
         {
           path: '/',
           name: 'login-page',
-          component: () => import('@/views/dashboard/Login.vue'),
+          component: () => import('@/views/authentication/login/Login.vue'),
           meta: {
             rule: 'editor'
           }
@@ -46,7 +46,7 @@ const router = new Router({
         {
           path: '/register',
           name: 'register-page',
-          component: () => import('@/views/dashboard/Register.vue'),
+          component: () => import('@/views/authentication/register/Register.vue'),
           meta: {
             rule: 'editor'
           }
@@ -54,24 +54,24 @@ const router = new Router({
         {
           path: '/forgot-password',
           name: 'page-forgot-password',
-          component: () => import('@/views/dashboard/ForgotPassword.vue'),
-          meta: {
+          component: () => import('@/views/authentication/ForgotPassword.vue'),
+          meta: { 
             rule: 'editor'
           }
         }
       ]
     },
+    // =============================================================================
+    // Customer
+    // =============================================================================
     {
       path: '',
-      component: () => import('./layouts/main/Main.vue'),
+      component: () => import('./views/customer/Main.vue'),
       children: [
-        // =============================================================================
-        // Application Routes
-        // =============================================================================
         {
-          path: '/apps/store/browse',
-          name: 'store-browse',
-          component: () => import('./views/apps/store/Browse.vue'),
+          path: '/customer/browse',
+          name: 'customer-browse',
+          component: () => import('./views/customer/browse/Browse.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -83,13 +83,9 @@ const router = new Router({
           }
         },
         {
-          path: '/apps/store/item/',
-          redirect: '/apps/eCommerce/item/5546604'
-        },
-        {
-          path: '/apps/eCommerce/item/:item_id',
-          name: 'ecommerce-item-detail-view',
-          component: () => import('./views/apps/store/ItemDetailView.vue'),
+          path: '/customer/product/:product_id',
+          name: 'customer-product-detail',
+          component: () => import('./views/customer/browse/ProductDetail.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -103,9 +99,9 @@ const router = new Router({
           }
         },
         {
-          path: '/apps/store/cart',
-          name: 'store-cart',
-          component: () => import('./views/apps/store/Cart.vue'),
+          path: '/customer/cart',
+          name: 'customer-cart',
+          component: () => import('./views/customer/cart/Cart.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -117,9 +113,9 @@ const router = new Router({
           }
         },
         {
-          path: '/apps/store/checkout',
-          name: 'store-checkout',
-          component: () => import('./views/apps/store/Checkout.vue'),
+          path: '/customer/cart/checkout',
+          name: 'customer-checkout',
+          component: () => import('./views/customer/checkout/Checkout.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -131,9 +127,9 @@ const router = new Router({
           }
         },
         {
-          path: '/apps/store/history',
-          name: 'store-history',
-          component: () => import('./views/apps/store/History.vue'),
+          path: '/customer/transaction/history',
+          name: 'customer-transaction-history',
+          component: () => import('./views/customer/history/History.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -144,13 +140,58 @@ const router = new Router({
             rule: 'editor'
           }
         },
+        {
+          path: '/customer/store/:seller_id',
+          name: 'customer-store',
+          component: () => import('./views/customer/store/Store.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'View', active: true }
+            ],
+            pageTitle: 'View Store',
+            rule: 'editor'
+          }
+        },
         // =============================================================================
-        // Advance Routes
+        // Profile
         // =============================================================================
         {
-          path: '/advance/store/product/add',
-          name: 'store-add-product',
-          component: () => import('./views/advance/store/AddProduct.vue'),
+          path: '/customer/profile',
+          name: 'customer-profile',
+          component: () => import('@/views/customer/profile/EditProfile.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        }
+      ]
+    },
+    // =============================================================================
+    // Seller Application Routes
+    // =============================================================================
+    {
+      path: '',
+      component: () => import('./views/seller/Main.vue'),
+      children: [
+        {
+          path: '/seller/browse',
+          name: 'seller-browse',
+          component: () => import('./views/seller/browse/Browse.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Browse', active: true }
+            ],
+            pageTitle: 'Browse',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/seller/product/add',
+          name: 'seller-add-product',
+          component: () => import('./views/seller/product/AddProduct.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -163,9 +204,9 @@ const router = new Router({
           }
         },
         {
-          path: '/advance/store/product/edit',
-          name: 'store-edit-product',
-          component: () => import('./views/advance/store/EditProduct.vue'),
+          path: '/seller/product/edit/:product_id',
+          name: 'seller-edit-product',
+          component: () => import('./views/seller/product/EditProduct.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -178,9 +219,9 @@ const router = new Router({
           }
         },
         {
-          path: '/advance/store/view',
-          name: 'store-view',
-          component: () => import('./views/advance/store/ViewStore.vue'),
+          path: '/seller/product',
+          name: 'seller-product',
+          component: () => import('./views/seller/store/Store.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -192,9 +233,9 @@ const router = new Router({
           }
         },
         {
-          path: '/advance/store/orders/view',
-          name: 'store-orders-view',
-          component: () => import('./views/advance/store/ViewOrders.vue'),
+          path: '/seller/transaction/order',
+          name: 'seller-transaction-order',
+          component: () => import('./views/seller/order/ViewTransactionOrder.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -206,10 +247,74 @@ const router = new Router({
             rule: 'editor'
           }
         },
+        // =============================================================================
+        // Profile Routes
+        // =============================================================================
         {
-          path: '/advance/user/user-list/:userId',
-          name: 'advance-user-list',
-          component: () => import('@/views/advance/user/ListUser.vue'),
+          path: '/seller/profile',
+          name: 'seller-profile',
+          component: () => import('@/views/seller/profile/EditProfile.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        }
+      ]
+    },
+    // =============================================================================
+    // Admin  Application Routes
+    // =============================================================================
+    {
+      path: '',
+      component: () => import('./views/admin/Main.vue'),
+      children: [
+        {
+          path: '/admin/browse',
+          name: 'admin-browse',
+          component: () => import('./views/admin/browse/Browse.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Browse', active: true }
+            ],
+            pageTitle: 'Browse',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/admin/store/:seller_id',
+          name: 'admin-store',
+          component: () => import('./views/admin/store/Store.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'View', active: true }
+            ],
+            pageTitle: 'ViewStore',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/admin/product/:product_id',
+          name: 'admin-product-detail',
+          component: () => import('./views/admin/browse/ProductDetail.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Shop', url: {name: 'store-product'} },
+              { title: 'Product Details', active: true }
+            ],
+            parent: 'admin-product-detail',
+            pageTitle: 'Product Details',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/admin/user',
+          name: 'admin-user',
+          component: () => import('@/views/admin/user/ListUser.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -221,9 +326,9 @@ const router = new Router({
           }
         },
         {
-          path: '/advance/store/store-list',
-          name: 'advance-store-list',
-          component: () => import('@/views/advance/user/ListStore.vue'),
+          path: '/admin/store',
+          name: 'admin-store',
+          component: () => import('@/views/admin/store/ListStore.vue'),
           meta: {
             breadcrumb: [
               { title: 'Home'},
@@ -238,8 +343,8 @@ const router = new Router({
         // Test Api
         // =============================================================================
         {
-          path: '/test',
-          name: 'test-api',
+          path: '/admin/test',
+          name: 'admin-test-api',
           component: () => import('@/views/TestApi.vue'),
           meta: {
             breadcrumb: [
@@ -254,23 +359,82 @@ const router = new Router({
         // Profile Routes
         // =============================================================================
         {
-          path: '/profile',
-          name: 'profile',
-          component: () => import('@/views/profile/EditProfile.vue'),
+          path: '/admin/profile',
+          name: 'admin-profile',
+          component: () => import('@/views/admin/profile/EditProfile.vue'),
           meta: {
             rule: 'editor'
           }
         }
       ]
     },
-
+    // =============================================================================
+    // Guest Application Routes
+    // =============================================================================
+    {
+      path: '',
+      component: () => import('./views/guest/Main.vue'),
+      children: [
+        {
+          path: '/guest/browse',
+          name: 'guest-browse',
+          component: () => import('./views/guest/browse/Browse.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Browse', active: true }
+            ],
+            pageTitle: 'Browse',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/guest/product/:product_id',
+          name: 'guest-product-detail',
+          component: () => import('./views/guest/ProductDetail.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Shop', url: {name: 'store-shop'} },
+              { title: 'Item Details', active: true }
+            ],
+            parent: 'store-item-detail-view',
+            pageTitle: 'Item Details',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/guest/store',
+          name: 'guest-store',
+          component: () => import('./views/guest/store/Store.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'View', active: true }
+            ],
+            pageTitle: 'ViewStore',
+            rule: 'editor'
+          }
+        }
+      ]
+    },
+    {
+      path: '/pages/error-404',
+      component: () => import('@/views/pages/Error404.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
     // Redirect to 404 page, if no match found
     {
       path: '*',
-      redirect: '/pages/error-404'
+      redirect: '/pages/error-404',
     }
-  ]
-})
+  ]}
+)
 
 router.afterEach(() => {
   // Remove initial loading
@@ -279,40 +443,5 @@ router.afterEach(() => {
     appLoading.style.display = 'none'
   }
 })
-
-// router.beforeEach((to, from, next) => {
-//   firebase.auth().onAuthStateChanged(() => {
-
-//     // get firebase current user
-//     const firebaseCurrentUser = firebase.auth().currentUser
-
-//     // if (
-//     //     to.path === "/pages/login" ||
-//     //     to.path === "/pages/forgot-password" ||
-//     //     to.path === "/pages/error-404" ||
-//     //     to.path === "/pages/error-500" ||
-//     //     to.path === "/pages/register" ||
-//     //     to.path === "/callback" ||
-//     //     to.path === "/pages/comingsoon" ||
-//     //     (auth.isAuthenticated() || firebaseCurrentUser)
-//     // ) {
-//     //     return next();
-//     // }
-
-//     // If auth required, check login. If login fails redirect to login page
-//     if (to.meta.authRequired) {
-//       if (!(auth.isAuthenticated() || firebaseCurrentUser)) {
-//         router.push({ path: '/pages/login', query: { to: to.path } })
-//       }
-//     }
-
-//     return next()
-//     // Specify the current path as the customState parameter, meaning it
-//     // will be returned to the application after auth
-//     // auth.login({ target: to.path });
-
-//   })
-
-// })
 
 export default router
