@@ -25,7 +25,7 @@ func main() {
 	// http.Handle("/", router)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:8081", "http://127.0.0.1:8081", "http://localhost:1234", "http://127.0.0.1:1234"},
+		AllowedOrigins:   []string{"http://localhost:8080", "http://127.0.0.1:8080", "http://localhost:8081", "http://127.0.0.1:8081", "http://localhost:1234", "http://127.0.0.1:1234"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
 		AllowCredentials: true,
 	})
