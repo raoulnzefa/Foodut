@@ -148,7 +148,6 @@ export default {
         this.$vs.loading.close()
     },
     registerUser () {
-      if (!this.checkLogin()) return
       this.$router.push('/register').catch(() => {})
     }
   },

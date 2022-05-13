@@ -152,10 +152,10 @@ export default {
       }
     },
     viewStore (productId) {
-      this.$router.push({ path: `/admin/store/${productId}` }).catch(() => {})
+      this.$router.push({ path: `/seller/store/${productId}` }).catch(() => {})
     },
     viewProduct (productId) {
-      this.$router.push({ path: `/admin/product/${productId}` }).catch(() => {})
+      this.$router.push({ path: `/seller/product/${productId}` }).catch(() => {})
     },
     login () {
       this.popupAdd = false

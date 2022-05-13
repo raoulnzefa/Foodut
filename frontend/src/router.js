@@ -218,7 +218,7 @@ const router = new Router({
             rule: 'editor'
           }
         },
-        {
+        {//buat liat store rever ke sini
           path: '/seller/product',
           name: 'seller-product',
           component: () => import('./views/seller/store/Store.vue'),
@@ -244,6 +244,22 @@ const router = new Router({
               { title: 'View', active: true }
             ],
             pageTitle: 'ViewOrders',
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/seller/product/:product_id',
+          name: 'seller-product-detail',
+          component: () => import('./views/seller/browse/ProductDetail.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home'},
+              { title: 'Store'},
+              { title: 'Shop', url: {name: 'store-product'} },
+              { title: 'Product Details', active: true }
+            ],
+            parent: 'seller-product-detail',
+            pageTitle: 'Product Details',
             rule: 'editor'
           }
         },
@@ -406,7 +422,7 @@ const router = new Router({
           }
         },
         {
-          path: '/guest/store/:product_id',
+          path: '/guest/store/:seller_id',
           name: 'guest-store',
           component: () => import('./views/guest/store/Store.vue'),
           meta: {
