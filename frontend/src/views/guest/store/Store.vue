@@ -81,6 +81,8 @@ export default {
   },
   mounted () {
     this.isMounted = true
+    console.log("Test store mount")
+    console.log(this.$route.params.seller_id)
     apiUser
       .GetStoreByIdWithProduct(this.$route.params.seller_id)
       .then((response) => { 

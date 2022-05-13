@@ -74,7 +74,7 @@
 
                 <!-- IF NO ITEMS IN CART -->
                 <vx-card title="You don't have any items in your cart." v-else>
-                    <vs-button @click="$router.push('/apps/eCommerce/shop').catch(() => {})">Browse Shop</vs-button>
+                    <vs-button @click="$router.push('/customer/browse').catch(() => {})">Browse Shop</vs-button>
                 </vx-card>
 
             </tab-content>
@@ -127,7 +127,7 @@
                                                 name="payment"
                                                 v-model="payment"
                                                 class="w-2/3 mr-3 ml-2" />
-                                            <vs-button @click="makePayment" :disabled="false">CONTINUE</vs-button>
+                                            <vs-button @click="makePayment">CONTINUE</vs-button>
                                         </div>
                                         <span v-show="errors.has('cvv-form.cvv')" class="text-danger ml-24">{{ errors.first('cvv-form.cvv') }}</span>
                                     </form>
@@ -189,7 +189,7 @@ export default {
   },
   methods: {
     savedAddress(){
-      if(this.addressInput == null){
+      if(this.addressInput == null || this.addressInput == ""){
         this.$vs.notify({
           title: 'Error',
           text: 'Please enter valid details',
@@ -263,7 +263,7 @@ export default {
 
     },
     makePayment(){
-      if(this.payment != null){
+      if(this.payment != null && this.payment != ""){
         apiTransaction
         .AddTransaction(parseInt(localStorage.getItem('userId')), this.user.address, this.payment)
         .then(() => {
